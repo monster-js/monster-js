@@ -5,40 +5,40 @@
   "main": "index.js",
   "license": "MIT",
   "workspaces": [
-    "packages/*"
+    "projects/*"
   ],
   "scripts": {
     "update-readme": "ncp ./packages/docs/docs/getting-started/what-is-monster-js.mdx ./README.md",
     "update-submodules": "git submodule update --recursive --remote",
-    "pre-publish": "npm run lint && npm run update-submodules && npm run version-patch",
-    "lint": "npm run lint -w @monster-js/cli && npm run lint -w @monster-js/core && npm run lint -w @monster-js/router && npm run lint -w @monster-js/store && npm run lint -w @monster-js/tester",
-    "publish": "npm run pre-publish && npm run publish-cli && npm run publish-core && npm run publish-router && npm run publish-store && npm run publish-tester && npm run publish-transformer",
-    "version-patch": "npm version patch -w @monster-js/cli && npm version patch -w @monster-js/core && npm version patch -w @monster-js/router && npm version patch -w @monster-js/store && npm version patch -w @monster-js/tester && npm version patch -w @monster-js/transformer",
-    "publish-cli": "npm run build -w @monster-js/cli && npm publish -w @monster-js/cli",
-    "publish-core": "npm publish -w @monster-js/core",
-    "publish-router": "npm publish -w @monster-js/router",
-    "publish-store": "npm publish -w @monster-js/store",
-    "publish-tester": "npm publish -w @monster-js/tester",
-    "publish-transformer": "npm publish -w @monster-js/transformer",
-    "deploy-docs": "npm run deploy-page -w @monster-js/docs",
-    "test": "npm run test-test-app",
-    "test-core": "npm test -w @monster-js/core",
-    "test-test-app": "npm test -w @monster-js/test-app"
+    "build-all": "yarn workspace @monster-js/core build && yarn workspace @monster-js/router build && yarn workspace @monster-js/store build"
   },
   "engines": {
     "node": "^14.15.0 || >=16.10.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.19.3",
-    "@babel/preset-typescript": "^7.18.6",
-    "@types/node": "^18.6.4",
-    "babel-loader": "^8.2.5",
-    "babel-plugin-transform-typescript-metadata": "^0.3.2",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.6",
-    "typescript": "^4.7.4"
+    "@babel/generator": "^7.20.4",
+    "@babel/parser": "^7.20.3",
+    "@babel/traverse": "^7.20.1",
+    "@types/commander": "^2.12.2",
+    "@types/jasmine": "^4.3.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.2",
+    "jasmine": "^4.5.0",
+    "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-typescript": "^5.5.3",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.8.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@monster-js/router": "^1.4.47"
+    "css-tree": "^2.2.1",
+    "rxjs": "^7.5.7"
   }
 }
