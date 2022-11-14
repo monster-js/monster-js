@@ -4,121 +4,186 @@ sidebar_position: 7
 
 # Observed attributes
 
-Observed attributes are values passed down from parent component to child component and their changes is being observed by the child component.
-This is different from a normal element attribute.
-This feature uses the web components observed attributes implementation.
-The same as web component's observed attributes we cannot pass objects and arrays to it.
-Web component observed attributes only accepts string values but MonsterJS observed attributes is a little advanced than web component's implementation.
-MonsterJS observed attributes can handle string, number or boolean values.
+Observed attributes are values passed down from parent component to child component as an element attribute and their changes is being observed by the child component.
+This feature uses the web component's observed attributes implementation.
+The same as web component's implementation we cannot pass objects and arrays to it.
+It only accepts string values but MonsterJS implementation is a little advanced since it can convert the value into number or boolean.
+
+## Define observed attributes
+
+To define the list of attributes to be observed by the component we can use the `observedAttributes` function to do it.
+
+Example.
+
+```typescript
+import { component, observedAttributes } from '@monster-js/core';
+
+export function app() {
+    return <h1>App</h1>
+}
+
+component(app, 'app-root');
+observedAttributes(app, 'name', 'age', 'is-verified-user');
+```
 
 ## String attribute
 
 This type of attribute is the same as the normal web component observed attributes which accepts string as value.
-It uses the `@Attr` decorator to mark the observed attributes in the child module.
+It uses the `attribute` function to get the value and watch for changes of the attribute.
 
 Example.
 
-#### Child component
+```typescript title="Child component"
+import { component, attribute } from '@monster-js/core';
 
-```typescript
-import { Component, Attr } from '@monster-js/core';
+export function child() {
 
-@Component('app-child')
-export class Child {
+    const name = attribute(this, 'name');
 
-    @Attr
-    textMessage: string = '';
-
-    render() {
-        return <h1>{this.textMessage}</h1>
-    }
+    return <h1>{name()}</h1>
 }
+
+component(child, 'app-root');
+observedAttributes(child, 'name', 'age', 'is-verified-user');
 ```
 
-#### Parent component
+```typescript title="Parent component"
+import { component } from '@monster-js/core';
 
-```typescript
-import { Component } from '@monster-js/core';
+export function parent() {
 
-@Component('app-parent')
-export class Parent {
-    message: string = 'Hello World!';
-    render() {
-        return <app-child text-message={this.message}></app-child>
-    }
+    const [name] = useState(this, 'John Doe');
+
+    return <app-child name={name()}></app-child>
 }
+
+component(parent, 'app-parent')
 ```
 
-In the example above the child module has an observed attribute named `textMessage`.
-Every time the `message` property of the parent component change, it will also be reflected in the child component's `textMessage` property.
+In the example above the child component has an observed attribute named `name`.
+Every time the `name` state of the parent component is changed, it will also be reflected in the child component's `name` attribute getter.
 
-Notice that the `text-message` attribute in the `app-child` tag is in kebab case and a camel case in the child component.
+The `attribute` function can have a third argument that accepts callback function that is called when the attribute is changed.
+
+Example.
+
+```typescript
+attribute(this, 'name', (newValue: string, oldValue: string) => {
+    console.log(newValue, oldValue);
+});
+```
 
 ## Boolean attribute
 
 This type of attribute has the same implementation of the string attribute above.
 The only difference is that the value is converted into boolean value instead of string.
-It uses the `@AttrBoolean` decorator to mark the observed attributes in the child module.
+The value will only be false if the attribute value is `"null", "undefined", "", "0", or "false"`.
+It uses the `attrBoolean` function to get the value and watch for changes of the attribute.
+
+Example.
+
+```typescript title="Child component"
+import { component, attrBoolean } from '@monster-js/core';
+
+export function child() {
+
+    const isVerified = attrBoolean(this, 'is-verified-user');
+
+    return <h1>{isVerified() ? 'Yes' : 'No'}</h1>
+}
+
+component(child, 'app-root');
+observedAttributes(child, 'name', 'age', 'is-verified-user');
+```
+
+```typescript title="Parent component"
+import { component } from '@monster-js/core';
+
+export function parent() {
+
+    const [isVerified] = useState(this, true);
+
+    return <app-child is-verified-user={isVerified()}></app-child>
+}
+
+component(parent, 'app-parent')
+```
+
+The `attrBoolean` function can have a third argument that accepts callback function that is called when the attribute is changed.
 
 Example.
 
 ```typescript
-import { Component, AttrBoolean } from '@monster-js/core';
-
-@Component('app-child')
-export class Child {
-
-    @AttrBoolean
-    toggle: boolean = false;
-
-    render() {
-        return <h1 v:if={this.toggle}>Toggle</h1>
-    }
-}
+attrBoolean(this, 'is-verified-user', (newValue: boolean, oldValue: boolean) => {
+    console.log(newValue, oldValue);
+});
 ```
 
 ## Number attribute
 
 This type of attribute has the same implementation of the string attribute above.
 The only difference is that the value is converted into number value instead of string.
-It uses the `@AttrNumber` decorator to mark the observed attributes in the child module.
+It uses the `attrNumber` function to get the value and watch for changes of the attribute.
+
+Example.
+
+```typescript title="Child component"
+import { component, attrNumber } from '@monster-js/core';
+
+export function child() {
+
+    const age = attrNumber(this, 'age');
+
+    return <h1>{age()}</h1>
+}
+
+component(child, 'app-root');
+observedAttributes(child, 'name', 'age', 'is-verified-user');
+```
+
+```typescript title="Parent component"
+import { component } from '@monster-js/core';
+
+export function parent() {
+
+    const [age] = useState(this, 20);
+
+    return <app-child age={age()}></app-child>
+}
+
+component(parent, 'app-parent')
+```
+
+The `attrNumber` function can have a third argument that accepts callback function that is called when the attribute is changed.
 
 Example.
 
 ```typescript
-import { Component, AttrNumber } from '@monster-js/core';
-
-@Component('app-child')
-export class Child {
-
-    @AttrNumber
-    count: number = 0;
-
-    render() {
-        return <h1>{this.count}</h1>
-    }
-}
+attrNumber(this, 'age', (newValue: number, oldValue: number) => {
+    console.log(newValue, oldValue);
+});
 ```
 
 ## The attributeChangedCallback hook
 
-This is a hook that runs each time one of the observed attributes is added, removed, or updated.
-It has four arguments, first is the attribute name, second is the old value, third is the new value, and last is the camel cased attribute name.
+This is a hook that runs each time if one of the observed attributes is added, removed, or updated.
+It has two arguments, first is the `this` context of the component, and second is the callback.
+Please check the [lifecycle hooks](./lifecyle-hooks) for more information about this hook.
 
 Example.
 
-```typescript
-import { Component, Attr } from '@monster-js/core';
+```typescript title="Child component"
+import { component, observedAttributes, attributeChanged } from '@monster-js/core';
 
-@Component('app-child')
-export class Child {
+export function child() {
 
-    @Attr
-    textMessage: string = '';
+    attributeChanged(this, (name: string, oldValue: any, newValue: any) => {
+        console.log(name, oldValue, newValue);
+    });
 
-    attributeChangedCallback(name: string, oldValue: any, newValue: any, camelCaseName: string) {
-        console.log(name, oldValue, newValue, camelCaseName);
-    }
-    ...
+    return <h1>Child component</h1>
 }
+
+component(child, 'app-root');
+observedAttributes(child, 'name', 'age', 'is-verified-user');
 ```
