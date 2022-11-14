@@ -1,32 +1,29 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Data binding
 
 Data binding is a way to synchronize the data of logic and view.
-This means that when a value is changed in logic, view gets updated, and when the user change some data in the view, variables in logic will be updated.
+This means that when the data is changed in logic, view gets updated, and when the user change some values in the view, data in logic will be updated.
 
 ## Attribute binding
 
-Here is an example on how to bind a property from the logic into an attribute:
+Here is an example on how to bind a property from the logic into an element attribute:
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, useState } from '@monster-js/core';
 
-@Component('app-root')
-export class App {
+export function app() {
 
-    id: number = 0;
+    const [id, setId] = useState(this, 0);
 
-    constructor() {
-        setInterval(() => this.id++, 1000);
-    }
+    setInterval(() => setId(id() + 1), 1000);
 
-    render() {
-        return <h1 id={this.id}>App component.</h1>
-    }
+    return <h1 id={id()}>App component.</h1>
 }
+
+component(app, 'app-root')
 ```
 
 In the example above, the id of h1 element will increment every second.
@@ -37,20 +34,18 @@ This is an example of one way binding.
 Here is an example on how to bind a component property to view:
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, useState } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
-    counter: number = 0;
+export function greeting() {
 
-    constructor() {
-        setInterval(() => this.counter++, 1000);
-    }
+    const [counter, setCounter] = useState(this, 0);
 
-    render() {
-        return <h1>{this.number}</h1>
-    }
+    setInterval(() => setCounter(counter() + 1), 1000);
+
+    return <h1>{counter()}</h1>
 }
+
+component(greeting, 'app-greeting')
 ```
 
 In the example above, the counter will increment every second and display the changes as a text in view.
@@ -65,20 +60,20 @@ Every time the model is changed from the view, the value in logic will be update
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, useState } from '@monster-js/core';
 
-@Component('app-root')
-export class App {
+export function app() {
 
-    greeting: string = 'Hello world!';
+    const model = useState(this, 'Hello world!');
+    const [getter] = model;
 
-    render() {
-        return <div>
-            <h1>{this.greeting}</h1>
-            <input v:model={this.greeting} type="text" />
-        </div>
-    }
+    return <div>
+        <h1>{getter()}</h1>
+        <input v:model={model} type="text" />
+    </div>
 }
+
+component(app, 'app-root')
 ```
 
 This is an example of two way binding.

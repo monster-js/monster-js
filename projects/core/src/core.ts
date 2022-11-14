@@ -60,12 +60,7 @@ export { Container } from "./dependency-injection/container";
  * Utils
  */
 export { getSelector } from "./utils/get-selector";
-
-
-/**
- * Change detection
- * TODO : implement detectChanges(context) function
- */
+export { detectChanges } from "./utils/detect-changes";
 
 
 /**
