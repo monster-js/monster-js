@@ -17,16 +17,15 @@ Root component is the last component to be defined to make sure all the child co
 Example.
 
 ```typescript
-import { Module } from "@monster-js/core";
-import { App } from "./app.component";
+import { Module } from "@monster-js/core/module";
+import { app } from "./app.component";
 
-@Module({
-    root: App
-})
-export class AppModule {}
+export const AppModule: Module = {
+    root: app
+};
 ```
 
-In this example, `App` is the root component.
+In this example, `app` is the root component.
 
 ## Register components
 
@@ -40,13 +39,12 @@ Example.
 
 ```typescript
 import { Module } from '@monster-js/core/module';
-import { Parent } from './parent.component';
-import { Child } from './child.component';
+import { parent } from './parent.component';
+import { child } from './child.component';
 
-@Module({
-    components: [Parent, Child]
-})
-export class AppModule { }
+export const AppModule: Module = {
+    components: [parent, child]
+};
 ```
 
 :::note
@@ -62,30 +60,27 @@ if the parent and child components are registered in different modules,
 we need to export the component that will be used in another module and import the module to the module that needs the exported component.
 
 Example.
-#### Child module
-```typescript
-import { Module } from '@monster-js/core/module';
-import { Child } from './child.component';
 
-@Module({
+```typescript title="Child module"
+import { Module } from '@monster-js/core/module';
+import { child } from './child.component';
+
+export const ChildModule: Module = {
     exports: {
-        components: [Child]
+        components: [child]
     }
-})
-export class ChildModule { }
+};
 ```
 
-#### Parent module
-```typescript
+```typescript title="Parent module"
 import { Module } from '@monster-js/core/module';
-import { Parent } from './parent.component';
+import { parent } from './parent.component';
 import { ChildModule } from './child.module';
 
-@Module({
-    components: [Parent],
+export const ParentModule: Module = {
+    components: [parent],
     modules: [ChildModule]
-})
-export class ParentModule { }
+};
 ```
 
 ## Register services
@@ -99,10 +94,9 @@ Example.
 import { Module } from '@monster-js/core/module';
 import { GreetingService } from './greeting.service';
 
-@Module({
+export const AppModule: Module = {
     services: [GreetingService]
-})
-export class AppModule { }
+};
 ```
 
 ## Export services
@@ -116,12 +110,11 @@ Example.
 import { Module } from '@monster-js/core/module';
 import { GreetingService } from './greeting.service';
 
-@Module({
+export const AppModule: Module = {
     exports: {
         services: [GreetingService]
     }
-})
-export class AppModule { }
+};
 ```
 
 ## Register directives
@@ -133,12 +126,11 @@ Example.
 
 ```typescript
 import { Module } from '@monster-js/core/module';
-import { HighlightDirective } from './highlight.directive';
+import { highlightDirective } from './highlight.directive';
 
-@Module({
-    directives: [HighlightDirective]
-})
-export class AppModule { }
+export const AppModule: Module = {
+    directives: [highlightDirective]
+}
 ```
 
 ## Export directives
@@ -150,14 +142,13 @@ Example.
 
 ```typescript
 import { Module } from '@monster-js/core/module';
-import { HighlightDirective } from './highlight.directive';
+import { highlightDirective } from './highlight.directive';
 
-@Module({
+export const AppModule: Module = {
     exports: {
-        directives: [HighlightDirective]
+        directives: [highlightDirective]
     }
-})
-export class AppModule { }
+};
 ```
 
 ## Register pipes
@@ -169,12 +160,11 @@ Example.
 
 ```typescript
 import { Module } from '@monster-js/core/module';
-import { UppercasePipe } from './uppercase.pipe';
+import { uppercasePipe } from './uppercase.pipe';
 
-@Module({
-    pipes: [UppercasePipe]
-})
-export class AppModule { }
+export const AppModule: Module = {
+    pipes: [uppercasePipe]
+};
 ```
 
 ## Export pipes
@@ -186,14 +176,13 @@ Example.
 
 ```typescript
 import { Module } from '@monster-js/core/module';
-import { UppercasePipe } from './uppercase.pipe';
+import { uppercasePipe } from './uppercase.pipe';
 
-@Module({
+export const AppModule: Module = {
     exports: {
-        pipes: [UppercasePipe]
+        pipes: [uppercasePipe]
     }
-})
-export class AppModule { }
+};
 ```
 
 ## Import modules
@@ -207,8 +196,7 @@ Example.
 import { Module } from '@monster-js/core/module';
 import { ChildModule } from './child.module';
 
-@Module({
+export const ParentModule: Module = {
     modules: [ChildModule]
-})
-export class AppModule { }
+};
 ```
