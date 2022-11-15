@@ -17,17 +17,16 @@ Here's an example on how to use list rendering.
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    array = [1, 2, 3];
+    const array = [1, 2, 3];
 
-    render() {
-        return <p v:for={this.array}>Hello World!</p>
-    }
+    return <p v:for={array}>Hello World!</p>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 The example code above will generate a list of elements that looks like the following:
@@ -38,7 +37,7 @@ The example code above will generate a list of elements that looks like the foll
 <p>Hello World!</p>
 ```
 
-Three `<p>` tags since there are three elements inside `this.array`.
+There are three `<p>` tags since there are three elements inside the variable `array`.
 
 ## List item name
 
@@ -50,17 +49,16 @@ If no list item directive is provided, it is `$item` by default.
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    array = ['foo', 'bar', 'bazz'];
+    const array = ['foo', 'bar', 'bazz'];
 
-    render() {
-        return <p v:for={this.array} v:for-item="listItem">Hello {listItem}!</p>
-    }
+    return <p v:for={array} v:for-item="listItem">Hello {listItem}!</p>
 }
+
+component(greeting, 'app-greeting')
 ```
 
 :::note
@@ -90,17 +88,16 @@ If no list index directive is provided, it is `$index` by default.
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    array = ['foo', 'bar', 'bazz'];
+    const array = ['foo', 'bar', 'bazz'];
 
-    render() {
-        return <p v:for={this.array} v:for-index="listIndex">Hello {listIndex}!</p>
-    }
+    return <p v:for={array} v:for-index="listIndex">Hello {listIndex}!</p>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 :::note
@@ -129,19 +126,18 @@ List rendering is able to trigger an event if there is a change in the length of
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    array = [1, 2, 3];
+    const array = [1, 2, 3];
 
-    arrayLengthUpdated() {
+    const arrayLengthUpdated = () => {
         console.log('array length is updated');
     }
 
-    render() {
-        return <p v:for={this.array} v:for-update={this.arrayLengthUpdated}>Hello World!</p>
-    }
+    return <p v:for={array} v:for-update={arrayLengthUpdated}>Hello World!</p>
 }
+
+component(greeting, 'app-greeting');
 ```
