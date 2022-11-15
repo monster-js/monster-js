@@ -8,7 +8,9 @@ Lifecycle hooks are functions that lets you run a block of codes when your compo
 
 ## Available hooks
 
-`com` components, `dir` directives, `ser` services, `pip` pipe
+* `com` components
+* `dir` directives
+* `ser` services
 
 | Hooks                                                                         | Description |
 | ---                                                                           | --- |
@@ -18,13 +20,10 @@ Lifecycle hooks are functions that lets you run a block of codes when your compo
 | onChangeDetection() `com` `dir`                                   | This is called every time the component's change detection runs. |
 | onViewChange() `com` `dir`                                        | This will be called every time there are changes in view caused by change detection. |
 | onDestroy() `com` `dir`                                           | This will be called when a component is destroyed. This is used for cleanup like unsubscribing all subscriptions. |
-| onReceiveParent(parent: any) `ser` `pip`                           | This is called after a service or pipe is initialized. This is used when a service or pipe needs to access the parent instance where it is injected. |
+| onReceiveParent(parent: any) `ser`                                | This is called after a service or pipe is initialized. This is used when a service or pipe needs to access the parent instance where it is injected. |
 | onReceiveConfig(config: any, container: Container) `ser`                  | This is called after a service is initialized. This is used when a service is designed to depend on a configuration after initialization. |
 | adoptedCallback() `comp` `dir`                                     | A native web component hook. Called when a component is moved from one HTML document to another using the adoptNode(). This happens when we have `<iframe>` elements in a page. |
-| attributeChangedCallback(name: string, oldValue: any, newValue: any, camelCaseName: string) `com` `dir` | A native web component hook. Called when an observed attribute has been added, removed or changed. |
-| connectedCallback() `com` `dir`                                   | A native web component hook. Called when the component is connected to the dom tree |
-| disconnectedCallback() `com` `dir`                                | A native web component hook. Called when the component is disconnected to the dom tree. |
-| allDirectives(param: AllDirectivesArgInterface) `dir`             | Called after directive is initialized. This hook is used to handle all directive names. |
+| attributeChangedCallback(name: string, oldValue: any, newValue: any) `com` `dir` | A native web component hook. Called when an observed attribute has been added, removed or changed. |
 | onPropsChange() `com`                                             | Called when there are changes to component's props. |
 
 ## Hooks usage
@@ -34,31 +33,32 @@ Here are some examples on how to use the hooks in component, service and directi
 ### In component
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, onInit, onDestroy } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
-    onInit() {
-        console.log('Hi!, I am in onInit hook');
-    }
+export function greeting() {
 
-    connectedCallback() {
-        console.log('Hi!, I am in connectedCallback hook');
-    }
+    onInit(this, () => {
+        console.log('I am in onInit hook');
+    });
 
-    disconnectedCallback() {
-        console.log('Hi!, I am in disconnectedCallback hook');
-    }
+    onDestroy(this, () => {
+        console.log('I am in onInit hook');
+    });
+
+    return <h1>Greeting<h1>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 ### In service
 
 ```typescript
-import { Service } from '@monster-js/core';
+import { Service, OnReceiveParent, OnReceiveConfig } from '@monster-js/core';
 
 @Service()
-export class GreetingService {
+export class GreetingService implements OnReceiveParent, OnReceiveConfig {
+
     onReceiveParent(parent: any) {
         console.log('Hi!, I am in onReceiveParent hook');
     }
@@ -66,26 +66,26 @@ export class GreetingService {
     onReceiveConfig(config: any, container: Container) {
         console.log('Hi!, I am in onReceiveConfig hook');
     }
+
 }
 ```
 
 ### In directive
 
 ```typescript
-import { Directive } from '@monster-js/core';
+import { directive, afterViewInit, onDestroy } from '@monster-js/core';
 
-@Directive('highlight')
-export class HighlightDirective {
-    connectedCallback() {
-        console.log('Hi!, I am in connectedCallback hook');
-    }
+export function highlight(arg: AllDirectivesArg) {
 
-    allDirectives(param: AllDirectivesArgInterface) {
-        console.log('Hi!, I am in allDirectives hook');
-    }
+    afterViewInit(this, () => {
+        console.log('Hi!, I am in afterViewInit hook');
+    });
 
-    disconnectedCallback() {
-        console.log('Hi!, I am in disconnectedCallback hook');
-    }
+    onDestroy(this, () => {
+        console.log('Hi!, I am in onDestroy hook');
+    });
+
 }
+
+directive(highlight, 'highlight');
 ```
