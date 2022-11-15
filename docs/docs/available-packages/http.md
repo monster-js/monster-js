@@ -6,68 +6,89 @@ sidebar_position: 1
 
 MonsterJS http package helps applications to communicate to a server using http protocol.
 This is a wrapper of fetch api built for MonsterJS applications.
-This package is using rxjs fromFetch function so we can also use the rxjs operators in this package.
 
-## HttpClient
+## BaseHttp
 
-The http client is a service to send request using http protocol.
-To start using this client we should register this in our component or module.
+The `BaseHttp` is a base class that extends the functionality of the class to use the fetch api to send requests using http protocol.
 
-### Register HttpClient to component
+### Use the BaseHttp
 
-To register the HttpClient to a component we just need to pass it to the component's @Services decorator.
+To use the BaseHttp class, we just need to create a service that extends this class.
 
 Example.
 
 ```typescript
-import { Component, Services } from '@monster-js/core';
-import { HttpClient } from '@monster-js/http';
+import { Service } from '@monster-js/core';
+import { BaseHttp } from '@monster-js/core/http';
 
-@Services(HttpClient)
-@Component('app-greeting')
-export class Greeting {
-    ...
+@Service()
+export class HttpService extends BaseHttp {
 }
 ```
 
-### Register HttpClient to module
+In the example above, the `HttpService` can now use all the implemented functionality of the `BaseHttp` class.
 
-To register the HttpClient to a module we just need to pass it to it's services array.
+### Register HttpService to component
+
+To register the HttpService to a component we just need to pass it to the component's services function like any other service.
+
+Example.
+
+```typescript
+import { component, services } from '@monster-js/core';
+import { HttpService } from './http.service';
+
+export function greeting() {
+    return <h1>Greeting</h1>
+}
+
+component(greeting, 'app-greeting');
+services(greeting, HttpService);
+```
+
+:::info
+It is recommended to use the HttpService inside another service and not directly inside a component.
+:::
+
+### Register HttpService to module
+
+To register the HttpService to a module we just need to pass it to it's services array.
 
 Example.
 
 ```typescript
 import { Module } from '@monster-js/core/module';
-import { HttpClient } from '@monster-js/http';
+import { HttpService } from './http.service';
 
-@Module({
-    services: [HttpClient]
-})
-export class AppModule {}
+export const AppModule: Module = {
+    services: [HttpService]
+};
 ```
 
 ## Http verbs
 
-Once `HttpClient` is available in our module or component we can now start sending request using the different http verbs or methods.
-Http supports different http verbs like GET, POST, PUT, PATCH, and DELETE.
+Once `HttpService` is available in our module or component we can now start sending request using the different http verbs or methods.
+BaseHttp supports different http verbs like GET, POST, PUT, PATCH, and DELETE.
 
 ### Get request
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { HttpClient, CustomResponse } from '@monster-js/http';
+import { HttpResponse } from '@monster-js/core/http';
+import { HttpService } from './http.service';
 
-interface PostInterface {
+interface Post {
     id: number;
     content: string;
 }
 
 @Service()
 export class PostService {
-    constructor(private http: HttpClient) {}
 
-    getAll(): Promise<CustomResponse<PostInterface[]>> {
-        return this.http.get<PostInterface[]>('/get-all').toPromise();
+    constructor(private http: HttpService) {}
+
+    public async getAll() {
+        return await this.http.get<Post[]>('/get-all');
     }
 }
 ```
@@ -76,19 +97,21 @@ export class PostService {
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { HttpClient, CustomResponse } from '@monster-js/http';
+import { HttpResponse } from '@monster-js/core/http';
+import { HttpService } from './http.service';
 
-interface PostInterface {
+interface Post {
     id: number;
     content: string;
 }
 
 @Service()
 export class PostService {
-    constructor(private http: HttpClient) {}
 
-    create(post: PostInterface): Promise<CustomResponse<PostInterface>> {
-        return this.http.post<PostInterface>('/create', post).toPromise();
+    constructor(private http: HttpService) {}
+
+    public async create(post: Post) {
+        return await this.http.post<Post>('/create', post);
     }
 }
 ```
@@ -97,19 +120,21 @@ export class PostService {
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { HttpClient, CustomResponse } from '@monster-js/http';
+import { HttpResponse } from '@monster-js/core/http';
+import { HttpService } from './http.service';
 
-interface PostInterface {
+interface Post {
     id: number;
     content: string;
 }
 
 @Service()
 export class PostService {
-    constructor(private http: HttpClient) {}
 
-    update(post: PostInterface): Promise<CustomResponse<PostInterface>> {
-        return this.http.put<PostInterface>('/update/' + post.id, post).toPromise();
+    constructor(private http: HttpService) {}
+
+    public async update(post: Post) {
+        return await this.http.put<Post>(`/update/${post.id}`, post);
     }
 }
 ```
@@ -118,19 +143,21 @@ export class PostService {
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { HttpClient, CustomResponse } from '@monster-js/http';
+import { HttpResponse } from '@monster-js/core/http';
+import { HttpService } from './http.service';
 
-interface PostInterface {
+interface Post {
     id: number;
     content: string;
 }
 
 @Service()
 export class PostService {
-    constructor(private http: HttpClient) {}
 
-    update(id: number, content: string): Promise<CustomResponse<PostInterface>> {
-        return this.http.patch<PostInterface>('/update/' + id, { content }).toPromise();
+    constructor(private http: HttpService) {}
+
+    public async update(id: number, content: string) {
+        return await this.http.patch<Post>(`/update/${id}`, { content });
     }
 }
 ```
@@ -139,14 +166,16 @@ export class PostService {
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { HttpClient, CustomResponse } from '@monster-js/http';
+import { HttpResponse } from '@monster-js/core/http';
+import { HttpService } from './http.service';
 
 @Service()
 export class PostService {
-    constructor(private http: HttpClient) {}
 
-    delete(id: number): Promise<CustomResponse<void>> {
-        return this.http.delete<void>('/delete/' + id).toPromise();
+    constructor(private http: HttpService) {}
+
+    public async delete(id: number) {
+        return await this.http.delete<void>(`/delete/${id}`);
     }
 }
 ```
@@ -154,17 +183,7 @@ export class PostService {
 ## Http interceptor
 
 Http interceptor is a way to intercept and modify the request config of every http request.
-
-The following code is an example of a working http interceptor codes but without functions yet.
-
-```typescript
-import { Service } from '@monster-js/core';
-import { BaseHttpInterceptor } from '@monster-js/http';
-
-@Service()
-export class HttpInterceptor extends BaseHttpInterceptor {
-}
-```
+The `BaseHttp` class has support for http interceptor so we just need to override them to use it.
 
 ### Set request base url
 
@@ -175,11 +194,13 @@ Example.
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { BaseHttpInterceptor } from '@monster-js/http';
+import { BaseHttp } from '@monster-js/core/http';
 
 @Service()
-export class HttpInterceptor extends BaseHttpInterceptor {
-    override baseUrl = 'http://localhost:4001/api/v1';
+export class HttpService extends BaseHttp {
+
+    protected override baseUrl = 'http://localhost:4001/api/v1';
+
 }
 ```
 
@@ -191,16 +212,18 @@ Example.
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { BaseHttpInterceptor } from '@monster-js/http';
+import { BaseHttp } from '@monster-js/core/http';
 
 @Service()
-export class HttpInterceptor extends BaseHttpInterceptor {
-    override modifyConfig(config: RequestInit): RequestInit {
+export class HttpService extends BaseHttp {
+
+    protected override modifyConfig(config: RequestInit): RequestInit {
         config.body = {
             greeting: 'Hello World!'
         };
         return config;
     }
+
 }
 ```
 
@@ -212,60 +235,32 @@ Example.
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { BaseHttpInterceptor } from '@monster-js/http';
+import { BaseHttp } from '@monster-js/core/http';
 
 @Service()
-export class HttpInterceptor extends BaseHttpInterceptor {
-    override modifyResponse(response: Observable<Response>): any {
+export class HttpService extends BaseHttp {
+    protected override modifyResponse(response: Promise<Response>): any {
         // modify response here
         return response;
     }
 }
 ```
 
-Response is an rxjs observable, so we can use all rxjs operators to modify it.
-
 ### Set request header
 
-We can use the `setHeader` method provided by `BaseHttpInterceptor` to set a request header in http interceptor.
+We can use the `setHeader` method provided by `BaseHttp` to set a request header in http interceptor.
 
 Example.
 
 ```typescript
 import { Service } from '@monster-js/core';
-import { BaseHttpInterceptor } from '@monster-js/http';
+import { BaseHttp } from '@monster-js/core/http';
 
 @Service()
-export class HttpInterceptor extends BaseHttpInterceptor {
-    override modifyConfig(config: RequestInit): RequestInit {
+export class HttpService extends BaseHttp {
+    protected override modifyConfig(config: RequestInit): RequestInit {
         this.setHeader(config, 'Authorization', `Bearer some-token`);
         return config;
     }
 }
 ```
-
-## Http interceptor module
-
-After we build the Http interceptor we need to create a module that we can import to a module that needs the http interceptor.
-
-Example.
-
-```typescript
-import { Module } from '@monster-js/core/module';
-import { HttpClient } from '@monster-js/http';
-import { HttpInterceptor } from './http-interceptor.service';
-
-@Module({
-    exports: {
-        services: [
-            HttpInterceptor,
-            { service: HttpClient, config: HttpInterceptor }
-        ]
-    }
-})
-export class HttpModule {}
-```
-
-Notice that we exported the `HttpInterceptor` and `HttpClient` as a service and pass the HttpInterceptor as a config for HttpClient.
-
-It is recommended that we name this module as `HttpModule`.

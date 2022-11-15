@@ -36,8 +36,16 @@ export class BaseHttp {
         return config;
     }
 
-    protected modifyResponse(response: Promise<Response>) {
+    protected modifyResponse(response: Promise<Response>): any {
         return response;
+    }
+
+    protected setHeader(config: RequestInit, header: string, value: string): RequestInit {
+        if (!config.headers) {
+            config.headers = {};
+        }
+        (config.headers as any)[header] = value;
+        return config;
     }
 
     private senderMethod(url: string, method: 'PATCH' | 'PUT' | 'POST' | 'GET' | 'DELETE', body: any, config: RequestInit) {
