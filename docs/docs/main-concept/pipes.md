@@ -9,35 +9,31 @@ They are very useful because it can be used directly in template or logic in all
 
 ## Register pipe
 
-Unlike directives, pipes provided by the core package are not automatically available in all components by default.
-We need to register them to component or module before we can use it.
+Before we can use the pipes we need to register it in a component or in the module.
 
 Here are the examples on how to register a pipe in component and in module.
 
-#### In component
+Example.
 
-```typescript
-import { Pipes, LowercasePipe } from '@monster-js/core';
+```typescript title="In component"
+import { component, pipes, lowercase } from '@monster-js/core';
 
-@Pipes(LowercasePipe)
-@Component('app-greeting')
-export class Greeting {
-    render() {
-        return <h1>{ 'Hello World!' | lowercase }</h1>
-    }
+export function greeting() {
+    return <h1>{ 'Hello World!' | lowercase }</h1>
 }
+
+component(greeting, 'app-greeting');
+pipes(greeting, lowercase);
 ```
 
-#### In Module
 
-```typescript
-import { LowercasePipe } from '@monster-js/core';
+```typescript title="In module"
+import { lowercase } from '@monster-js/core';
 import { Module } from '@monster-js/core/module';
 
-@Module({
-    pipes: [LowercasePipe]
-})
-export class GreetingModule { }
+export const GreetingModule: Module = {
+    pipes: [lowercase]
+};
 ```
 
 ## Template pipes
@@ -71,31 +67,23 @@ In the example above, the `lowercase` pipe will run first and the `removeNumeric
 
 ## Logic pipes
 
-To use the pipe in our component's logic, we need to inject the pipe in the constructor.
-After injecting the pipe, we can now call the `transform(value: any, ...params?: any[])` method of the pipe to transform values.
+To use the pipe inside the component's logic we can just call the pipe function.
 
 Example.
 
 ```typescript
-import { Component, Pipes } from '@monster-js/core';
-import { LowercasePipe } from './lowercase.pipe';
+import { component, pipes } from '@monster-js/core';
+import { lowercase } from './lowercase.pipe';
 
-@Pipes(LowercasePipe)
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    message = 'Hello World!';
+    const message = lowercase('Hello World!');
 
-    constructor(private lowercasePipe: LowercasePipe) {}
-
-    onInit() {
-        this.message = this.lowercasePipe.transform(this.message);
-    }
-
-    render() {
-        return <h1>{this.message}</h1>
-    }
+    return <h1>{message}</h1>
 }
+
+component(greeting, 'app-greeting');
+pipes(greeting, lowercase);
 ```
 
 ## Available pipes
@@ -108,39 +96,28 @@ https://github.com/angular/angular/blob/main/packages/common/src/pipes/date_pipe
 -->
 | Pipe | Description |
 | --- | --- |
-| [LowercasePipe](/docs/useful-topics/available-pipes#lowercasepipe) | Transform string into lowercase. |
-| [UppercasePipe](/docs/useful-topics/available-pipes#uppercasepipe) | Transform string into uppercase. |
+| [lowercase](/docs/useful-topics/available-pipes#lowercasepipe) | Transform string into lowercase. |
+| [uppercase](/docs/useful-topics/available-pipes#uppercasepipe) | Transform string into uppercase. |
 
 ## Pipe with parameters
 
 Pipes can also have one or more parameters to be used during transformation.
 
-#### In template
-
-```typescript
+```typescript title="In template"
 <label>{this.date | date('YYYY-MM-DD', 'Invalid date')}</label>
 ```
 
-#### In logic
-
-```typescript
+```typescript title="In logic"
 import { Component, Pipes } from '@monster-js/core';
-import { DatePipe } from './date.pipe';
+import { datePipe } from './date.pipe';
 
-@Pipes(DatePipe)
-@Component('app-greeting')
-export class DateComponent {
+export function dateComponent() {
 
-    date = new Date();
+    const date = datePipe(new Date(), ['YYYY-MM-DD', 'Invalid date']);
 
-    constructor(private datePipe: DatePipe) {}
-
-    onInit() {
-        this.date = this.datePipe.transform(this.date, 'YYYY-MM-DD', 'Invalid date');
-    }
-
-    render() {
-        return <h1>{this.date}</h1>
-    }
+    return <h1>{date}</h1>
 }
+
+component(dateComponent, 'app-greeting')
+pipes(dateComponent, datePipe)
 ```
