@@ -1,7 +1,7 @@
 import { watch } from "../watcher/watch";
 import { AllDirectivesArg } from "./interfaces/all-directive-arg.interface";
 
-export const ViewDirective = (args: AllDirectivesArg) => {
+export const viewDirectives = (args: AllDirectivesArg) => {
     const { ref, class: cls } = args.directives;
 
     if (ref) ref.set(args.element);
@@ -28,4 +28,4 @@ export const ViewDirective = (args: AllDirectivesArg) => {
 
 }
 
-ViewDirective.namespace = 'v';
+viewDirectives.namespace = 'v';

@@ -34,8 +34,8 @@ export { globalService } from "./service/global-service";
  */
 export { directive } from "./directive/directive";
 export { directives } from "./directive/directives";
-export { ViewDirective } from "./directive/view.directive";
-export { ViewModelDirective } from "./directive/view-model.directive";
+export { viewDirectives } from "./directive/view.directive";
+export { viewModel } from "./directive/view-model.directive";
 export { AllDirectivesArg } from "./directive/interfaces/all-directive-arg.interface";
 export { DirectiveArg } from "./directive/interfaces/directive-arg.interface";
 export { watchDirective } from "./directive/utils/watch-directive";
@@ -76,7 +76,7 @@ export { ifCondition } from "./view-engine/if-condition";
 export { listRendering } from "./view-engine/list-rendering";
 export { renderChild } from "./view-engine/render-child";
 export { textBinding } from "./view-engine/text-binding";
-export { viewDirective } from "./view-engine/view-directive";
+export { viewDir } from "./view-engine/view-directive";
 export { viewPipe } from "./view-engine/view-pipe";
 export { viewProps } from "./view-engine/view-props";
 

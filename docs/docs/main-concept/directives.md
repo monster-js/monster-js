@@ -13,108 +13,147 @@ The value can be a string or jsx expression container`{}` or you can also omit t
 
 ## Available directives
 
-The following are the list of available built-in directives we can use.
+The following are the list of directives provided by the core package.
 
 ### View model directive
 
-`v:model`
+`import { viewModel } from '@monster-js/core'`;
+
+#### Syntax
+
+`v:model={<state>}`
 
 View model directive is a two way binding of data.
-Every time the model is changed from the view, the value in logic will be updated and the same thing will happen in the view when the model is updated from the logic.
+Every time the model is changed from the view, the state in logic will be updated and the same thing will happen in the view when the model is updated from the logic.
 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, useState } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    message: string;
+    const model = useState(this, 'Hello world!');
+    const [getter] = model;
 
-    render() {
-        return <input v:model={this.message} type="text" />
-    }
+    return <div>
+        <h1>{getter()}</h1>
+        <input v:model={model} type="text" />
+    </div>
 }
+
+component(greeting, 'app-greeting');
+```
+
+### View class directive
+
+`import { viewDirectives } from '@monster-js/core';`
+
+#### Syntax
+
+`v:class={<object>}`
+
+View class directive is used to conditionally add or remove a class to an element.
+It accepts an object and add the object property key as the element class if the property value is truthy.
+
+Example.
+
+```typescript
+import { component } from '@monster-js/core';
+
+export function greeting(props) {
+
+    return <a href="#" v:class={{ active: props.counter > 10 }}>Hello world!</a>
+
+}
+
+component(greeting, 'app-greeting');
 ```
 
 ### View reference directive
 
-`v:ref`
+`import { viewDirectives } from '@monster-js/core';`
 
-This directive is used to create a reference of an element to the property of the logic.
+#### Syntax
+
+`v:ref={<reference_holder>}`
+
+This directive is used to create a reference of an element to the variable in logic.
 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    elem: HTMLElement;
+    let elementRef: HTMLElement;
 
-    render() {
-        return <h1 v:ref={this.elem}>Hello world!</h1>
-    }
+    return <h1 v:ref={elementRef}>Hello world!</h1>
 }
+
+component(greeting, 'app-greeting');
 ```
 
-After view is initialized `this.elem` property should now contain a reference to the `h1` element in the view.
+After view is initialized `elementRef` variable should now have the reference to the `h1` element in the view.
 
 ### Prop directive
 
+#### Syntax
+
 `prop:<name>`
 
-Prop directive is a directive that allows developers to pass any type of data from parent to child.
+Prop directive is a built-in directive that allows developers to pass any type of data from parent to child.
 Check [props](./props) for more information about this directive.
 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-root')
-export class Root {
-    user = {
+export function root() {
+    const user = {
         fistName: 'John',
         lastName: 'Smith'
     };
 
-    render() {
-        return <app-child prop:user={this.user} />
-    }
+    return <app-child prop:user={user} />
 }
+
+component(root, 'app-root');
 ```
 
 ### Event directive
 
+#### Syntax
+
 `on:<event name>`
 
-Event directive is used to attach an event handler into an element.
-Check the (event handling)[/event-handling] for more information about this directive.
+Event directive is a built-in directive used to attach an event handler into an element.
+Check the [event handling](./event-handling) for more information about this directive.
 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    greet() {
+    const greet = () => {
         console.log('Hello World!');
     }
 
-    render() {
-        return <button on:click={this.greet()}>Greet</button>
-    }
+    return <button on:click={greet}>Greet</button>
 }
+
+component(greeting, 'app-greeting')
 ```
 
-Here is a list of available events from (developer.mozilla.org)[https://developer.mozilla.org/en-US/docs/Web/Events].
+Here is a list of available events from [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/Events).
 
 ### Event preventDefault directive
+
+#### Syntax
 
 `on-prevent:<event name>`
 
@@ -123,22 +162,21 @@ This directive is the same the as event directive with `on` namespace but it sto
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    submit() {
+    const submit = () => {
         console.log('Hello World!');
     }
 
-    render() {
-        return <form on-prevent:submit={this.submit}>
-            <input type="text" />
-            <button>Submit</button>
-        </form>
-    }
+    return <form on-prevent:submit={submit}>
+        <input type="text" />
+        <button type="submit">Submit</button>
+    </form>
 }
+
+component(greeting, 'app-greeting')
 ```
 
 The default action when a form is submitted will refresh the page or go to another page.
@@ -146,25 +184,27 @@ When using the `on-prevent` namespace, the default action will not happen so we 
 
 ### List rendering directive
 
+#### Syntax
+
 `v:for`
 
-List rendering directive allows developers to render a list of element based on the given array of data.
-Check the (list rendering)[/list-rendering] for more information.
+List rendering directive is a built-in directive.
+It allows developers to render a list of element based on the given array of data.
+Check the [list rendering](./list-rendering) for more information.
 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-list')
-export class List {
+export function list() {
 
-    array = [1, 2, 3];
+    const array = [1, 2, 3];
 
-    render() {
-        return <p v:for={this.array}>Hello World!</p>
-    }
+    return <p v:for={this.array}>Hello World!</p>
 }
+
+component(list, 'app-list')
 ```
 
 ### Conditional rendering directive
@@ -177,15 +217,16 @@ It will remove the element from the dom if the value of the directive is false a
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    toggle = true;
+    const [toggle] = useState(this, true);
 
     render() {
-        return <h1 v:if={this.toggle}>Hello World!</h1>
+        return <h1 v:if={toggle()}>Hello World!</h1>
     }
 }
+
+component(greeting, 'app-greeting')
 ```

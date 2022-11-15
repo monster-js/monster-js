@@ -2,7 +2,7 @@ import { ComponentInstance } from "../component/interfaces/component-instance.in
 import { ComponentWrapper } from "../component/interfaces/component-wrapper.interface";
 import { ViewDirective } from "./interfaces/view-directive.interface";
 
-export function viewDirective(context: ComponentInstance, element: HTMLElement, directives: ViewDirective[]) {
+export function viewDir(context: ComponentInstance, element: HTMLElement, directives: ViewDirective[]) {
     const component: ComponentWrapper = context.__wrapper;
 
     directives.forEach(directive => {

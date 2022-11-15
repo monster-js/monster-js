@@ -2,7 +2,7 @@ import { AllDirectivesArg } from "./interfaces/all-directive-arg.interface";
 import { DirectiveArg } from "./interfaces/directive-arg.interface";
 import { watchDirective } from "./utils/watch-directive";
 
-export const ViewModelDirective = (args: AllDirectivesArg) => {
+export const viewModel = (args: AllDirectivesArg) => {
     const { model } = args.directives;
 
     if (model) {
@@ -100,4 +100,4 @@ export const ViewModelDirective = (args: AllDirectivesArg) => {
     }
 }
 
-ViewModelDirective.namespace = 'v';
+viewModel.namespace = 'v';
