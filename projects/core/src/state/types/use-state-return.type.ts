@@ -1,0 +1,1 @@
+export type UseStateReturn<T> = [() => T, (newValue: T, devToolMessage?: string) => void];

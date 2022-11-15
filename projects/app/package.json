@@ -1,0 +1,16 @@
+{
+  "name": "@monster-js/app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@monster-js/core": "1",
+    "@monster-js/router": "1",
+    "@monster-js/store": "1",
+    "@monster-js/transformer": "1"
+  },
+  "scripts": {
+    "start": "webpack serve --env environment=prod",
+    "build": "webpack && ls -lh dist"
+  }
+}

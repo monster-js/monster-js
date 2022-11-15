@@ -1,0 +1,34 @@
+{
+  "name": "@monster-js/transformer",
+  "version": "1.4.48",
+  "description": "Testing tools for MonsterJS framework.",
+  "author": "Darius Bualan Jr.",
+  "license": "MIT",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./css": "./src/css.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://monster-js.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monster-js/monster-js"
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/monsterjs"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/monster-js"
+    },
+    {
+      "type": "individual",
+      "url": "https://www.paypal.com/paypalme/dariusbualan"
+    }
+  ]
+}

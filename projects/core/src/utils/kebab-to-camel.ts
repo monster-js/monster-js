@@ -1,0 +1,1 @@
+export const kebabToCamel = (str: string): string => str.replace(/-./g, x=>x[1].toUpperCase());
