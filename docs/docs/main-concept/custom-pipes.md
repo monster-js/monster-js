@@ -4,7 +4,7 @@ sidebar_position: 13
 
 # Custom Pipes
 
-Custom pipes allow us to create reusable transformers that can be used directly in the template or in logic of our components.
+Custom pipes allow us to create reusable value transformers that can be used directly in the template or in logic of our components.
 
 ## Create a pipe
 
@@ -13,16 +13,16 @@ To create a custom pipe, we can use the [cli](/docs/cli/cli-what-is-cli) to auto
 The following code is an example of a working pipe codes but without functions yet.
 
 ```typescript
-import { Pipe } from '@monster-js/core';
+import { pipe } from '@monster-js/core';
 
-@Pipe('lowercase')
-export class LowercasePipe {
-    transform(value, args) {
-    }
+export function lowercase(value: any, args: any[]): any {
+    return value;
 }
+
+pipe(lowercase, 'lowercase')
 ```
 
-In the example above, the `transform(value, args)` method will do the transformation and what ever this method returns will be the transformed data.
+In the example above, the `lowercase(value, args)` function will do the transformation of the value and what ever this function returns will be the transformed data.
 
 | Params | Description |
 | --- | --- |
@@ -32,12 +32,11 @@ In the example above, the `transform(value, args)` method will do the transforma
 Example.
 
 ```typescript
-import { Pipe } from '@monster-js/core';
+import { pipe } from '@monster-js/core';
 
-@Pipe('lowercase')
-export class LowercasePipe {
-    transform(value, args) {
-        return value.toLowerCase();
-    }
+export function lowercase(value) {
+    return value.toLowerCase();
 }
+
+pipe(lowercase, 'lowercase')
 ```
