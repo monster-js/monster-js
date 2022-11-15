@@ -16,14 +16,13 @@ The syntax of conditional rendering directive is `v:if={<boolean>}`.
 Here's an example on how to use conditional rendering.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, useState } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
-    toggle = true;
+export function greeting() {
+    const [toggle] = useState(this, true);
 
-    render() {
-        return <h1 v:if={this.toggle}>Hello World!</h1>
-    }
+    return <h1 v:if={toggle()}>Hello World!</h1>
 }
+
+component(greeting, 'app-greeting');
 ```
