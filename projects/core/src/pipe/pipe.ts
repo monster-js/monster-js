@@ -1,5 +1,5 @@
 import { Pipe } from "./types/pipe.type";
 
-export function pipe(target: Pipe, namespace: string) {
-    target.namespace = namespace;
+export function pipe(target: Pipe, selector: string) {
+    target.selector = selector;
 }

@@ -9,41 +9,39 @@ It allows us to configure our project for different deployments without changing
 We can define environment variables for production, development and even custom environment variables.
 
 Whe we create our application there are two available environment variables provided for us.
-If we check the `src/environments` directory, we can see that there is `dev.json` and `prod.json`.
+If we check the `src/environments` directory, we can see that there is `environment.ts` and `environment.prod.ts`.
 
 ## Custom environment variables
 
-To create a new environment variable, we just need to create a file named `<env name>.json`.
-The `<env name>` is the one that is being used in the cli option `--env`.
+To create a new environment variable, we just need to create a file named `environment.<env name>.ts`.
+The `<env name>` is the one that is being used in the cli option `--env` like the following:
 
-Inside the created environment file should be a json with a require property `MODE`.
-
-Example.
-
-```json
-{
-    "MODE": "production"
-}
+```bash
+mn serve --env <env name\>
 ```
 
-The `MODE` property can have value of `production` or `development`.
-This is to identify what type of build we are going to make when using the environment.
+or when using webpack cli directly.
+
+```bash
+webpack serve --env environment=<env name\>
+```
 
 ## Using environment in project
 
-To use our environment variables inside our project we can call it using `process.env.<env property name>`.
+To use our environment variables inside our project we can just import the `src/environment/environment.ts` file.
+The cli will be the one responsible to replace the value of the environment variables depending on the command.
 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
+import { environment } from './environments/environment';
 
-@Component('app-deployment')
-export class Deployment {
-    render() {
-        return <h1>Deployment: {process.env.MODE}</h1>
-    }
+export function app() {
+    return <h1>Deployment: {environment.deployment}</h1>
 }
+
+component(app, 'app-root')
 ```
 
 ## Using environment in CLI
@@ -54,14 +52,34 @@ Example, if we have environment variables like the following:
 
 ```
 environments
-    ├── dev.json
-    ├── uat.json
-    └── prod.json
+    ├── environment.ts
+    ├── environment.uat.ts
+    └── environment.prod.ts
 ```
 
-And we want to build our application using the `uat.json` environment.
+And we want to build our application using the `environment.uat.ts` environment.
 Then we can use the following command:
 
 ```bash
 mn build --env uat
+```
+
+## Using environment in webpack
+
+To use our environment variables in webpack, we just need to pass the environment name to the `--env environment=<env name>` option in webpack cli command.
+
+Example, if we have environment variables like the following:
+
+```
+environments
+    ├── environment.ts
+    ├── environment.uat.ts
+    └── environment.prod.ts
+```
+
+And we want to build our application using the `environment.uat.ts` environment.
+Then we can use the following command:
+
+```bash
+webpack --env environment=uat
 ```

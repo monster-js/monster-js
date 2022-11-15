@@ -47,6 +47,8 @@ export { watchDirective } from "./directive/utils/watch-directive";
  */
 export { pipe } from "./pipe/pipe";
 export { pipes } from "./pipe/pipes";
+export { lowercase } from "./pipe/available-pipes/lowercase.pipe";
+export { uppercase } from "./pipe/available-pipes/uppercase.pipe";
 
 
 /**
