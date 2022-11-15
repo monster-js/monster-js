@@ -125,10 +125,14 @@ export function app() {
 component(app, 'app-root');
 ```
 
-### DevTools
+The setter has an optional second parameter that accepts string that describes the action when using the setter.
 
-We can also use the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) to inspect the shared state of our application.
-Using this DevTool will also enable us to use time travel debugging of our application.
+Example.
 
-DevTools is enabled by default in development mode.
-Building the application for production will automatically remove the DevTools.
+```tsx
+    const [ counter, setCounter ] = counterState(this);
+
+    setCounter(counter() + 1, 'Increment the counter');
+```
+
+The second parameter will be displayed in the DevTools

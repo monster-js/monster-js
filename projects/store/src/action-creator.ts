@@ -13,7 +13,10 @@ function createAction<S, P = any>(
     }
 }
 
-export function actionCreator<S = any>(store: <K extends keyof S>(context: ComponentInstance, key: K) => UseStateReturn<S[K]>, key: keyof S) {
+export function actionCreator<S = any>(
+    store: <K extends keyof S>(context: ComponentInstance, key: K) => UseStateReturn<S[K]>,
+    key: keyof S
+) {
 
     return function<SS = any, P = any>(reducer: (state: SS, payload?: P) => SS, message: string) {
         return createAction<S, P>(reducer as any, key, message, store);

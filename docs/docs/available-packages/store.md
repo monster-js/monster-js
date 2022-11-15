@@ -7,6 +7,10 @@ sidebar_position: 2
 Store is a state management built for MonsterJS framework.
 Using this store will help developers to centralize and maintain the codes easily.
 
+The store is just an extension of [shared state](/docs/main-concept/state#shared-state).
+The store is using the shared state behind the scene.
+It is just a way to organize the data provided by the shared state functionality.
+
 ## Installation
 
 We can install the store to our project using npm or yarn.
@@ -21,106 +25,116 @@ or
 yarn add @monster-js/store
 ```
 
-## Register the store
+## Create a store
 
-Store needs to be registered as a service before we can use it.
-Please check the [services](/docs/main-concept/services) for information on how to register a service.
+To create a store, we can use the `createStore(<initial_state>)` function that accepts the initial state as the parameter.
 
-It is recommended that we register the store in the global container.
+Example.
+
+```typescript title="store.ts"
+import { createStore } from '@monster-js/store';
+
+const initialState = { counter: 0 };
+
+export const store = createStore(initialState);
+```
+
+Now we have an object that has a shared state properties.
+
+## Initial state
+
+It is a good practice to separate the initial state and create an interface that describe it.
+The interface will be useful in the other parts of our store.
+
+Example.
+
+```typescript title="initial-state.ts"
+export interface InitialState {
+    counter: number;
+}
+
+export const initialState: InitialState = {
+    counter: 0;
+};
+```
+
+```typescript title="store.ts"
+import { createStore } from '@monster-js/store';
+import { initialState, InitialState } from './initial-state';
+
+export const store = createStore<InitialState>(initialState);
+```
+
+## Using the store in a component
+
+To use the store in a component, we just need to import the `store` that we just created above inside our component.
 
 Example.
 
 ```typescript
-import { Container, GlobalDataSource, registerService } from '@monster-js/core';
-import { Store } from '@monster-js/store';
+import { component } from '@monster-js/core';
+import { store } from './store';
 
-const storeConfig = {
-    state: {}
-};
+export function app() {
 
-const container = new Container(new GlobalDataSource());
-registerService(Store, container, storeConfig);
+    const [counter, setCounter] = store(this, 'counter');
+
+    return <h1>App</h1>
+}
+
+component(app, 'app-root');
 ```
 
-In the example above, the `storeConfig` is the initial state of the store.
+The same as shared state, we also get a getter(`counter`) and setter(`setCounter`) of the state.
 
-## Initial state
+## Getter
 
-Initial state of the store is the state that is passed to the store as the initial data.
-The initial state is required when registering the store.
+To get a value from store, we can call the getter function of the state.
 
-Here's an example on how to create an initial state:
+Example.
 
 ```javascript
-// initial-state.ts
-import { StoreInterface } from "@monster-js/store";
+import { component } from '@monster-js/core';
+import { store } from './store';
 
-export interface InitialStateInterface {
-    count: number;
+export function app() {
+
+    const [counter, setCounter] = store(this, 'counter');
+
+    return <h1>Count: {counter()}</h1>
 }
 
-export const initialState: StoreInterface<InitialStateInterface> = {
-    state: {
-        count: 0
-    }
-}
+component(app, 'app-root');
 ```
 
-After creating an initial state, we need to pass it as a service config for the store.
-
-```typescript
-import { Container, GlobalDataSource, registerService } from '@monster-js/core';
-import { Store } from '@monster-js/store';
-import { initialState } from './initial-state';
-
-const container = new Container(new GlobalDataSource());
-registerService(Store, container, initialState);
-```
+In the example above, the `counter` is the getter.
 
 ## Setter
 
 When we set a new value to state of store.
-The change will be reflected to the components that has a subscription to this state.
+The change will be reflected to the components that are using the state.
 
 Example.
 
-```javascript
-import { Component } from '@monster-js/core';
-import { Store } from '@monster-js/store';
-import { InitialStateInterface } from './initial-state';
+```typescript
+import { component } from '@monster-js/core';
+import { store } from './store';
 
-@Component('app-greeting')
-export class Greeting {
-    constructor(private store: Store<InitialStateInterface>) {}
+export function app() {
 
-    btnClick() {
-        this.store.set('count', 100);
+    const [counter, setCounter] = store(this, 'counter');
+
+    const clickMe = () => {
+        setCounter(counter() + 1);
     }
-    ...
+
+    return <button on:click={clickMe}>Increment</button>
 }
+
+component(app, 'app-root');
 ```
 
-## Getter
-
-To get a value from store, the we can call the store `get` method.
-
-Example.
-
-```javascript
-import { Component } from '@monster-js/core';
-import { Store } from '@monster-js/store';
-import { InitialStateInterface } from './initial-state';
-
-@Component('app-greeting')
-export class Greeting {
-    constructor(private store: Store<InitialStateInterface>) {}
-
-    onInit() {
-        console.log(this.store.get('count'));
-    }
-    ...
-}
-```
+The same as the share state, the setter has also a second parameter that accepts string that describes the action when using the setter.
 
 ## Subscribe to changes
 
@@ -129,143 +143,99 @@ Store also offers a way to subscribe for changes of each item of the state.
 Example.
 
 ```javascript
-import { Component } from '@monster-js/core';
-import { Store } from '@monster-js/store';
-import { InitialStateInterface } from './initial-state';
+import { component } from '@monster-js/core';
+import { store } from './store';
 
-@Component('app-greeting')
-export class Greeting {
+export function app() {
 
-    constructor(private store: Store<InitialStateInterface>) {}
+    store(this, 'counter', (value) => {
+        console.log(`The state is changed. New value: ${value}`);
+    });
 
-    onInit() {
-        this.store.select('count').subscribe(state => {
-            console.log(state);
-        });
-    }
-    ...
+    return <h1>App</h1>
 }
+
+component(app, 'app-root');
 ```
 
-#### Unsubscribe to store
-
-All subscriptions must be unsubscribe when the component is destroyed or else it will cause a memory issue.
-
-Example.
-
-```javascript
-import { Component, Subscription } from '@monster-js/core';
-import { Store } from '@monster-js/store';
-import { InitialStateInterface } from './initial-state';
-
-@Component('app-greeting')
-export class Greeting {
-    subscription: Subscription;
-    constructor(private store: Store<InitialStateInterface>) {}
-
-    connectedCallback() {
-        this.subscription = this.store.select('count').subscribe(state => {
-            console.log(state);
-        });
-    }
-
-    disconnectedCallback() {
-        this.subscription.unsubscribe();
-    }
-    ...
-}
-```
+This is a good option if we need to have some manipulation of the data before we send it to the local state of the component.
 
 ## Actions
 
+One of the many advantages of using a store than shared state is that we can use actions in store.
 Actions can also be used to update the state.
-Using this can make your codes much cleaner and easy to manage.
+Using this can make your codes much cleaner and easy to manage and understand.
 
 ### Create actions
 
-Here's an example on how to create an action:
+To create an action, we need to create an action creator first.
 
-```typescript
-import { createAction } from '@monster-js/store';
+Using our example above, we need to create an action creator for the `counter` state.
 
-interface PostInterface {
-    likesCount: number;
-    commentsCount: number;
-}
+Example.
 
-interface InitialStateInterface {
-    post: PostInterface;
-}
+```typescript title="counter.actions.ts"
+import { actionCreator } from '@monster-js/store';
+import { InitialState } from './initial-state';
+import { store } from './store';
 
-export const setPostLikesCount = createAction<number, PostInterface>('[Post] set likes count', (state: PostInterface, payload: number) => {
-    return {
-        ...state,
-        likesCount: payload
-    }
-});
-
-export const initialState: StoreInterface<InitialStateInterface> = {
-    state: {
-        post: {
-            likesCount: 0,
-            commentsCount: 0
-        }
-    },
-    actions: {
-        post: [
-            setPostLikesCount // <--- action needs to be registered here
-        ]
-    }
-}
+const counterActionCreator = actionCreator<InitialState>(store, 'counter');
 ```
 
-In the `createAction`, there are two generic types.
-First is the type of data that `setPostLikesCount` action will accept.
-The second type is the type of the post state inside the store.
+After creating an action creator, we can now use it to create a real action.
 
-There are two parameters for the `createAction` function.
-First is a string that describes the action.
-Second is the reducer function that returns the new state of the selected store.
+Example.
 
-The reducer function has two arguments.
-First is the state which holds the current state of the store.
-Second is the payload which holds the value that is passed to the `setPostLikesCount` action when the action is called.
+```typescript title="counter.actions.ts"
+import { actionCreator } from '@monster-js/store';
+import { InitialState } from './initial-state';
+import { store } from './store';
+
+const counterActionCreator = actionCreator<InitialState>(store, 'counter');
+
+export const incrementCounter = counterActionCreator<number, number>((state, payload) => {
+    return state + payload;
+}, 'Increment counter');
+```
+
+The `createActionCreator` has two arguments, first is the reducer and second is the action description.
+The reducer has two parameters, first is the current state and second is the payload when using the `incrementCounter` in our component.
+The payload is optional.
+What ever the return value of the reducer will be the new state.
+
+The `createActionCreator` has two generic types. First is the type of the state and second is the type of the payload.
 
 ### Dispatch an action
 
-Here's an example on how to dispatch the created action above:
-
-```typescript
-import { Component } from '@monster-js/core';
-import { Store } from '@monster-js/store';
-import { InitialStateInterface, setPostLikesCount } from './initial-state';
-
-@Component('app-greeting')
-export class Greeting {
-
-    constructor(private store: Store<InitialStateInterface>) {}
-
-    btnClick() {
-        this.store.action(setPostLikesCount(100));
-    }
-}
-```
-
-## Reset state
-
-Store also offers a way to reset state using the `reset` method.
-This method will accept a state key to reset a specific state and will reset the whole store state of no key is provided.
+To dispatch an action, we just need to call the action inside our component or service.
 
 Example.
 
 ```typescript
-this.store.reset('counter');
+import { component } from '@monster-js/core';
+import { incrementCounter } from './counter.actions';
+
+export function app() {
+
+    const [counter] = store(this, 'counter');
+
+    const clickMe = () => {
+        incrementCounter(1);
+    }
+
+    return <div>
+        <h1>Count: {counter()}</h1>
+        <button on:click={clickMe}>Increment</button>
+    </div>
+}
+
+component(app, 'app-root');
 ```
 
-The example above will reset the counter state to its initial state.
+## DevTools
 
-```typescript
-this.store.reset();
-```
+We can also use the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) to inspect the shared state of our application.
+Using this DevTool will also enable us to use time travel debugging of our application.
 
-The example above will reset the whole store state.
+DevTools is enabled by default in development mode.
+Building the application for production will automatically remove the DevTools.
