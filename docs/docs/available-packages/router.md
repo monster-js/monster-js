@@ -33,15 +33,14 @@ Here's an example on how to register the router module:
 import { Module } from '@monster-js/core/module';
 import { RouterModule } from '@monster-js/router';
 
-@Module({
+export const AppModule: Module = {
     modules: [RouterModule]
-})
-export class AppModule { }
+};
 ```
 
 ## Creating a route
 
-`import { Route } from '@monster-js/router'`
+`import { route } from '@monster-js/router'`
 
 Route is just a component provided by the router package.
 Once route component is already defined or the router module is imported to the module we can now start using the `app-route` component inside our components.
@@ -49,23 +48,21 @@ Once route component is already defined or the router module is imported to the 
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
-import { Greeting } from './greeting.component';
+import { component } from '@monster-js/core';
+import { greeting } from './greeting.component';
 
-@Component('app-root')
-export class Root {
-    render() {
-        return <div>
-            <app-route
-                prop:path="/greeting"
-                prop:component={Greeting}
-            />
-        </div>
-    }
+export function root() {
+    return <div>
+        <app-route
+            prop:path="/greeting"
+            prop:component={greeting}
+        />
+    </div>
 }
+component(root, 'app-root');
 ```
 
-In the example above, if the user will navigate to '/greeting' route the `Greeting` component will be displayed in the view.
+In the example above, if the user will navigate to '/greeting' route the `greeting` component will be displayed in the view.
 
 ## Route props
 
@@ -84,7 +81,7 @@ Here are the available props that can be used in a route.
 
 ## Router directive
 
-`import { RouterDirective } from '@monster-js/router'`
+`import { routerDirective } from '@monster-js/router'`
 
 Router also has a directive that is very helpful when using a router.
 
@@ -143,7 +140,7 @@ The following code is an example of a working guard codes but without functions 
 ```typescript
 import { Guard } from '@monster-js/router';
 
-@Guard()
+@Guard
 export class AuthGuard {
 }
 ```
@@ -153,11 +150,10 @@ export class AuthGuard {
 The `canActivate` method can help us add additional checking if a component is allowed to activate.
 
 ```typescript
-import { ObservableInterface } from '@monster-js/core';
 import { Guard, RouterService } from '@monster-js/router';
 import { AuthService } from './auth.service';
 
-@Guard()
+@Guard
 export class AuthGuard {
 
     constructor(
@@ -165,7 +161,7 @@ export class AuthGuard {
         private routerService: RouterService
     ) {}
 
-    public override canActivate(): ObservableInterface<boolean> | boolean {
+    public override canActivate(): Promise<boolean> | boolean {
         if (this.authService.isLoggedIn) {
             return true;
         }
@@ -180,7 +176,6 @@ export class AuthGuard {
 The `canDeactivate` method can help us add additional checking if a component is allowed to deactivate.
 
 ```typescript
-import { ObservableInterface } from '@monster-js/core';
 import { Guard } from '@monster-js/router';
 import { ChangesService } from './changes.service';
 
@@ -189,7 +184,7 @@ export class ChangesGuard {
 
     constructor(private changesService: ChangesService) {}
 
-    public override canDeactivate(): ObservableInterface<boolean> | boolean {
+    public override canDeactivate(): Promise<boolean> | boolean {
         return !this.changesService.hasChanges;
     }
 }
@@ -197,19 +192,18 @@ export class ChangesGuard {
 
 ## Router module
 
-`import { RouterModule } from '@monster-js/router';
+`import { RouterModule } from '@monster-js/router';`
 
 Importing router module to our module will give us all the functionalities of the router since router module exports all the necessary elements to use the router.
 
 ```typescript
-@Module({
+export const RouterModule: Module = {
     exports: {
-        directives: [RouterDirective],
+        directives: [routerDirective],
         services: [RouterService],
-        components: [Route]
+        components: [route]
     }
-})
-export class RouterModule {}
+};
 ```
 
 ## Router service
@@ -223,14 +217,17 @@ To use the router service we need to inject it to our component.
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, inject } from '@monster-js/core';
 import { RouterService } from '@monster-js/router';
 
-@Component('app-greeting')
-export class Greeting {
-    constructor(private routerService: RouterService) {}
-    ...
+export function greeting() {
+
+    const routerService = inject(this, RouterService);
+
+    return <h1>Greeting</h1>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 ### Navigate
@@ -240,19 +237,20 @@ Router service offers `navigate(url, state, title, replaceState)` method to navi
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component, inject } from '@monster-js/core';
 import { RouterService } from '@monster-js/router';
 
-@Component('app-greeting')
-export class Greeting {
-    constructor(private routerService: RouterService) { }
+export function greeting() {
+    const routerService = inject(this, routerService);
 
-    onInit() {
-        setTimeout(() => {
-            this.routerService.navigate('/some/url');
-        }, 1000);
-    }
+    setTimeout(() => {
+        routerService.navigate('/some/url');
+    }, 1000);
+
+    return <h1>App</h1>
 }
+
+component(greeting, 'app-greeting')
 ```
 
 | Parameters | Description |
@@ -269,19 +267,20 @@ This will allow us to subscribe to route change event using `onRouteChange` prop
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
+import { component } from '@monster-js/core';
 import { RouterService } from '@monster-js/router';
 
-@Component('app-greeting')
-export class Greeting {
-    constructor(private routerService: RouterService) { }
+export function greeting() {
+    const routerService = inject(this, RouterService);
 
-    onInit() {
-        this.routerService.onRouteChange.subscribe(() => {
-            console.log('route has change');
-        });
-    }
+    routerService.onRouteChange.subscribe(() => {
+        console.log('route has change');
+    });
+
+    return <h1>Greeting</h1>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 In the example above, the component will log `route has change` in the console every time the route will change.
@@ -291,26 +290,22 @@ Since we subscribed to route change event, it is a good idea to remove all the s
 Example.
 
 ```typescript
-import { Component, Subscription } from '@monster-js/core';
+import { component, inject, onDestroy } from '@monster-js/core';
 import { RouterService } from '@monster-js/router';
 
-@Component('app-greeting')
-export class Greeting {
+export function greeting() {
 
-    subscription: Subscription;
+    let subscription;
+    const routerService = inject(this, RouterService);
 
-    constructor(private routerService: RouterService) { }
+    subscription = routerService.onRouteChange.subscribe(() => console.log('route has change'));
 
-    onInit() {
-        this.subscription = this.routerService.onRouteChange.subscribe(() => {
-            console.log('route has change');
-        });
-    }
+    onDestroy(this, () => subscription.unsubscribe());
 
-    onDestroy() {
-        this.subscription.unsubscribe();
-    }
+    return <h1>Greeting</h1>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 ### Router params
@@ -321,18 +316,15 @@ More information about this route params are found in the [dynamic route matchin
 Example.
 
 ```typescript
-import { Component } from '@monster-js/core';
-import { RouterService } from '@monster-js/router';
+import { component } from '@monster-js/core';
 
-@Component('app-greeting')
-export class Greeting {
-    constructor(private routerService: RouterService) { }
+export function greeting(props) {
+    console.log(props.params);
 
-    onInit() {
-        const params = this.routerService.params;
-        console.log(params);
-    }
+    return <h1>Greeting</h1>
 }
+
+component(greeting, 'app-greeting');
 ```
 
 ## Dynamic route matching
@@ -349,48 +341,25 @@ Here's a table of dynamic routes and its corresponding values as a router parame
 | /user/:userId         | /user/123             | { userId: 123 }               |
 | /post/:postId/:userId | /post/1/123           | { postId: 1, userId: 123 }    |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Lazy loading a module
 
 To lazy load a module or load a module on demand, we can use the `module` property of a route.
 
 Example.
 
-#### The module
+### The module
 
 ```typescript
 // ./greeting.module
 import { Module } from '@monster-js/core/module';
-import { Greeting } from './greeting.component';
+import { greeting } from './greeting.component';
 
-@Module({
-    root: Greeting
-})
-export class GreetingModule { }
+export const GreetingModule: Module = {
+    root: greeting
+};
 ```
 
-#### The route
+### The route
 
 ```typescript
 <app-route
