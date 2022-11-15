@@ -47,14 +47,15 @@ Before we can use a service we need to register it in our component.
 Example.
 
 ```typescript
-import { Component, Services } from '@monster-js/core';
+import { component, services } from '@monster-js/core';
 import { GreetingService  } from './greeting.service';
 
-@Services(GreetingService)
-@Component('app-greeting')
-export class Greeting {
-    ...
+export function greeting() {
+    return <h1>Greeting</h1>
 }
+
+component(greeting, 'app-greeting');
+services(greeting, GreetingService);
 ```
 
 Services can also have config that is received using the `onReceiveConfig` service hook after initialization.
@@ -62,17 +63,17 @@ Services can also have config that is received using the `onReceiveConfig` servi
 Example.
 
 ```typescript
-import { Component, Services } from '@monster-js/core';
+import { component, services } from '@monster-js/core';
 import { GreetingService } from './greeting.service';
 
-@Services({
-    service: GreetingService,
-    config: { defaultMessage: 'Hello World!' }
-})
-@Component('app-greeting')
-export class Greeting {
-    ...
+export function greeting() {
+    return <h1>Greeting</h1>
 }
+
+const config = { message: 'Hello World' };
+
+component(greeting, 'app-greeting')
+services(greeting, [GreetingService, config])
 ```
 
 ## Register service in module
@@ -86,10 +87,9 @@ Example.
 import { Module } from '@monster-js/core/module';
 import { GreetingService } from './greeting.service';
 
-@Module({
+export const GreetingModule: Module = {
     services: [GreetingService]
-})
-export class GreetingModule { }
+};
 ```
 
 Services can also have config that is received using the `onReceiveConfig` service hook after initialization.
@@ -100,35 +100,31 @@ Example.
 import { Module } from '@monster-js/core/module';
 import { GreetingService } from './greeting.service';
 
-@Module({
+const config = { message: 'Hello World' };
+
+export const GreetingModule: Module = {
     services: [
-        {
-            service: GreetingService,
-            config: { defaultMessage: 'Hello World!' }
-        }
+        [GreetingService, config]
     ]
-})
-export class GreetingModule { }
+};
 ```
 
-## Register service in global
+## Register service as a global service
 
 If we want our service to be available to all our components inside our application, we can also register the service as a global service.
 
 Example.
 
 ```typescript
-import { Container, GlobalDataSource, registerService } from '@monster-js/core';
+import { globalService } from '@monster-js/core';
 import { GreetingService, config } from './greeting.service';
 
-const container = new Container(new GlobalDataSource());
-registerService(GreetingService, container, config);
+globalService(GreetingService, config);
 ```
 
-In the example above, we register the service using `registerService(GreetingService, container, config)` function.
+In the example above, we register the service using the `globalService(<service>, <service_config>)` function.
 
 | Params | Description |
 | --- | --- |
 | GreetingService | The service we want to register in global container |
-| container | The global dependency injection container |
 | config | An optional parameter. Any type of data that serves as a configuration of the service after initialization. Received using the `onReceiveConfig` service hook. |
