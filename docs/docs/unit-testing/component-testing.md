@@ -8,22 +8,22 @@ Testing our MonsterJS components can help us check that our components are worki
 MonsterJS provides a testing tools found in `@monster-js/tester` package.
 These tools can help us validate that all our components are performing as expected.
 
-## The createTester function
+## The componentTester function
 
-`import { createTester } from '@monster-js/tester'`
+`import { componentTester } from '@monster-js/tester'`
 
-The `createTester` function helps us to create a tester instance based on the provided component.
+The `componentTester` function helps us to create a tester instance based on the provided component.
 
 Example.
 
 ```typescript
 import { greeting } from './greeting.component';
-import { createTester } from '@monster-js/tester';
+import { componentTester } from '@monster-js/tester';
 
-const tester = createTester(greeting);
+const tester = componentTester(greeting);
 ```
 
-The `createTester` function has two arguments.
+The `componentTester` function has two arguments.
 First is the component that we want to create a tester instance and second is an optional argument which is an object that has the following properties.
 
 | Property | Type | Description |
@@ -36,9 +36,9 @@ Example.
 ```typescript
 import { greeting } from './greeting.component';
 import { greetingChild } from './greeting-child.component';
-import { createTester } from '@monster-js/tester';
+import { componentTester } from '@monster-js/tester';
 
-const tester = createTester(greeting, {
+const tester = componentTester(greeting, {
     components: [greetingChild],
     externalComponents: ['app-external-component']
 });
@@ -61,9 +61,9 @@ Example.
 
 ```typescript
 import { greeting } from './greeting.component';
-import { createTester } from '@monster-js/tester';
+import { componentTester } from '@monster-js/tester';
 
-const tester = createTester(greeting);
+const tester = componentTester(greeting);
 
 it('should create a component', function() {
     const { host, element, component, shadowRoot } = tester.createComponent();
@@ -86,9 +86,9 @@ Example.
 ```typescript
 import { greeting } from './greeting.component';
 import { greetingChild } from './greeting-child.component';
-import { createTester, parseComponent } from '@monster-js/tester';
+import { componentTester, parseComponent } from '@monster-js/tester';
 
-const tester = createTester(greeting, {
+const tester = componentTester(greeting, {
     components: [greetingChild]
 });
 
@@ -114,9 +114,9 @@ Example.
 ```typescript
 import { greeting } from './greeting.component';
 import { greetingChild } from './greeting-child.component';
-import { createTester, render } from '@monster-js/tester';
+import { componentTester, render } from '@monster-js/tester';
 
-const tester = createTester(greeting, {
+const tester = componentTester(greeting, {
     components: [greetingChild]
 });
 
@@ -138,10 +138,10 @@ This will fire an event of an an element like click, dblclick, input and other e
 Example.
 
 ```typescript
-import { fireEvent, createTester } from '@monster-js/tester';
+import { fireEvent, componentTester } from '@monster-js/tester';
 import { counter } from './counter.component';
 
-const tester = createTester(counter);
+const tester = componentTester(counter);
 
 it('should increment the counter when button is clicked', function() {
     const { element } = tester.createComponent();
@@ -168,10 +168,10 @@ The `inputText` function allows us to emulate a user typing into an input box.
 Example.
 
 ```typescript
-import { inputText, createTester } from '@monster-js/tester';
+import { inputText, componentTester } from '@monster-js/tester';
 import { counter } from './counter.component';
 
-const tester = createTester(counter);
+const tester = componentTester(counter);
 
 it('should display the inputted text to text holder', function() {
     const { element } = tester.createComponent();
@@ -187,10 +187,10 @@ If it has only two arguments the function is synchronous and asynchronous if it 
 Example.
 
 ```typescript
-import { inputText, createTester } from '@monster-js/tester';
+import { inputText, componentTester } from '@monster-js/tester';
 import { counter } from './counter.component';
 
-const tester = createTester(counter);
+const tester = componentTester(counter);
 
 it('should display the inputted text to text holder', async function() {
     const { element } = tester.createComponent();
@@ -225,9 +225,9 @@ Example.
 ```typescript
 import { greeting } from './greeting.component';
 import { GreetingService } from './greeting.service';
-import { createTester, mockInjection } from '@monster-js/tester';
+import { componentTester, mockInjection } from '@monster-js/tester';
 
-const tester = createTester<greeting>(greeting);
+const tester = componentTester<greeting>(greeting);
 
 it('should display message from mock service', function() {
     mockInjection(greeting, GreetingService, {

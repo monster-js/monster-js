@@ -1,0 +1,14 @@
+{
+  "name": "@monster-js/test",
+  "version": "1.5.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@monster-js/core": "^1.5"
+  },
+  "scripts": {
+    "start": "mn serve",
+    "build": "mn build --env prod --mode production && ls -lh dist",
+    "test": "mn test"
+  }
+}

@@ -3,7 +3,7 @@ import { bootstrapModule, Module, ModuleConfigInterface } from "@monster-js/core
 import { ComponentWrapperInstanceInterface } from "@monster-js/core/src/interfaces/component-wrapper-instance.interface";
 import { RenderReturnInterface } from "./interfaces/render-return.interface";
 
-export function createComponentTester<T>(component: { new(...args: any): T }, options: ModuleConfigInterface = {}) {
+export function componentTester<T>(component: { new(...args: any): T }, options: ModuleConfigInterface = {}) {
     const fakeModule = class {};
     const componentClass: ComponentInterface = component as any;
 

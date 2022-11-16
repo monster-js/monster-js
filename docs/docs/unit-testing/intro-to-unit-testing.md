@@ -35,9 +35,9 @@ Here is an example of a working unit test for a component.
 
 ```typescript
 import { greeting } from './greeting.component';
-import { createTester } from '@monster-js/tester';
+import { componentTester } from '@monster-js/tester';
 
-const tester = createTester(greeting);
+const tester = componentTester(greeting);
 
 it('should create a component', function() {
     const { host, element, component, shadowRoot } = tester.createComponent();

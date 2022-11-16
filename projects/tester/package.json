@@ -9,7 +9,7 @@
     "lint": "tsc --noEmit -p ."
   },
   "peerDependencies": {
-    "@monster-js/core": "^1.4"
+    "@monster-js/core": "^1"
   },
   "publishConfig": {
     "access": "public"
