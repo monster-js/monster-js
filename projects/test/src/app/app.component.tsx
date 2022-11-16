@@ -1,5 +1,5 @@
 import styles from './app.component.scss';
-import { component } from '@monster-js/core';
+import { component, services } from '@monster-js/core';
 
 export function app() {
     return <div style="display: flex; height: 70vh; align-items: center; justify-content: center;">

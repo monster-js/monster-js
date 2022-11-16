@@ -1,8 +1,8 @@
-export interface RenderReturnInterface<T> {
+export interface RenderReturnInterface {
     queryAll(query: string): NodeListOf<HTMLElement>;
-    query<TT = HTMLElement>(query: string): TT;
+    query<T = HTMLElement>(query: string): T;
     host: HTMLElement;
     element: HTMLElement;
-    component: T;
     detectChanges: () => any;
+    shadowRoot: ShadowRoot;
 }

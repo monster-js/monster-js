@@ -1,6 +1,7 @@
 import { Hooks } from "../hook/enums/hooks.enum";
 import { Hook } from "../hook/interfaces/hook.interface";
 import { ObservedAttributeWatcher } from "../observed-attributes/interfaces/observed-attribute-watcher.interface";
+import { ChangeDetectionStrategy } from "../state/enums/change-detection-strategy.enum";
 import { Watcher } from "../watcher/interfaces/watcher.interface";
 import { ComponentWrapper } from "./interfaces/component-wrapper.interface";
 import { DefinedComponents } from "./interfaces/defined-components.interface";
@@ -16,6 +17,10 @@ export const createComponent = (fnComponent: FunctionComponent) => {
         definedComponents: DefinedComponents = fnComponent.config.definedComponents;
         fakeDefinedComponents: DefinedComponents = fnComponent.config.fakeDefinedComponents;
         dataSource = fnComponent.config.dataSource;
+        element: HTMLElement = null;
+        changeDetectionStrategy: ChangeDetectionStrategy;
+        componentShadowRoot: ShadowRoot;
+
 
         directives = fnComponent.config.directives || {};
         pipes = fnComponent.config.pipes || {};
@@ -25,6 +30,12 @@ export const createComponent = (fnComponent: FunctionComponent) => {
             this.props = props;
             this._hooksCaller(Hooks.onPropsChange);
             this.detectChanges();
+        }
+
+
+        constructor(changeDetectionStrategy: ChangeDetectionStrategy = ChangeDetectionStrategy.Default) {
+            super();
+            this.changeDetectionStrategy = changeDetectionStrategy;
         }
 
 
@@ -48,7 +59,7 @@ export const createComponent = (fnComponent: FunctionComponent) => {
 
 
         detectChanges() {
-            if (!this.isConnected || this.debounce) return;
+            if (!this.isConnected || this.debounce || this.changeDetectionStrategy === ChangeDetectionStrategy.OnPush) return;
             this.debounce = setTimeout(() => {
                 this._evaluate();
                 this.debounce = null;
@@ -56,10 +67,10 @@ export const createComponent = (fnComponent: FunctionComponent) => {
         }
 
         connectedCallback() {
-            const element = fnComponent.bind({ __wrapper: this })(this.props);
+            this.element = fnComponent.bind({ __wrapper: this })(this.props);
             this._hooksCaller(Hooks.onInit);
             this._hooksCaller(Hooks.beforeViewInit);
-            this._appendElement(element);
+            this._appendElement(this.element);
             this._hooksCaller(Hooks.afterViewInit);
         }
 
@@ -92,7 +103,10 @@ export const createComponent = (fnComponent: FunctionComponent) => {
         _appendElement(element: HTMLElement) {
             let root: HTMLElement | ShadowRoot = this;
             const { shadowMode, styles } = fnComponent.config;
-            if (shadowMode) root = this.attachShadow({ mode: shadowMode });
+            if (shadowMode) {
+                root = this.attachShadow({ mode: shadowMode });
+                this.componentShadowRoot = root;
+            }
             if (styles) styles.use({ target: shadowMode ? root : document.head });
 
             root.appendChild(element);

@@ -1,7 +1,7 @@
 import { FunctionComponent } from "../component/interfaces/function-component.interface";
 import { ServiceClass } from "./interfaces/service-class.interface";
 
-export const services = (fnComponent: FunctionComponent, ...services: (ServiceClass | [ServiceClass, any])[]) => {
+export const services = (fnComponent: FunctionComponent, ...services: (ServiceClass | [service: ServiceClass, config: any])[]) => {
     services.forEach(service => {
         let target: ServiceClass;
         let config = null;

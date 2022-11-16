@@ -40,10 +40,9 @@ import { componentTester } from '@monster-js/tester';
 const tester = componentTester(greeting);
 
 it('should create a component', function() {
-    const { host, element, component, shadowRoot } = tester.createComponent();
+    const { host, element, shadowRoot } = tester.createComponent();
     expect(host).toBeTruthy();
     expect(element).toBeTruthy();
-    expect(component).toBeTruthy();
     expect(shadowRoot).toBeTruthy();
 });
 ```

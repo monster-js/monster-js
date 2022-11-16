@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@monster-js/core": "^1.5"
+    "@monster-js/core": "^1",
+    "@monster-js/tester": "^1"
   },
   "scripts": {
     "start": "mn serve",

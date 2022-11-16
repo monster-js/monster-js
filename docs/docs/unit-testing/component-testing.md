@@ -66,10 +66,9 @@ import { componentTester } from '@monster-js/tester';
 const tester = componentTester(greeting);
 
 it('should create a component', function() {
-    const { host, element, component, shadowRoot } = tester.createComponent();
+    const { host, element, shadowRoot } = tester.createComponent();
     expect(host).toBeTruthy();
     expect(element).toBeTruthy();
-    expect(component).toBeTruthy();
     expect(shadowRoot).toBeTruthy();
 });
 ```
@@ -95,10 +94,9 @@ const tester = componentTester(greeting, {
 it('should have the child component', function() {
     const greeting = tester.createComponent();
     const childElement = greeting.element.querySelector('app-greeting-child');
-    const { host, element, component, shadowRoot } = parseComponent(childElement);
+    const { host, element, shadowRoot } = parseComponent(childElement);
     expect(host).toBeTruthy();
     expect(element).toBeTruthy();
-    expect(component).toBeTruthy();
     expect(shadowRoot).toBeTruthy();
 });
 ```
@@ -121,10 +119,9 @@ const tester = componentTester(greeting, {
 });
 
 it('should be able to render child component', function() {
-    const { host, element, component, shadowRoot } = render(greetingChild);
+    const { host, element, shadowRoot } = render(greetingChild);
     expect(host).toBeTruthy();
     expect(element).toBeTruthy();
-    expect(component).toBeTruthy();
     expect(shadowRoot).toBeTruthy();
 });
 ```

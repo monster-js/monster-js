@@ -1,34 +1,18 @@
-import { ComponentInterface, getSelector } from "@monster-js/core";
-import { bootstrapModule, Module, ModuleConfigInterface } from "@monster-js/core/module";
-import { ComponentWrapperInstanceInterface } from "@monster-js/core/src/interfaces/component-wrapper-instance.interface";
-import { RenderReturnInterface } from "./interfaces/render-return.interface";
+import { FunctionComponent, getSelector } from "@monster-js/core";
+import { bootstrap, Module } from "@monster-js/core/module";
+import { render } from "./render";
 
-export function componentTester<T>(component: { new(...args: any): T }, options: ModuleConfigInterface = {}) {
-    const fakeModule = class {};
-    const componentClass: ComponentInterface = component as any;
+export function componentTester<T>(component: FunctionComponent, options: Omit<Omit<Module, 'root'>, 'exports'> = {}) {
 
-    Module({
+    bootstrap({
         ...options,
-        root: componentClass
-    })(fakeModule);
-    bootstrapModule(fakeModule);
+        root: component
+    });
 
-    const selector = getSelector(componentClass);
+    const selector = getSelector(component);
 
     return {
         selector,
-        render: (): RenderReturnInterface<T> => {
-            const defined = customElements.get(selector);
-            const instance: ComponentWrapperInstanceInterface = (new defined(true) as any);
-            document.body.appendChild(instance);
-            return {
-                queryAll: (query: string) => instance.querySelectorAll(query),
-                query: <T = HTMLElement>(query: string): T => instance.querySelector(query) as any,
-                host: instance,
-                element: instance.element,
-                component: instance.componentInstance as any,
-                detectChanges: () => instance.changeDetection.__evaluate()
-            };
-        }
+        render: () => render(component)
     };
 }
