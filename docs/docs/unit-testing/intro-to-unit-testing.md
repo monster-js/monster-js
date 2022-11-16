@@ -28,16 +28,16 @@ An example of this test files can be found in a component folder when we generat
 greeting
     ├── greeting.component.tsx
     ├── greeting.component.scss
-    └── greeting.spec.ts
+    └── greeting.component.spec.ts
 ```
 
 Here is an example of a working unit test for a component.
 
 ```typescript
-import { Greeting } from './greeting.component';
+import { greeting } from './greeting.component';
 import { createTester } from '@monster-js/tester';
 
-const tester = createTester(Greeting);
+const tester = createTester(greeting);
 
 it('should create a component', function() {
     const { host, element, component, shadowRoot } = tester.createComponent();

@@ -8,7 +8,7 @@ Testing our MonsterJS components can help us check that our components are worki
 MonsterJS provides a testing tools found in `@monster-js/tester` package.
 These tools can help us validate that all our components are performing as expected.
 
-## createTester
+## The createTester function
 
 `import { createTester } from '@monster-js/tester'`
 
@@ -17,10 +17,10 @@ The `createTester` function helps us to create a tester instance based on the pr
 Example.
 
 ```typescript
-import { Greeting } from './greeting.component';
+import { greeting } from './greeting.component';
 import { createTester } from '@monster-js/tester';
 
-const tester = createTester(Greeting);
+const tester = createTester(greeting);
 ```
 
 The `createTester` function has two arguments.
@@ -34,19 +34,19 @@ First is the component that we want to create a tester instance and second is an
 Example.
 
 ```typescript
-import { Greeting } from './greeting.component';
-import { GreetingChild } from './greeting-child.component';
+import { greeting } from './greeting.component';
+import { greetingChild } from './greeting-child.component';
 import { createTester } from '@monster-js/tester';
 
-const tester = createTester(Greeting, {
-    components: [GreetingChild],
+const tester = createTester(greeting, {
+    components: [greetingChild],
     externalComponents: ['app-external-component']
 });
 ```
 
 Child components that are not needed to be tested can be registered as external component.
 
-## tester.createComponent
+## The tester.createComponent function
 
 After creating a tester instance, we can now call the `createComponent` method to build the component and return an object that contains the following properties.
 
@@ -60,10 +60,10 @@ After creating a tester instance, we can now call the `createComponent` method t
 Example.
 
 ```typescript
-import { Greeting } from './greeting.component';
+import { greeting } from './greeting.component';
 import { createTester } from '@monster-js/tester';
 
-const tester = createTester(Greeting);
+const tester = createTester(greeting);
 
 it('should create a component', function() {
     const { host, element, component, shadowRoot } = tester.createComponent();
@@ -74,7 +74,7 @@ it('should create a component', function() {
 });
 ```
 
-## parseComponent
+## The parseComponent function
 
 `import { parseComponent } from '@monster-js/tester'`
 
@@ -84,12 +84,12 @@ If the element is not a component, it will throw an error.
 Example.
 
 ```typescript
-import { Greeting } from './greeting.component';
-import { GreetingChild } from './greeting-child.component';
+import { greeting } from './greeting.component';
+import { greetingChild } from './greeting-child.component';
 import { createTester, parseComponent } from '@monster-js/tester';
 
-const tester = createTester(Greeting, {
-    components: [GreetingChild]
+const tester = createTester(greeting, {
+    components: [greetingChild]
 });
 
 it('should have the child component', function() {
@@ -103,7 +103,7 @@ it('should have the child component', function() {
 });
 ```
 
-## render
+## The render function
 
 `import { render } from '@monster-js/tester'`
 
@@ -112,16 +112,16 @@ This will render the component that is already defined using `customElement.defi
 Example.
 
 ```typescript
-import { Greeting } from './greeting.component';
-import { GreetingChild } from './greeting-child.component';
+import { greeting } from './greeting.component';
+import { greetingChild } from './greeting-child.component';
 import { createTester, render } from '@monster-js/tester';
 
-const tester = createTester(Greeting, {
-    components: [GreetingChild]
+const tester = createTester(greeting, {
+    components: [greetingChild]
 });
 
 it('should be able to render child component', function() {
-    const { host, element, component, shadowRoot } = render(GreetingChild);
+    const { host, element, component, shadowRoot } = render(greetingChild);
     expect(host).toBeTruthy();
     expect(element).toBeTruthy();
     expect(component).toBeTruthy();
@@ -129,7 +129,7 @@ it('should be able to render child component', function() {
 });
 ```
 
-## fireEvent
+## The fireEvent function
 
 `import { fireEvent } from '@monster-js/tester'`
 
@@ -139,9 +139,9 @@ Example.
 
 ```typescript
 import { fireEvent, createTester } from '@monster-js/tester';
-import { Counter } from 'counter.component';
+import { counter } from './counter.component';
 
-const tester = createTester(Counter);
+const tester = createTester(counter);
 
 it('should increment the counter when button is clicked', function() {
     const { element } = tester.createComponent();
@@ -159,7 +159,7 @@ The `fireEvent` function has the following arguments.
 | element | Element | That target html element of the event we want to fire. |
 | eventType | Element | That target html element of the event we want to fire. |
 
-## inputText
+## The inputText function
 
 `import { inputText } from '@monster-js/tester'`
 
@@ -169,9 +169,9 @@ Example.
 
 ```typescript
 import { inputText, createTester } from '@monster-js/tester';
-import { Counter } from 'counter.component';
+import { counter } from './counter.component';
 
-const tester = createTester(Counter);
+const tester = createTester(counter);
 
 it('should display the inputted text to text holder', function() {
     const { element } = tester.createComponent();
@@ -188,9 +188,9 @@ Example.
 
 ```typescript
 import { inputText, createTester } from '@monster-js/tester';
-import { Counter } from 'counter.component';
+import { counter } from './counter.component';
 
-const tester = createTester(Counter);
+const tester = createTester(counter);
 
 it('should display the inputted text to text holder', async function() {
     const { element } = tester.createComponent();
@@ -209,7 +209,7 @@ The arguments of `inputText(element, text, delay)` are the following.
 | text | string | The text that will be inputted in the element. |
 | delay | number | The delay of the input event for the next character when typing. |
 
-## mockInjection
+## The mockInjection function
 
 `import { mockInjection } from '@monster-js/tester'`
 
@@ -223,14 +223,14 @@ So we use a mock for this scenario.
 Example.
 
 ```typescript
-import { Greeting } from './greeting.component';
+import { greeting } from './greeting.component';
 import { GreetingService } from './greeting.service';
 import { createTester, mockInjection } from '@monster-js/tester';
 
-const tester = createTester<Greeting>(Greeting);
+const tester = createTester<greeting>(greeting);
 
 it('should display message from mock service', function() {
-    mockInjection(Greeting, GreetingService, {
+    mockInjection(greeting, GreetingService, {
         getMessage: () => 'Mock Service Message'
     });
     const { element } = tester.createComponent();
@@ -244,18 +244,20 @@ The `mockInjection` function will work on any class injected to the component an
 The `mockInjection` has three arguments.
 First is the component, second is the injected class, and third is the mock object.
 
-## clearInjectionMocks
+## The clearInjectionMocks function
 
 `import { clearInjectionMocks } from '@monster-js/tester'`
 
 This function allows us to remove all the mock data in our dependency injection container made by `mockInjection` function.
 
+Example.
+
 ```typescript
-import { Greeting } from './greeting.component';
+import { greeting } from './greeting.component';
 import { clearInjectionMocks } from '@monster-js/tester';
 
 it('should be able to test from original service', function() {
-    clearInjectionMocks(Greeting);
+    clearInjectionMocks(greeting);
     ...
 });
 ```
