@@ -1,5 +1,6 @@
-import { Directive } from '@monster-js/core';
+import { directive, AllDirectivesArg } from '@monster-js/core';
 
-@Directive('__DirectiveNameKebabCase__')
-export class __DirectiveNameCamelCase__Directive {
+export function __DirectiveNameCamelCase__(arg: AllDirectivesArg) {
 }
+
+directive(__DirectiveNameCamelCase__, '__DirectiveNameKebabCase__');

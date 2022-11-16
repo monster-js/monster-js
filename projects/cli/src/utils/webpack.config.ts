@@ -10,10 +10,8 @@ const DEFAULT_OUTPUT = 'dist';
 export const WebpackConfig = (env: any, args: WebpackConfigArgsInterface = {}) => {
 
 
-    let environment: string = 'src/environments/environment.ts';
-    if (env.environment) {
-        environment = `src/environments/environment.${env.environment}.ts`;
-    }
+    let environment: string = "src/environments/environment.ts";
+    if (env.environment) environment = `src/environments/environment.${env.environment}.ts`;
 
 
     return {
@@ -48,9 +46,18 @@ export const WebpackConfig = (env: any, args: WebpackConfigArgsInterface = {}) =
         module: {
             rules: [
                 {
-                    test: /(\.scss|\.sass)$/i,
+                    test: /\.s[ac]ss$/i,
                     use: [
-                        require.resolve('style-loader'),
+                        {
+                            loader: require.resolve('style-loader'),
+                            options: {
+                                injectType: "lazyStyleTag",
+                                insert: function (element: HTMLElement, options: any) {
+                                    const parent = options.target || document.head;
+                                    parent.appendChild(element);
+                                },
+                            },
+                        },
                         require.resolve('css-loader'),
                         require.resolve('@monster-js/transformer/css'),
                         require.resolve('sass-loader'),
@@ -59,27 +66,19 @@ export const WebpackConfig = (env: any, args: WebpackConfigArgsInterface = {}) =
                     exclude: [path.resolve(process.cwd(), 'src/assets')]
                 },
                 {
-                    test: /\.(ts|tsx)$/i,
-                    use: {
-                        loader: require.resolve('babel-loader'),
-                        options: {
-                            presets: [
-                                require.resolve("@babel/preset-typescript")
-                            ],
-                            plugins: [
-                                require.resolve("babel-plugin-transform-typescript-metadata"),
-                                require.resolve("@monster-js/transformer/jsx"),
-                                [require.resolve("@babel/plugin-proposal-decorators"), { "legacy": true }],
-                                require.resolve("@babel/plugin-proposal-class-properties"),
-                            ]
-                        }
-                    }
+                    test: /\.tsx$/,
+                    use: require.resolve("@monster-js/transformer")
+                },
+                {
+                    test: /\.tsx?$/,
+                    use: require.resolve("ts-loader"),
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|jpeg|ico)$/i,
                     type: 'asset',
-                },
-            ],
+                }
+            ]
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],

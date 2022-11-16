@@ -11,7 +11,7 @@
     "lint": "tsc --noEmit -p .",
     "build": "rm -rf ./dist && tsc --project . && npm run copy:assets",
     "watch": "npm run build && npm run lint && tsc --watch --project .",
-    "copy:assets": "ncp ./src/assets ./dist/src/assets"
+    "copy:assets": "ncp ./src/assets ./dist/src/assets && ncp ../starter-app ./dist/src/assets/starter-app && rm -rf ./dist/src/assets/starter-app/.git"
   },
   "author": "Darius Bualan Jr.",
   "publishConfig": {

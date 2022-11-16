@@ -10,7 +10,7 @@
   "scripts": {
     "update-readme": "ncp ./packages/docs/docs/getting-started/what-is-monster-js.mdx ./README.md",
     "update-submodules": "git submodule update --recursive --remote",
-    "build-all": "yarn workspace @monster-js/core build && yarn workspace @monster-js/router build && yarn workspace @monster-js/store build"
+    "build-all": "yarn workspace @monster-js/cli build && yarn workspace @monster-js/core build && yarn workspace @monster-js/router build && yarn workspace @monster-js/store build"
   },
   "engines": {
     "node": "^14.15.0 || >=16.10.0"
@@ -21,6 +21,8 @@
     "@babel/traverse": "^7.20.1",
     "@types/commander": "^2.12.2",
     "@types/jasmine": "^4.3.0",
+    "@types/karma": "^6.3.3",
+    "@types/ncp": "^2.0.5",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.2",
     "jasmine": "^4.5.0",
@@ -28,6 +30,7 @@
     "karma-chrome-launcher": "^3.1.1",
     "karma-jasmine": "^5.1.0",
     "karma-typescript": "^5.5.3",
+    "ncp": "^2.0.0",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
