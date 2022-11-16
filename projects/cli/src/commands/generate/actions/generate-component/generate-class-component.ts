@@ -24,7 +24,7 @@ export function generateClassComponent(name: string) {
 
 
     // if not, create the files
-    const camelCaseName = kebabToCamelCase(`-${baseName}`);
+    const camelCaseName = kebabToCamelCase(baseName);
     const logic = readFile(paths.component)
         .replace(/__ComponentNameCamelCase__/g, camelCaseName)
         .replace(/__ComponentNameKebabCase__/g, camelToKebab(baseName));

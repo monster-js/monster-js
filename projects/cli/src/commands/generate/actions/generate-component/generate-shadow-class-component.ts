@@ -24,7 +24,7 @@ export function generateShadowClassComponent(name: string, shadowMode: string) {
 
 
     // if not, create the files
-    const camelCaseName = kebabToCamelCase(`-${baseName}`);
+    const camelCaseName = kebabToCamelCase(baseName);
     const logic = readFile(paths.shadowComponent)
         .replace(/__ComponentNameCamelCase__/g, camelCaseName)
         .replace(/__SHADOW_MODE__/g, shadowMode)

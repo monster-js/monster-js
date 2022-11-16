@@ -29,7 +29,7 @@ export function generatePipe(name: string, options: ObjectInterface) {
     }
 
     // if not, create the files
-    const camelCaseName = kebabToCamelCase(`-${baseName}`);
+    const camelCaseName = kebabToCamelCase(baseName);
     const logic = readFile(paths.pipe)
         .replace(/__PipeNameKebabCase__/g, lowercaseFirstLetter(camelCaseName))
         .replace(/__PipeNameCamelCase__/g, camelCaseName);

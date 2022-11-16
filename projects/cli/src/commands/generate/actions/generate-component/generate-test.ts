@@ -24,7 +24,7 @@ export function generateComponentTest(name: string) {
 
 
     // if not, create the files
-    const camelCaseName = kebabToCamelCase(`-${baseName}`);
+    const camelCaseName = kebabToCamelCase(baseName);
     const test = readFile(paths.componentTest)
         .replace(/__ComponentNameCamelCase__/g, camelCaseName)
         .replace(/__ComponentNameKebabCase__/g, camelToKebab(baseName));

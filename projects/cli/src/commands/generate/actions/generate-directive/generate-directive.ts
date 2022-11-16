@@ -29,7 +29,7 @@ export function generateDirective(name: string, options: ObjectInterface) {
     }
 
     // if not, create the files
-    const camelCaseName = kebabToCamelCase(`-${baseName}`);
+    const camelCaseName = kebabToCamelCase(baseName);
     const logic = readFile(paths.directive)
         .replace(/__DirectiveNameKebabCase__/g, lowercaseFirstLetter(camelCaseName))
         .replace(/__DirectiveNameCamelCase__/g, camelCaseName);
