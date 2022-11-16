@@ -1,4 +1,4 @@
-export interface ServiceClass {
+export interface ProviderClass {
     new(...args: any[]): any;
     singleton?: boolean;
 }

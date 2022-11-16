@@ -47,7 +47,7 @@ Before we can use a service we need to register it in our component.
 Example.
 
 ```typescript
-import { component, services } from '@monster-js/core';
+import { component, providers } from '@monster-js/core';
 import { GreetingService  } from './greeting.service';
 
 export function greeting() {
@@ -55,25 +55,7 @@ export function greeting() {
 }
 
 component(greeting, 'app-greeting');
-services(greeting, GreetingService);
-```
-
-Services can also have config that is received using the `onReceiveConfig` service hook after initialization.
-
-Example.
-
-```typescript
-import { component, services } from '@monster-js/core';
-import { GreetingService } from './greeting.service';
-
-export function greeting() {
-    return <h1>Greeting</h1>
-}
-
-const config = { message: 'Hello World' };
-
-component(greeting, 'app-greeting')
-services(greeting, [GreetingService, config])
+providers(greeting, GreetingService);
 ```
 
 ## Register service in module
@@ -88,24 +70,7 @@ import { Module } from '@monster-js/core/module';
 import { GreetingService } from './greeting.service';
 
 export const GreetingModule: Module = {
-    services: [GreetingService]
-};
-```
-
-Services can also have config that is received using the `onReceiveConfig` service hook after initialization.
-
-Example.
-
-```typescript
-import { Module } from '@monster-js/core/module';
-import { GreetingService } from './greeting.service';
-
-const config = { message: 'Hello World' };
-
-export const GreetingModule: Module = {
-    services: [
-        [GreetingService, config]
-    ]
+    providers: [GreetingService]
 };
 ```
 
@@ -116,15 +81,8 @@ If we want our service to be available to all our components inside our applicat
 Example.
 
 ```typescript
-import { globalService } from '@monster-js/core';
-import { GreetingService, config } from './greeting.service';
+import { globalProvider } from '@monster-js/core';
+import { GreetingService } from './greeting.service';
 
-globalService(GreetingService, config);
+globalProvider(GreetingService);
 ```
-
-In the example above, we register the service using the `globalService(<service>, <service_config>)` function.
-
-| Params | Description |
-| --- | --- |
-| GreetingService | The service we want to register in global container |
-| config | An optional parameter. Any type of data that serves as a configuration of the service after initialization. Received using the `onReceiveConfig` service hook. |

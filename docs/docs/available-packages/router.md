@@ -200,7 +200,7 @@ Importing router module to our module will give us all the functionalities of th
 export const RouterModule: Module = {
     exports: {
         directives: [routerDirective],
-        services: [RouterService],
+        providers: [RouterService],
         components: [route]
     }
 };

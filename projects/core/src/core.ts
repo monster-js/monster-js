@@ -25,8 +25,6 @@ export { attrNumber } from "./observed-attributes/attr-number";
  * TODO : service providedIn: 'root'
  */
 export { Service } from "./service/service.decorator";
-export { services } from "./service/services";
-export { globalService } from "./service/global-service";
 
 
 /**
@@ -43,7 +41,6 @@ export { watchDirective } from "./directive/utils/watch-directive";
 
 /**
  * Pipe
- * TODO : lowercasePipe and uppercasePipe
  */
 export { pipe } from "./pipe/pipe";
 export { pipes } from "./pipe/pipes";
@@ -56,6 +53,8 @@ export { uppercase } from "./pipe/available-pipes/uppercase.pipe";
  */
 export { inject } from "./dependency-injection/inject";
 export { Container } from "./dependency-injection/container";
+export { globalProvider } from "./dependency-injection/global-provider";
+export { providers } from "./dependency-injection/providers";
 
 
 /**
@@ -103,5 +102,3 @@ export { attributeChanged } from "./hook/attribute-changed";
 export { onChangeDetection } from "./hook/on-change-detection";
 export { onPropsChange } from "./hook/on-props-change";
 export { onViewChange } from "./hook/on-view-change";
-export { OnReceiveConfig } from './hook/interfaces/on-receive-config.interface';
-export { OnReceiveParent } from './hook/interfaces/on-receive-parent.interface';

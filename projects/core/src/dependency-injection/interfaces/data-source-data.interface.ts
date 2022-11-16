@@ -1,6 +1,6 @@
 export interface DataSourceData {
     singleton?: boolean;
     instance?: any;
-    config?: any;
-    useValue?: { [key: string]: any; };
+    useValue?: any;
+    useClass?: { new(...args: any[]): any; };
 }

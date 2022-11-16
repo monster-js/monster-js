@@ -30,12 +30,12 @@ In the example above, the `HttpService` can now use all the implemented function
 
 ### Register HttpService to component
 
-To register the HttpService to a component we just need to pass it to the component's services function like any other service.
+To register the HttpService to a component we just need to pass it to the component's providers function like any other service.
 
 Example.
 
 ```typescript
-import { component, services } from '@monster-js/core';
+import { component, providers } from '@monster-js/core';
 import { HttpService } from './http.service';
 
 export function greeting() {
@@ -43,7 +43,7 @@ export function greeting() {
 }
 
 component(greeting, 'app-greeting');
-services(greeting, HttpService);
+providers(greeting, HttpService);
 ```
 
 :::info
@@ -52,7 +52,7 @@ It is recommended to use the HttpService inside another service and not directly
 
 ### Register HttpService to module
 
-To register the HttpService to a module we just need to pass it to it's services array.
+To register the HttpService to a module we just need to pass it to it's providers array.
 
 Example.
 
@@ -61,7 +61,7 @@ import { Module } from '@monster-js/core/module';
 import { HttpService } from './http.service';
 
 export const AppModule: Module = {
-    services: [HttpService]
+    providers: [HttpService]
 };
 ```
 

@@ -2,7 +2,7 @@ import { FunctionComponent } from "../component/interfaces/function-component.in
 import { defineComponent } from "../component/define-component";
 import { ExtendedModule } from "./interfaces/extended-module.interface";
 import { pipes } from '../pipe/pipes';
-import { services } from '../service/services';
+import { providers } from '../dependency-injection/providers';
 import { directives } from '../directive/directives';
 
 function defineModuleComponent(component: FunctionComponent, module: ExtendedModule) {
@@ -15,8 +15,8 @@ function defineModuleComponent(component: FunctionComponent, module: ExtendedMod
     const exportedPipes = module.childrenExports.pipes;
     pipes(component, ...(exportedPipes || []), ...(module.pipes || []));
 
-    const exportedServices = module.childrenExports.services;
-    services(component, ...(exportedServices || []), ...(module.services || []));
+    const exportedProviders = module.childrenExports.providers;
+    providers(component, ...(exportedProviders || []), ...(module.providers || []));
 
     const exportedDirectives = module.childrenExports.directives;
     directives(component, ...(exportedDirectives || []), ...(module.directives || []));
@@ -58,7 +58,7 @@ export const bootstrap = (module: ExtendedModule): ExtendedModule => {
     module.dataSource = { data: new Map(), name: null };
     module.childrenExports = {
         directives: [],
-        services: [],
+        providers: [],
         components: [],
         pipes: []
     };

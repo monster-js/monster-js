@@ -455,7 +455,7 @@ This error will be addressed in later releases.
 
 ## Component services
 
-To use services inside a component we need to register the services to the component using `services` function.
+To use services inside a component we need to register the services to the component using `providers` function.
 After we register the service, we can now use it inside the component's logic and view.
 We can use the `inject` function to inject the service to our component.
 
@@ -464,7 +464,7 @@ Please see [Services](./services) for more information about services.
 Example.
 
 ```typescript
-import { component, services, inject } from '@monster-js/core';
+import { component, providers, inject } from '@monster-js/core';
 import { GreetingService } from './greeting.service';
 
 export function greeting() {
@@ -475,7 +475,7 @@ export function greeting() {
 }
 
 component(greeting, 'app-greeting');
-services(greeting, GreetingService);
+providers(greeting, GreetingService);
 ```
 
 Services can also be registered in a module so that it will be available to all the components registered in the module.

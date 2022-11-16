@@ -25,8 +25,7 @@ export class Container {
          */
         if (data.singleton)
             if (!this.getSource(target)) this.dataSource.data.set(target, data);
-        else
-            this.dataSource.data.set(target, data);
+        else this.dataSource.data.set(target, data);
 
 
     }
@@ -52,23 +51,16 @@ export class Container {
     }
 
 
-    private triggerHooks(instance: any, sourceData: DataSourceData, parent?: any) {
-        /**
-         * instance will receive the custom parent if there is a custom parent
-         * and the instance has onReceiveParent hook
-         */
-        instance.onReceiveParent && typeof instance.onReceiveParent === 'function' && parent && instance.onReceiveParent(parent);
-
-
-        /**
-         * Set instance config if there is a config data
-         */
-        sourceData.config && instance.onReceiveConfig && typeof instance.onReceiveConfig === 'function' && instance.onReceiveConfig(sourceData.config.config, this);
-    }
-
     public resolve<T = any>(target: new (...args: any[]) => T, parent?: any): T {
 
         const sourceData = this.getSourceData(target);
+
+
+        /**
+         * Check if there is a useClass data
+         * if yes, then set target = useClass
+         */
+        target = sourceData.useClass || target;
 
 
         /**
@@ -77,18 +69,14 @@ export class Container {
         if (sourceData.singleton && sourceData.instance) return sourceData.instance;
 
 
-        const params: any[] = Reflect.getMetadata('design:paramtypes', target) || [];
-        const paramsInstances: any[] = params.map(item => this.resolve(item));
-        const instance = new target(...paramsInstances);
+        let instance = sourceData.useValue;
 
+        if (!sourceData.useValue) {
+            const params: any[] = Reflect.getMetadata('design:paramtypes', target) || [];
+            const paramsInstances: any[] = params.map(item => this.resolve(item));
+            instance = new target(...paramsInstances);
+        }
 
-        /**
-         * injected dependency will receive the parent instance
-         */
-        paramsInstances.forEach(item => item.onReceiveParent && typeof item.onReceiveParent === 'function' && item.onReceiveParent(instance));
-
-
-        this.triggerHooks(instance, sourceData, parent);
         this.setupSingleton(instance, target, sourceData);
 
         return instance;

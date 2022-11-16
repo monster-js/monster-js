@@ -6,7 +6,7 @@ import { RouterService } from "./router.service";
 export const RouterModule: Module = {
     exports: {
         directives: [routerDirective],
-        services: [RouterService],
+        providers: [RouterService],
         components: [route]
     }
 };

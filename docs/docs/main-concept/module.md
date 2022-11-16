@@ -95,7 +95,7 @@ import { Module } from '@monster-js/core/module';
 import { GreetingService } from './greeting.service';
 
 export const AppModule: Module = {
-    services: [GreetingService]
+    providers: [GreetingService]
 };
 ```
 
@@ -112,7 +112,7 @@ import { GreetingService } from './greeting.service';
 
 export const AppModule: Module = {
     exports: {
-        services: [GreetingService]
+        providers: [GreetingService]
     }
 };
 ```
