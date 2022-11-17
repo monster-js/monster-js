@@ -1,13 +1,13 @@
-import { createComponentTester } from '@monster-js/tester';
+import { componentTester } from '@monster-js/tester';
 import { __ComponentNameCamelCase__ } from './__ComponentNameKebabCase__.component';
 
 describe('__ComponentNameKebabCase__.component', function() {
 
-    const { render } = createComponentTester<__ComponentNameCamelCase__>(__ComponentNameCamelCase__);
+    const { render } = componentTester(__ComponentNameCamelCase__);
 
     it('should create the component', function() {
-        const { component } = render();
-        expect(component).toBeTruthy();
+        const { host } = render();
+        expect(host).toBeTruthy();
     });
 
 });
