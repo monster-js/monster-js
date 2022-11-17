@@ -39,7 +39,7 @@ function setupChildModules(module: ExtendedModule) {
         const mod = bootstrap(item);
         const setExports = (key: string) => module.childrenExports[key].push(...(mod.exports[key] || []));
         setExports('directives');
-        setExports('services');
+        setExports('providers');
         setExports('components');
         setExports('pipes');
     });
