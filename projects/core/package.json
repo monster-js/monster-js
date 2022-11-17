@@ -1,0 +1,52 @@
+{
+  "name": "@monster-js/core",
+  "version": "1.5.0",
+  "main": "dist/core.js",
+  "description": "Simple but powerful JavaScript framework.",
+  "author": "Darius Bualan Jr.",
+  "exports": {
+    ".": "./dist/core.js",
+    "./polyfill": "./dist/polyfill.js",
+    "./reflect": "./dist/reflect.js",
+    "./module": "./dist/module.js",
+    "./http": "./dist/http.js"
+  },
+  "scripts": {
+    "lint": "tsc --noEmit -p .",
+    "build": "rm -r dist && tsc -p . && ls -lh dist",
+    "watch": "tsc --watch -p .",
+    "sonarqube": "sonar-scanner.bat -D\"sonar.projectKey=monster-js\" -D\"sonar.sources=.\" -D\"sonar.host.url=http://localhost:9000\" -D\"sonar.login=sqp_24f398d9f7ad52d1642d403c44306fad2b1cb79c\"",
+    "test": "karma start"
+  },
+  "keywords": [
+    "javascript",
+    "monster js",
+    "framework",
+    "web components",
+    "components"
+  ],
+  "typesVersions": {
+    "*": {
+      "polyfill": [
+        "./dist/polyfill.d.ts"
+      ],
+      "reflect": [
+        "./dist/reflect.d.ts"
+      ],
+      "module": [
+        "./dist/module.d.ts"
+      ],
+      "http": [
+        "./dist/http.d.ts"
+      ]
+    }
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monster-js/core"
+  }
+}

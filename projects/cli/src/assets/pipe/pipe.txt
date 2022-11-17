@@ -1,0 +1,7 @@
+import { pipe } from '@monster-js/core';
+
+export function __PipeNameCamelCase__(value: any, args: any[] = []) {
+    return value;
+}
+
+pipe(__PipeNameCamelCase__, '__PipeNameKebabCase__');
