@@ -1,4 +1,4 @@
-import { AllDirectivesArg, inject, onDestroy, watchDirective } from "@monster-js/core";
+import { afterViewInit, AllDirectivesArg, inject, onDestroy, onInit, watchDirective } from "@monster-js/core";
 import { fromEvent, Subscription } from 'rxjs';
 import { RouterService } from "./router.service";
 
@@ -8,6 +8,10 @@ export function routerDirective(args: AllDirectivesArg) {
     const allDirectivesParam: AllDirectivesArg = args;
     const routerService = inject(args.component, RouterService);
     const { link } = args.directives;
+
+    afterViewInit(args.component, () => {
+        active();
+    });
 
     onDestroy(args.component, () => {
         subscriptions.forEach(item => item.unsubscribe());
@@ -26,14 +30,12 @@ export function routerDirective(args: AllDirectivesArg) {
         }
     }
 
-    active();
-
     const checkRouterLinkActive = () => {
         const { element, directives } = allDirectivesParam;
         const href = directives["link"].get();
-        const valueCaller = directives["linkActive"].get;
+        const valueCaller = directives["linkActive"]?.get || (() => '');
         const pathname = location.pathname;
-        const linkActiveExactCaller = directives["linkActiveExact"].get;
+        const linkActiveExactCaller = directives["linkActiveExact"]?.get;
         let exact = false;
 
         if (linkActiveExactCaller) {
