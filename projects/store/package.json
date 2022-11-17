@@ -1,6 +1,6 @@
 {
   "name": "@monster-js/store",
-  "version": "1.4.48",
+  "version": "1.5.0",
   "main": "dist/public-apis.js",
   "description": "State management for MonsterJS framework.",
   "author": "Darius Bualan Jr.",
