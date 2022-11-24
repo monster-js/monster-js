@@ -5,28 +5,28 @@ export class BaseHttp {
 
     protected baseUrl: string = null;
 
-    protected get<T = any>(url: string, params: { [key: string]: any; } = {}, config: RequestInit = {}): HttpResponse<T> {
+    public get<T = any>(url: string, params: { [key: string]: any; } = {}, config: RequestInit = {}): HttpResponse<T> {
         return this.senderMethod(this.addUrlParams(url, params), 'GET', null, config);
     }
 
-    protected delete<T = any>(url: string, params: { [key: string]: any; } = {}, config: RequestInit = {}): HttpResponse<T> {
+    public delete<T = any>(url: string, params: { [key: string]: any; } = {}, config: RequestInit = {}): HttpResponse<T> {
         url = this.addUrlParams(url, params);
         return this.senderMethod(url, 'DELETE', null, config);
     }
 
-    protected put<T = any>(url: string, body: { [key: string]: any; }, config: CustomRequestInitInterface = {}): HttpResponse<T> {
+    public put<T = any>(url: string, body: { [key: string]: any; }, config: CustomRequestInitInterface = {}): HttpResponse<T> {
         const { params, ...newConfig } = config;
         if (params) url = this.addUrlParams(url, params);
         return this.senderMethod(url, 'PUT', body, newConfig);
     }
 
-    protected post<T = any>(url: string, body: { [key: string]: any; }, config: CustomRequestInitInterface = {}): HttpResponse<T> {
+    public post<T = any>(url: string, body: { [key: string]: any; }, config: CustomRequestInitInterface = {}): HttpResponse<T> {
         const { params, ...newConfig } = config;
         if (params) url = this.addUrlParams(url, params);
         return this.senderMethod(url, 'POST', body, newConfig);
     }
 
-    protected patch<T = any>(url: string, body: { [key: string]: any; }, config: CustomRequestInitInterface = {}): HttpResponse<T> {
+    public patch<T = any>(url: string, body: { [key: string]: any; }, config: CustomRequestInitInterface = {}): HttpResponse<T> {
         const { params, ...newConfig } = config;
         if (params) url = this.addUrlParams(url, params);
         return this.senderMethod(url, 'PATCH', body, newConfig);
