@@ -12,6 +12,7 @@ const LIST_RENDERING = 'listRendering';
 const VIEW_PROPS = 'viewProps';
 const ADD_ATTRIBUTES = 'addAttributes';
 const APPEND_CHILDREN = 'appendChildren';
+const APPEND_TEMPLATE_CHILDREN = 'appendTemplateChildren';
 
 let programPathGetter;
 const CONTEXT = {
@@ -32,6 +33,7 @@ module.exports = function (babel, elKey) {
       },
       JSXElement(path) {
         
+        const elementName = path.node.openingElement.name.name;
         const events = [];
         const props = [];
         const listRendering = {};
@@ -102,7 +104,7 @@ module.exports = function (babel, elKey) {
         }
         
         addAttributes(path, attributes);
-        addChildren(path, path.node.children);
+        addChildren(path, path.node.children, elementName);
         
         applyProps(path, props);
         addEvent(path, events);
@@ -518,15 +520,16 @@ function transformElement(path, isAttribute, elKey) {
   }
 }
 
-function addChildren(path, children) {
+function addChildren(path, children, elementName) {
   if (children.length > 0) {
-    addImport(APPEND_CHILDREN);
+    const appendName = elementName === 'template' ? APPEND_TEMPLATE_CHILDREN : APPEND_CHILDREN;
+    addImport(appendName);
     
     const originalNode = {...path.node};
     path.node.type = 'CallExpression';
     path.node.callee = {
       type: 'Identifier',
-      name: APPEND_CHILDREN
+      name: appendName
     };
     path.node.arguments = [
       originalNode,
@@ -700,5 +703,6 @@ function transformBinaryExpression(path) {
     ];
   }
 }
+
 
 
