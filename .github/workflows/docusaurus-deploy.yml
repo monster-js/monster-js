@@ -8,19 +8,13 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
+  deploy:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cd docs && git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} && npm install && npm run deploy-page
+      - uses: actions/checkout@v3
+      - uses: redkubes/docusaurus-deploy-action@v1
+        with:
+          source-folder: docs
+          git-user: mfpjayb
+          git-password: ${{ secrets.GITHUB_TOKEN }}
+          deployment-branch: gh-pages
