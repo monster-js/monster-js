@@ -20,6 +20,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm install @monster-js/cli -g
-      - run: npm test
+      - run: yarn install
+      - run: npm install -g @monster-js/cli
+      - run: yarn test
