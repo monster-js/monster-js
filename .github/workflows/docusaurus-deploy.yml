@@ -16,5 +16,5 @@ jobs:
         with:
           source-folder: docs
           git-user: mfpjayb
-          git-password: ${{ secrets.GITHUB_TOKEN }}
+          git-password: ${{ secrets.PASSWORD }}
           deployment-branch: gh-pages
