@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "tsc --noEmit -p .",
-    "build": "rm -r dist && tsc -p . && ls -lh dist",
+    "build": "rm -rf dist && tsc -p . && ls -lh dist",
     "watch": "tsc --watch -p ."
   },
   "peerDependencies": {
