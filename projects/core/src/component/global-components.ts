@@ -7,14 +7,22 @@ class GlobalComponentsHolder {
     private static instance: GlobalComponentsHolder;
 
     public components: { [key: string]: any; } = {};
+    public externalComponents: { [key: string]: any; } = {};
+
     private addReturn: GlobalComponentAddReturn = {
         addSelector: this.addSelector.bind(this),
-        addComponent: this.addComponent.bind(this)
+        addComponent: this.addComponent.bind(this),
+        addExternal: this.addExternal.bind(this)
     };
 
     constructor() {
         if (GlobalComponentsHolder.instance) return GlobalComponentsHolder.instance;
         GlobalComponentsHolder.instance = this;
+    }
+
+    public addExternal(selector: string) {
+        this.externalComponents[selector] = true;
+        return this.addReturn;
     }
 
     public addSelector(selector: string) {
@@ -25,6 +33,10 @@ class GlobalComponentsHolder {
     public addComponent(fnComponent: FunctionComponent) {
         this.components[getSelector(fnComponent)] = true;
         return this.addReturn;
+    }
+
+    public getExternal(selector: string) {
+        return this.externalComponents[selector];
     }
 
     public get(selector: string) {

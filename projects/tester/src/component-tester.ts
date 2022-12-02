@@ -1,15 +1,17 @@
-import { FunctionComponent, getSelector } from "@monster-js/core";
+import { FunctionComponent, getSelector, globalComponents } from "@monster-js/core";
 import { bootstrap, Module } from "@monster-js/core/module";
 import { render } from "./render";
 
-export function componentTester<T>(component: FunctionComponent, options: Omit<Omit<Module, 'root'>, 'exports'> = {}) {
+interface ComponentTesterOptions extends Omit<Omit<Module, 'root'>, 'exports'> {
+    externalComponents?: string[];
+}
 
-    bootstrap({
-        ...options,
-        root: component
-    });
+export function componentTester(component: FunctionComponent, options: ComponentTesterOptions = {}) {
+
+    bootstrap({ ...options, root: component });
 
     const selector = getSelector(component);
+    (options.externalComponents || []).forEach(selector => globalComponents().addExternal(selector));
 
     return {
         selector,
