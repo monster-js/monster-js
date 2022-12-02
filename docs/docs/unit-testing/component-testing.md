@@ -44,7 +44,7 @@ const tester = componentTester(greeting, {
 });
 ```
 
-Child components that are not needed to be tested can be registered as external component.
+Child components that are not needed in testing the current component should be registered as external component.
 
 ## The tester.createComponent function
 

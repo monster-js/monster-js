@@ -352,8 +352,8 @@ Example.
 import { globalComponents } from '@monster-js/core';
 
 globalComponents()
-    .addSelector('external-web-component')
-    .addSelector('another-external-web-component');
+    .addExternal('external-web-component')
+    .addExternal('another-external-web-component');
 ```
 
 It is recommended that we register the external components inside `src/index.ts` file.

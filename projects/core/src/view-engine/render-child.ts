@@ -8,6 +8,7 @@ export const renderChild = (tag: string, context: ComponentInstance): HTMLElemen
     // fakeDefinedComponents is used in router component
     if (!definedComponents.components[tag] && !(fakeDefinedComponents?.components || {})[tag]) {
         const global = globalComponents();
+        if (global.getExternal(tag)) return document.createElement(tag);
         if (!global.get(tag)) throw new Error(`The component '${tag}' is not defined in ${definedComponents.name} and is not defined as a global component.`);
     }
 
