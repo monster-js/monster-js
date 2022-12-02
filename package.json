@@ -10,6 +10,7 @@
   "scripts": {
     "update-readme": "ncp ./packages/docs/docs/getting-started/what-is-monster-js.mdx ./README.md",
     "update-submodules": "git submodule update --recursive --remote",
+    "build-all": "yarn workspace @monster-js/core build && yarn workspace @monster-js/router build && yarn workspace @monster-js/store build && yarn workspace @monster-js/tester build",
     "test": "yarn workspace @monster-js/test test"
   },
   "engines": {

@@ -22,4 +22,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
       - run: npm install -g @monster-js/cli@latest
+      - run: yarn build-all
       - run: yarn test
