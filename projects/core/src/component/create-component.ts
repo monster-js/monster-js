@@ -6,6 +6,7 @@ import { Watcher } from "../watcher/interfaces/watcher.interface";
 import { ComponentWrapper } from "./interfaces/component-wrapper.interface";
 import { DefinedComponents } from "./interfaces/defined-components.interface";
 import { FunctionComponent } from "./interfaces/function-component.interface";
+import { Style } from "./interfaces/style.interface";
 
 export const createComponent = (fnComponent: FunctionComponent) => {
     return class extends (fnComponent.config.superClass || HTMLElement) implements ComponentWrapper {
@@ -20,11 +21,14 @@ export const createComponent = (fnComponent: FunctionComponent) => {
         element: HTMLElement = null;
         changeDetectionStrategy: ChangeDetectionStrategy;
         isShadowDom: boolean = !!fnComponent.config.shadowMode;
+        #shadowRoot: ShadowRoot;
+        #styleMarker: Map<any, boolean> = new Map();
+        removeStyleCallbacks: (()=> void)[] = [];
+
         /**
          * TODO : componentShadowRoot should only be populated during testing
          */
         componentShadowRoot: ShadowRoot;
-        #shadowRoot: ShadowRoot;
 
 
         directives = fnComponent.config.directives || {};
@@ -81,8 +85,7 @@ export const createComponent = (fnComponent: FunctionComponent) => {
 
         disconnectedCallback() {
             this._hooksCaller(Hooks.onDestroy);
-            const { styles } = fnComponent.config;
-            if (styles) styles.unuse();
+            this.removeStyle();
         }
 
         adoptedCallback() {
@@ -113,13 +116,45 @@ export const createComponent = (fnComponent: FunctionComponent) => {
                 this.#shadowRoot = root;
                 this.componentShadowRoot = root;
             }
-            if (styles) this.useStyle(styles);
+            this.useStyle(styles);
 
             root.appendChild(element);
         }
 
-        useStyle(style: any): void {
-            style.use({ target: this.#shadowRoot || document.head });
+        /**
+         * @param key used to mark if pure component style is already defined
+         */
+        useStyle(style: Style, key?: any): void {
+            if (!style) return;
+
+            const target = this.#shadowRoot || document.head;
+            const { shadowMode } = fnComponent.config;
+
+            if (!shadowMode && !style.used) {
+                style.used = true;
+                const element = document.createElement('style');
+                element.innerHTML = style.styles;
+                this.removeStyleCallbacks.push(() => element.remove());
+                target.appendChild(element);
+            } else if(shadowMode) {
+                if (key) {
+                    if (this.#styleMarker.get(key)) {
+                        return;
+                    }
+                    this.#styleMarker.set(key, true);
+                    const element = document.createElement('style');
+                    element.innerHTML = style.styles;
+                    target.appendChild(element);
+                } else {
+                    const element = document.createElement('style');
+                    element.innerHTML = style.styles;
+                    target.appendChild(element);
+                }
+            }
+        }
+
+        removeStyle() {
+            this.removeStyleCallbacks.forEach(item => item());
         }
 
         hooks: { [k in Hooks]: Hook[] } = {

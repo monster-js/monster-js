@@ -48,17 +48,6 @@ export const WebpackConfig = (env: any, args: WebpackConfigArgsInterface = {}) =
                 {
                     test: /\.s[ac]ss$/i,
                     use: [
-                        {
-                            loader: require.resolve('style-loader'),
-                            options: {
-                                injectType: "lazyStyleTag",
-                                insert: function (element: HTMLElement, options: any) {
-                                    const parent = options.target || document.head;
-                                    parent.appendChild(element);
-                                },
-                            },
-                        },
-                        require.resolve('css-loader'),
                         require.resolve('@monster-js/transformer/css'),
                         require.resolve('sass-loader'),
                     ],

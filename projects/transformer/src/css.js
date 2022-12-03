@@ -24,5 +24,5 @@ module.exports = function(source) {
 
     const elCount = cacheContent[cacheName];
     const elKey = `el${elCount}`;
-    return cssTransformer(source, elKey);
+    return 'module.exports = { styles: `' + cssTransformer(source, elKey) + '` };';
 }
