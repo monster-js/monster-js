@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "commander": "^9.4.1",
-    "css-tree": "^2.2.1",
+    "css-tree": "^2.3.0",
     "rxjs": "^7.6.0"
   }
 }
