@@ -64,6 +64,7 @@ export { providers } from "./dependency-injection/providers";
 export { getSelector } from "./utils/get-selector";
 export { detectChanges } from "./utils/detect-changes";
 export { globalStyle } from "./utils/global-style";
+export { output } from "./utils/output";
 
 
 /**
