@@ -1,11 +1,11 @@
-import { Subject, fromEvent } from "rxjs";
+import { Subject } from "./utils/subject";
 import { urlResolve } from "./utils/url-resolve";
 
 export class InternalService {
     private static instance: InternalService;
 
-    public onRouteChange: Subject<any> = new Subject();
-    public evaluate: Subject<any> = new Subject<any>();
+    public onRouteChange: Subject = new Subject();
+    public evaluate: Subject = new Subject();
 
     constructor() {
         if (InternalService.instance) {
@@ -52,9 +52,9 @@ export class InternalService {
         window.history.pushState = this.overwriteHistoryStateFunctions('pushState');
         window.history.replaceState = this.overwriteHistoryStateFunctions('replaceState');
 
-        fromEvent(window, 'popstate').subscribe(event => this.runEvaluate(event));
-        fromEvent(window, 'pushState').subscribe(event => this.runEvaluate(event));
-        fromEvent(window, 'replaceState').subscribe(event => this.runEvaluate(event));
+        window.addEventListener('popstate', event => this.runEvaluate(event))
+        window.addEventListener('pushState', event => this.runEvaluate(event))
+        window.addEventListener('replaceState', event => this.runEvaluate(event))
     }
 
     private overwriteHistoryStateFunctions(type: keyof History): () => void {
