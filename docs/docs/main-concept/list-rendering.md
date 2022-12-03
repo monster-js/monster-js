@@ -44,7 +44,6 @@ There are three `<p>` tags since there are three elements inside the variable `a
 `v:for-item="<item name>"`
 
 It allows developers to set the variable name of the list item and display it in view.
-If no list item directive is provided, it is `$item` by default.
 
 Example.
 
@@ -61,7 +60,7 @@ export function greeting() {
 component(greeting, 'app-greeting')
 ```
 
-:::note
+:::danger
 The codes above might throw a typescript linter error `Cannot find name 'listItem'` since `listItem` is not defined.
 A temporary fix for this is to declare the list item above our component and below the import statements list the following.
 
@@ -83,7 +82,6 @@ The example code above will generate a list of elements that looks like the foll
 `v:for-index="<index name>"`
 
 It allows developers to set the variable name of the list item index.
-If no list index directive is provided, it is `$index` by default.
 
 Example.
 
@@ -100,7 +98,7 @@ export function greeting() {
 component(greeting, 'app-greeting');
 ```
 
-:::note
+:::danger
 The codes above might throw a typescript linter error `Cannot find name 'listIndex'` since `listIndex` is not defined.
 A temporary fix for this is to declare the list item above our component and below the import statements list the following.
 
