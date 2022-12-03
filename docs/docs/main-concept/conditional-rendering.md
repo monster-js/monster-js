@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8.2
+sidebar_position: 8.3
 ---
 
 # Conditional rendering
