@@ -27,5 +27,9 @@ export const pureComponent = (
     context.__wrapper.watchers.push(watcher);
 
     element = component.bind(context)(watcher.val);
+
+    if ((component as any).config.styles)
+        setTimeout(() => context.__wrapper.useStyle((component as any).config.styles));
+
     return element;
 }
