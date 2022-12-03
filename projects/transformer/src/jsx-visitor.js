@@ -631,7 +631,7 @@ function addAttributes(path, attributes) {
       properties: attributes.map(attr => {
         return {
           type: 'ObjectProperty',
-          key: formatObjectKey(attr.name.name),
+          key: formatObjectKey(attr.name.name === 'className' ? 'class' : attr.name.name),
           value: attr.value
         }
       })
@@ -705,7 +705,7 @@ function transformAttributeBindings({node}, attributeBindings) {
         properties: attributeBindings.map(binding => {
           return {
             type: 'ObjectProperty',
-            key: formatObjectKey(binding.name.name),
+            key: formatObjectKey(binding.name.name === 'className' ? 'class' : binding.name.name),
             value: {
               type: 'ArrowFunctionExpression',
               params: [],
@@ -765,6 +765,7 @@ function getListIndex() {
   listRenderingIndexCount++;
   return 'θin' + listRenderingIndexCount;
 }
+
 
 
 
