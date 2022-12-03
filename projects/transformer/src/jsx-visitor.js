@@ -15,6 +15,8 @@ const APPEND_CHILDREN = 'appendChildren';
 const APPEND_TEMPLATE_CHILDREN = 'appendTemplateChildren';
 const PURE_COMPONENT = 'pureComponent';
 let programPathGetter;
+let listRenderingIndexCount = 0;
+let listRenderingItemCount = 0;
 const CONTEXT = {
   type: 'ThisExpression'
 };
@@ -26,6 +28,8 @@ module.exports = function (babel, elKey) {
     name: "ast-transform", // not required
     visitor: {
       Program(path) {
+        listRenderingIndexCount = 0;
+        listRenderingItemCount = 0;
         programPathGetter = () => path;
       },
       JSXText(path) {
@@ -171,8 +175,8 @@ function transformListRendering(path, listRendering) {
     addImport(LIST_RENDERING);
 
     const originalNode = { ...node };
-    const forItemValue = listRendering.forItem ? listRendering.forItem.value.value : '$item';
-    const forIndexValue = listRendering.forIndex ? listRendering.forIndex.value.value : '$index';
+    const forItemValue = listRendering.forItem ? listRendering.forItem.value.value : getListItem();
+    const forIndexValue = listRendering.forIndex ? listRendering.forIndex.value.value : getListIndex();
 
     node.type = 'CallExpression';
     node.callee = {
@@ -751,6 +755,17 @@ function transformBinaryExpression(path) {
     ];
   }
 }
+
+function getListItem() {
+  listRenderingItemCount++;
+  return 'θit' + listRenderingItemCount;
+}
+
+function getListIndex() {
+  listRenderingIndexCount++;
+  return 'θin' + listRenderingIndexCount;
+}
+
 
 
 
