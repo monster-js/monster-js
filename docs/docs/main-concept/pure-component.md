@@ -27,6 +27,30 @@ export function Button() {
 }
 ```
 
+## Pure component styles
+
+We can also style pure components the same way we apply styles to a normal component using the `useStyle` function.
+Styles of pure components only applies to its element and will not affect the parent and its child components.
+
+Example.
+
+```css title="button.component.scss"
+button {
+    color: red;
+}
+```
+
+```tsx title="button.component.tsx"
+import styles from './button.component.scss';
+import { useStyle } from '@monster-js/core';
+
+export function Button() {
+    return <button>Click me</button>
+}
+
+useStyle(Button, styles);
+```
+
 ## Render pure components
 
 To render the pure component into the view we can just create a JSX element using the pure component name as the element local name.
