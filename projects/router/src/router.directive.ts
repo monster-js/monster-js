@@ -1,5 +1,5 @@
-import { afterViewInit, AllDirectivesArg, inject, onDestroy, onInit, watchDirective } from "@monster-js/core";
-import { fromEvent, Subscription } from 'rxjs';
+import { afterViewInit, AllDirectivesArg, inject, onDestroy, watchDirective } from "@monster-js/core";
+import { Subscription } from "./interfaces/subscription.interface";
 import { RouterService } from "./router.service";
 
 export function routerDirective(args: AllDirectivesArg) {
@@ -9,13 +9,13 @@ export function routerDirective(args: AllDirectivesArg) {
     const routerService = inject(args.component, RouterService);
     const { link } = args.directives;
 
-    afterViewInit(args.component, () => {
-        active();
-    });
+    afterViewInit(args.component, () => active());
 
-    onDestroy(args.component, () => {
-        subscriptions.forEach(item => item.unsubscribe());
-    }, () => args.element.isConnected);
+    onDestroy(
+        args.component,
+        () => subscriptions.forEach(item => item.unsubscribe()),
+        () => args.element.isConnected
+    );
 
     const active = (): void => {
         const { directives, element } = allDirectivesParam;
@@ -56,7 +56,7 @@ export function routerDirective(args: AllDirectivesArg) {
         const valueCaller = link.get;
         const initialValue = valueCaller();
 
-        fromEvent(args.element, 'click').subscribe(event => {
+        args.element.addEventListener('click', event => {
             event.preventDefault();
             routerService.navigate(valueCaller());
         });

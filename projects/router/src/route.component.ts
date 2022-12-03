@@ -1,10 +1,10 @@
 import { component, Container, FunctionComponent, getSelector, ifCondition, onDestroy, onInit, renderChild, useState, viewProps } from "@monster-js/core";
 import { bootstrap, Module } from "@monster-js/core/module";
 import { Route } from "./interfaces/route.interface";
+import { Subscription } from "./interfaces/subscription.interface";
 import { InternalService } from "./internal.service";
 import { evaluateRoutePath } from "./utils/evaluate-route-path";
 import { fakeDefineComponent } from "./utils/fake-define-component";
-import { Subscription } from 'rxjs';
 
 export function route(props: Route): HTMLElement {
 
