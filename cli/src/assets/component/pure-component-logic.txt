@@ -1,0 +1,3 @@
+export function __ComponentNameCamelCase__() {
+    return <h1>__ComponentNameCamelCase__ component</h1>
+}

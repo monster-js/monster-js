@@ -16,6 +16,7 @@ export function generateCommand(program: Command) {
     generate.command("component <name>")
         .description("Generate a component files")
         .option("--noTest", "Generate a component without a test.", false)
+        .option("--pure", "Generate a pure component", false)
         .addOption(new Option('--shadow <shadow mode>', 'Generate shadow DOM component.').choices(['open', 'closed']))
         .action(generateComponent);
 

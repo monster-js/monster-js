@@ -2,6 +2,7 @@ import { resolve } from "path";
 
 export const paths = {
     component: resolver('assets/component/component-logic.txt'),
+    pureComponent: resolver('assets/component/pure-component-logic.txt'),
     shadowComponent: resolver('assets/component/shadow-component-logic.txt'),
     componentTest: resolver('assets/component/component-test.txt'),
     service: resolver('assets/service/service.txt'),
