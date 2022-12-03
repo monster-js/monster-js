@@ -1,6 +1,6 @@
 {
   "name": "@monster-js/cli",
-  "version": "1.5.17",
+  "version": "1.5.18",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "Command line interface for MonsterJS framework.",
@@ -51,7 +51,7 @@
     "@babel/plugin-transform-runtime": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
-    "@monster-js/transformer": "^1.5.3",
+    "@monster-js/transformer": "^1.5.5",
     "@types/karma": "^6.3.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
