@@ -13,7 +13,7 @@ const VIEW_PROPS = 'viewProps';
 const ADD_ATTRIBUTES = 'addAttributes';
 const APPEND_CHILDREN = 'appendChildren';
 const APPEND_TEMPLATE_CHILDREN = 'appendTemplateChildren';
-
+const PURE_COMPONENT = 'pureComponent';
 let programPathGetter;
 const CONTEXT = {
   type: 'ThisExpression'
@@ -97,24 +97,72 @@ module.exports = function (babel, elKey) {
           }
         });
         
-        if (path.node.openingElement.name.name.indexOf('-') > -1) {
-          renderChild(path);
+        const name = path.node.openingElement.name.name;
+        
+        if (name[0] === name[0].toUpperCase()) {
+          
+          transformPureComponent(path, name, props);
+          
+          addAttributes(path, attributes);
+          addEvent(path, events);
+          transformAttributeBindings(path, attributeBindings);
+          transformDirective(path, directives);
+          transformIfCondition(path, ifCondition);
+          transformListRendering(path, listRendering);
+          return;
+          
         } else {
-          transformElement(path, isAttribute, elKey);
+          
+          if (name.indexOf('-') > -1) {
+            renderChild(path);
+          } else {
+            transformElement(path, isAttribute, elKey);
+          }
+
+          addAttributes(path, attributes);
+          addChildren(path, path.node.children, elementName);
+          applyProps(path, props);
+          addEvent(path, events);
+          transformAttributeBindings(path, attributeBindings);
+          transformDirective(path, directives);
+          transformIfCondition(path, ifCondition);
+          transformListRendering(path, listRendering);
+          
         }
         
-        addAttributes(path, attributes);
-        addChildren(path, path.node.children, elementName);
-        
-        applyProps(path, props);
-        addEvent(path, events);
-        transformAttributeBindings(path, attributeBindings);
-        transformDirective(path, directives);
-        transformIfCondition(path, ifCondition);
-        transformListRendering(path, listRendering);
       }
     }
   };
+}
+
+function transformPureComponent(path, name, props) {
+  addImport(PURE_COMPONENT);
+  path.node.type = 'CallExpression';
+  path.node.callee = {
+    type: 'Identifier',
+    name: PURE_COMPONENT
+  };
+  path.node.arguments = [
+    CONTEXT,
+    {
+      type: 'Identifier',
+      name
+    },
+    {
+      type: 'ObjectExpression',
+      properties: props.map(item => {
+        return {
+          type: 'ObjectProperty',
+          key: formatObjectKey(item.name.name.name),
+          value: {
+            type: 'ArrowFunctionExpression',
+            body: item.value.expression || item.value,
+            params: []
+          }
+        };
+      })
+    }
+  ];
 }
 
 function transformListRendering(path, listRendering) {
@@ -703,6 +751,7 @@ function transformBinaryExpression(path) {
     ];
   }
 }
+
 
 
 
