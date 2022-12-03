@@ -85,6 +85,7 @@ export { viewPipe } from "./view-engine/view-pipe";
 export { viewProps } from "./view-engine/view-props";
 export { appendTemplateChildren } from "./view-engine/append-template-children";
 export { pureComponent } from "./view-engine/pure-component";
+export { fragment } from "./view-engine/fragment";
 
 
 /**

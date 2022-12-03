@@ -14,6 +14,7 @@ const ADD_ATTRIBUTES = 'addAttributes';
 const APPEND_CHILDREN = 'appendChildren';
 const APPEND_TEMPLATE_CHILDREN = 'appendTemplateChildren';
 const PURE_COMPONENT = 'pureComponent';
+const FRAGMENT = 'fragment';
 let programPathGetter;
 let listRenderingIndexCount = 0;
 let listRenderingItemCount = 0;
@@ -113,7 +114,10 @@ module.exports = function (babel, elKey) {
           transformDirective(path, directives);
           transformIfCondition(path, ifCondition);
           transformListRendering(path, listRendering);
-          return;
+        } else if (name === 'fragment') {
+          
+          transformFragment(path);
+          addChildren(path, path.node.children, elementName);
           
         } else {
           
@@ -136,6 +140,15 @@ module.exports = function (babel, elKey) {
         
       }
     }
+  };
+}
+
+function transformFragment(path) {
+  addImport(FRAGMENT);
+  path.node.type = 'CallExpression';
+  path.node.callee = {
+    type: 'Identifier',
+    name: FRAGMENT
   };
 }
 
@@ -765,6 +778,7 @@ function getListIndex() {
   listRenderingIndexCount++;
   return 'θin' + listRenderingIndexCount;
 }
+
 
 
 
