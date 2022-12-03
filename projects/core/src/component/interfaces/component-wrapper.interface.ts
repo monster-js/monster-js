@@ -18,6 +18,8 @@ export interface ComponentWrapper extends HTMLElement {
     element: HTMLElement;
     changeDetectionStrategy: ChangeDetectionStrategy;
     componentShadowRoot: ShadowRoot;
+    isShadowDom: boolean;
+    useStyle(style: any): void;
 
     props: { [key: string]: any; };
     setProps(props: { [key: string]: any; }): void;

@@ -19,7 +19,12 @@ export const createComponent = (fnComponent: FunctionComponent) => {
         dataSource = fnComponent.config.dataSource;
         element: HTMLElement = null;
         changeDetectionStrategy: ChangeDetectionStrategy;
+        isShadowDom: boolean = !!fnComponent.config.shadowMode;
+        /**
+         * TODO : componentShadowRoot should only be populated during testing
+         */
         componentShadowRoot: ShadowRoot;
+        #shadowRoot: ShadowRoot;
 
 
         directives = fnComponent.config.directives || {};
@@ -105,13 +110,17 @@ export const createComponent = (fnComponent: FunctionComponent) => {
             const { shadowMode, styles } = fnComponent.config;
             if (shadowMode) {
                 root = this.attachShadow({ mode: shadowMode });
+                this.#shadowRoot = root;
                 this.componentShadowRoot = root;
             }
-            if (styles) styles.use({ target: shadowMode ? root : document.head });
+            if (styles) this.useStyle(styles);
 
             root.appendChild(element);
         }
 
+        useStyle(style: any): void {
+            style.use({ target: this.#shadowRoot || document.head });
+        }
 
         hooks: { [k in Hooks]: Hook[] } = {
             onInit: [],

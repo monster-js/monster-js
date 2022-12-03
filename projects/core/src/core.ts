@@ -9,6 +9,7 @@ export { globalComponents } from "./component/global-components";
 export { customElement } from "./component/custom-element";
 export { ComponentInstance } from './component/interfaces/component-instance.interface';
 export { FunctionComponent } from './component/interfaces/function-component.interface';
+export { useStyle } from "./component/use-style";
 
 
 /**
