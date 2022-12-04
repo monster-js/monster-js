@@ -1,5 +1,6 @@
 import { basename, resolve } from "path";
 import { paths } from "../../../../paths";
+import { camelToKebab } from "../../../../utils/camel-to-kebab";
 import { fileExistsChecker } from "../../../../utils/file-exists-checker";
 import { getConfig } from "../../../../utils/get-config";
 import { kebabToCamelCase } from "../../../../utils/kebab-to-camel-case";
@@ -24,10 +25,11 @@ export function generatePureComponent(name: string) {
     // if not, create the files
     const camelCaseName = kebabToCamelCase(`-${baseName}`);
     const logic = readFile(paths.pureComponent)
-        .replace(/__ComponentNameCamelCase__/g, camelCaseName);
+        .replace(/__ComponentNameCamelCase__/g, camelCaseName)
+        .replace(/__ComponentNameKebabCase__/g, camelToKebab(baseName));
 
 
     writeFile(fullLogicPath, logic);
-    logCreate(`${fullLogicPath}`);
+    logCreate(fullLogicPath);
 }
 

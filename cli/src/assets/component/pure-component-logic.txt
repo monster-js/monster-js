@@ -1,3 +1,8 @@
+import styles from './__ComponentNameKebabCase__.component.scss';
+import { useStyle } from '@monster-js/core';
+
 export function __ComponentNameCamelCase__() {
     return <h1>__ComponentNameCamelCase__ component</h1>
 }
+
+useStyle(__ComponentNameCamelCase__, styles);
