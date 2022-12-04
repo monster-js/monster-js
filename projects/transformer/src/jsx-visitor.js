@@ -106,12 +106,8 @@ module.exports = function (babel, elKey) {
         
         if (name[0] === name[0].toUpperCase()) {
           
-          transformPureComponent(path, name, props);
+          transformPureComponent(path, name, attributes, attributeBindings);
           
-          addAttributes(path, attributes);
-          addEvent(path, events);
-          transformAttributeBindings(path, attributeBindings);
-          transformDirective(path, directives);
           transformIfCondition(path, ifCondition);
           transformListRendering(path, listRendering);
         } else if (name === 'fragment') {
@@ -152,7 +148,7 @@ function transformFragment(path) {
   };
 }
 
-function transformPureComponent(path, name, props) {
+function transformPureComponent(path, name, attributes, attributeBinding) {
   addImport(PURE_COMPONENT);
   path.node.type = 'CallExpression';
   path.node.callee = {
@@ -167,10 +163,10 @@ function transformPureComponent(path, name, props) {
     },
     {
       type: 'ObjectExpression',
-      properties: props.map(item => {
+      properties: [...attributes, ...attributeBinding].map(item => {
         return {
           type: 'ObjectProperty',
-          key: formatObjectKey(item.name.name.name),
+          key: formatObjectKey(item.name.name),
           value: {
             type: 'ArrowFunctionExpression',
             body: item.value.expression || item.value,
@@ -778,6 +774,7 @@ function getListIndex() {
   listRenderingIndexCount++;
   return 'θin' + listRenderingIndexCount;
 }
+
 
 
 

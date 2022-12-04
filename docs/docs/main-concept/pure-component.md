@@ -8,6 +8,11 @@ The pure component in MonsterJS is a component used for the purposes of renderin
 This type of component is not a web component so it cannot have an observed attributes but it can have props.
 We can use this type of component inside of all our component without having to register it a module or defining it as a global component.
 
+:::info
+Directives, events, and other namespaced attributes in pure component are not allowed.
+Attributes passed to a pure component are turned into props.
+:::
+
 ## Pure component requirements
 
 There are some requirements to create a pure component.
@@ -79,7 +84,7 @@ component(parent, 'app-parent');
 ## Props
 
 The same as normal components, pure component can have props.
-We can pass the props the same way we pass props for normal components.
+Pure components cannot have directives so attributes of pure components are turned into props.
 
 Example.
 
@@ -95,7 +100,7 @@ import { Button } from './button.component';
 
 export function parent() {
     return <div>
-        <Button prop:btn-text="Click Me"></Button>
+        <Button btn-text="Click Me"></Button>
     </div>
 }
 
