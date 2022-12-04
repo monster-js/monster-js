@@ -21,7 +21,6 @@ export class GlobalStyle {
         }
 
         count++;
-        console.log(key, count);
         this.data.set(key, count);
     }
 
