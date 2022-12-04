@@ -3,10 +3,16 @@ import { Hook } from "../hook/interfaces/hook.interface";
 import { ObservedAttributeWatcher } from "../observed-attributes/interfaces/observed-attribute-watcher.interface";
 import { ChangeDetectionStrategy } from "../state/enums/change-detection-strategy.enum";
 import { Watcher } from "../watcher/interfaces/watcher.interface";
+import { GlobalStyle } from "./global-style";
 import { ComponentWrapper } from "./interfaces/component-wrapper.interface";
 import { DefinedComponents } from "./interfaces/defined-components.interface";
 import { FunctionComponent } from "./interfaces/function-component.interface";
 import { Style } from "./interfaces/style.interface";
+
+declare const globalThis: {
+    globalStyle: GlobalStyle;
+};
+globalThis.globalStyle = new GlobalStyle();
 
 export const createComponent = (fnComponent: FunctionComponent) => {
     return class extends (fnComponent.config.superClass || HTMLElement) implements ComponentWrapper {
@@ -23,7 +29,7 @@ export const createComponent = (fnComponent: FunctionComponent) => {
         isShadowDom: boolean = !!fnComponent.config.shadowMode;
         #shadowRoot: ShadowRoot;
         #styleMarker: Map<any, boolean> = new Map();
-        removeStyleCallbacks: (()=> void)[] = [];
+        #removeStyles: (() => void)[] = [];
 
         /**
          * TODO : componentShadowRoot should only be populated during testing
@@ -85,7 +91,7 @@ export const createComponent = (fnComponent: FunctionComponent) => {
 
         disconnectedCallback() {
             this._hooksCaller(Hooks.onDestroy);
-            this.removeStyle();
+            this.#removeStyles.forEach(item => item());
         }
 
         adoptedCallback() {
@@ -121,41 +127,35 @@ export const createComponent = (fnComponent: FunctionComponent) => {
             root.appendChild(element);
         }
 
+
         /**
          * @param key used to mark if pure component style is already defined
          */
-        useStyle(style: Style, key?: any): void {
+        useStyle(style: Style): void {
             if (!style) return;
 
             const target = this.#shadowRoot || document.head;
             const { shadowMode } = fnComponent.config;
 
-            if (!shadowMode && !style.used) {
-                style.used = true;
-                const element = document.createElement('style');
-                element.innerHTML = style.styles;
-                this.removeStyleCallbacks.push(() => element.remove());
-                target.appendChild(element);
+            if (!shadowMode) {
+                globalThis.globalStyle.add(style, style.styles);
+                this.#removeStyles.push(() => globalThis.globalStyle.remove(style));
             } else if(shadowMode) {
-                if (key) {
-                    if (this.#styleMarker.get(key)) {
-                        return;
-                    }
-                    this.#styleMarker.set(key, true);
-                    const element = document.createElement('style');
+                const element = document.createElement('style');
+                if (style) {
+
+                    if (this.#styleMarker.get(style)) return;
+
+                    this.#styleMarker.set(style, true);
                     element.innerHTML = style.styles;
                     target.appendChild(element);
                 } else {
-                    const element = document.createElement('style');
                     element.innerHTML = style.styles;
                     target.appendChild(element);
                 }
             }
         }
 
-        removeStyle() {
-            this.removeStyleCallbacks.forEach(item => item());
-        }
 
         hooks: { [k in Hooks]: Hook[] } = {
             onInit: [],
@@ -168,6 +168,7 @@ export const createComponent = (fnComponent: FunctionComponent) => {
             attributeChanged: [],
             onPropsChange: []
         };
+
         _hooksCaller(key: Hooks, args: any[] = []) {
             this.hooks[key].forEach(hook => hook.isConnected() && hook.hook(...args));
             this.hooks[key] = this.hooks[key].filter(hook => hook.isConnected());
