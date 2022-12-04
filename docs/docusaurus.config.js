@@ -29,7 +29,7 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        googleAnalytics: {
+        gtag: {
           trackingID: 'G-G8HYMT6TWW',
           anonymizeIP: true
         },
@@ -40,7 +40,7 @@ const config = {
           editUrl: 'https://github.com/monster-js/monster-js',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve('./src/css/custom.css')
         },
       }),
     ],
