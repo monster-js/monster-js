@@ -30,7 +30,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         googleAnalytics: {
-          trackingID: 'UA-229775239-1',
+          trackingID: 'G-G8HYMT6TWW',
           anonymizeIP: true
         },
         docs: {
