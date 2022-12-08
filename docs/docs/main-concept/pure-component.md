@@ -107,6 +107,50 @@ export function parent() {
 component(parent, 'app-parent');
 ```
 
+## Structural directives
+
+Structural directives may throw a linting error specially when there is a typescript type for our props so we should extend our props type with `StructuralDirectives` interface.
+
+Example.
+
+```tsx title="button.component.tsx"
+interface Props {
+    title: string;
+}
+
+export function Button(props: Props) {
+    return <button>{props.title}</button>
+}
+```
+
+```tsx title="parent.component.tsx"
+export function parent() {
+    return <div>
+        <Button v:if={true} title="Click me"></Button>
+    </div>
+}
+```
+
+In the example above, the `v:if={true}` will throw an error since `v:if` is not defined in the `Props` interface.
+
+To fix this issue, we need to extend the `Props` interface with `StructuralDirectives`.
+
+Example.
+
+```tsx title="button.component.tsx"
+import { StructuralDirectives } from '@monster-js/core';
+
+interface Props extends StructuralDirectives {
+    title: string;
+}
+
+export function Button(props: Props) {
+    return <button>{props.title}</button>
+}
+```
+
+And this should solve the issue.
+
 ## Lifecycle hooks
 
 Using lifecycle hooks inside a pure component is strongly discouraged because it can cause memory leak if the pure component is used in list rendering or conditional rendering.

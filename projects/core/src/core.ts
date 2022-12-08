@@ -10,6 +10,7 @@ export { customElement } from "./component/custom-element";
 export { ComponentInstance } from './component/interfaces/component-instance.interface';
 export { FunctionComponent } from './component/interfaces/function-component.interface';
 export { useStyle } from "./component/use-style";
+export { StructuralDirectives } from './component/interfaces/structural-directives.interface';
 
 
 /**

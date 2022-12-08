@@ -1,6 +1,6 @@
 {
   "name": "@monster-js/core",
-  "version": "1.5.10",
+  "version": "1.5.11",
   "main": "dist/core.js",
   "description": "Simple but powerful JavaScript framework.",
   "author": "Darius Bualan Jr.",
