@@ -32,12 +32,12 @@ export function createSharedState<T>(name: string, value?: T) {
 
     return function(context: ComponentInstance, callback?: (value?: T) => void): UseStateReturn<T> {
         changeDetections.push({
-            isConnected: () => context.__wrapper.isConnected,
-            changeDetection: () => context.__wrapper.detectChanges()
+            isConnected: () => context.__wrapper?.isConnected,
+            changeDetection: () => context.__wrapper?.detectChanges()
         });
 
         if (callback) changeCallbacks[name].push({
-            isConnected: () => context.__wrapper.isConnected,
+            isConnected: () => context.__wrapper?.isConnected,
             callback
         });
 
