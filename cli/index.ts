@@ -12,7 +12,7 @@ const program = new Command();
 
 program.name('MonsterJS Cli')
     .description('A command-line interface to initialize, develop, scaffold, and maintain MonsterJS applications.')
-    .version(packageJson.version + 'test');
+    .version(packageJson.version);
 
 newCommand(program);
 docsCommand(program);
