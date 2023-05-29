@@ -17,7 +17,7 @@
     "node": "^14.15.0 || >=16.10.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.20.14",
+    "@babel/generator": "^7.22.3",
     "@babel/parser": "^7.21.2",
     "@babel/traverse": "^7.21.2",
     "@types/commander": "^2.12.2",
