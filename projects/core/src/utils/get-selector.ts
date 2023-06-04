@@ -1,1 +1,0 @@
-export const getSelector = (obj: any): string => obj.config.selector;

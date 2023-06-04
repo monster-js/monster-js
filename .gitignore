@@ -1,4 +1,2 @@
-**/node_modules
-dist
-.vscode
-**/yarn-error.log
+node_modules
+package-lock.json

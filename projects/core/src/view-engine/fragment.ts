@@ -1,1 +1,0 @@
-export const fragment = (): DocumentFragment => document.createDocumentFragment();

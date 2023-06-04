@@ -1,0 +1,37 @@
+{
+  "name": "@monster-js/router",
+  "version": "1.5.4",
+  "main": "dist/index.js",
+  "description": "Router for MonsterJS framework.",
+  "author": "Darius Bualan Jr.",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/public_apis.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw"
+  },
+  "peerDependencies": {
+    "@monster-js/core": "0.0.0"
+  },
+  "homepage": "https://monster-js.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monster-js/monster-js"
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/monsterjs"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/monster-js"
+    },
+    {
+      "type": "individual",
+      "url": "https://www.paypal.com/paypalme/dariusbualan"
+    }
+  ]
+}

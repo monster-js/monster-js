@@ -1,0 +1,48 @@
+{
+  "name": "@monster-js/core",
+  "version": "1.5.15",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "description": "Simple but powerful JavaScript framework.",
+  "author": "Darius Bualan Jr.",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/public_apis.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./reflect": "./dist/reflect.js"
+  },
+  "keywords": [
+    "javascript",
+    "monster js",
+    "framework",
+    "web components",
+    "components"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monster-js/core"
+  },
+  "homepage": "https://monster-js.org",
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/monsterjs"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/monster-js"
+    },
+    {
+      "type": "individual",
+      "url": "https://www.paypal.com/paypalme/dariusbualan"
+    }
+  ]
+}
