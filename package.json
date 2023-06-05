@@ -16,6 +16,8 @@
   "scripts": {
     "watch:core": "yarn workspace @monster-js/core watch",
     "watch:router": "yarn workspace @monster-js/router watch",
+    "build:cli": "yarn workspace @monster-js/cli build",
+    "watch:cli": "yarn workspace @monster-js/cli watch",
     "build:core": "yarn workspace @monster-js/core build",
     "build:store": "yarn workspace @monster-js/store build",
     "build:router": "yarn workspace @monster-js/router build",
@@ -23,25 +25,15 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-terser": "^0.4.1",
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/node": "^20.2.1",
     "css-tree": "^2.3.1",
+    "parcel": "^2.9.1",
     "rollup": "^3.20.2",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
-  },
-  "dependencies": {
-    "@monster-js/core": "0.0.0",
-    "@monster-js/router": "0.0.0",
-    "@monster-js/store": "0.0.0",
-    "@rollup/plugin-json": "^6.0.0",
-    "chalk": "^5.2.0",
-    "commander": "^10.0.1",
-    "execa": "^7.1.1",
-    "inquirer": "^9.2.5",
-    "listr": "^0.14.3",
-    "open": "^9.1.0"
   }
 }

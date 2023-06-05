@@ -1,12 +1,12 @@
 import Listr from "listr";
 import chalk from "chalk";
-import { createRequire } from "module";
 import { basename, join, resolve } from "path";
 import { writeFile } from "../../utils/write-file.js";
 import { kebabToCamel } from "../../utils/kebab-to-camel.js";
 import { directoryExists } from "../../utils/directory-exists.js";
 import { logNotInRootError } from "../../utils/log-not-in-root-error.js";
 import { overwriteFileConfirmation } from "../../utils/overwrite-file-confirmation.js";
+import { readFileSync } from "fs";
 
 export function generateService(name, options) {
     const monsterJsonPath = resolve(process.cwd(), 'monster.json');
@@ -20,8 +20,7 @@ export function generateService(name, options) {
 }
 
 async function doGenerateService(monsterJsonPath, name, options) {
-    const require = createRequire(import.meta.url);
-    const config = require(monsterJsonPath);
+    const config =JSON.parse(readFileSync(monsterJsonPath));
     const outputPath = resolve(process.cwd(), config.rootDir, name);
     const baseName = basename(outputPath);
     const serviceContent = generateServiceContent(baseName, options);

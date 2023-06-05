@@ -1,7 +1,7 @@
 {
   "name": "@monster-js/cli",
-  "version": "1.5.28",
-  "main": "src/index.js",
+  "version": "1.5.29",
+  "main": "dist/index.js",
   "description": "Command line interface for MonsterJS framework.",
   "engines": {
     "node": "^14.15.0 || >=16.10.0"
@@ -9,11 +9,11 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "tsc -p .",
-    "watch": "tsc -p . --watch"
+    "build": "parcel build ./src/index.js",
+    "watch": "parcel watch ./src/index.js"
   },
   "bin": {
-    "mn": "./src/index.js"
+    "mn": "./dist/index.js"
   },
   "author": "Darius Bualan Jr.",
   "publishConfig": {
@@ -42,5 +42,13 @@
       "type": "individual",
       "url": "https://www.paypal.com/paypalme/dariusbualan"
     }
-  ]
+  ],
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.1",
+    "execa": "^7.1.1",
+    "inquirer": "^9.2.7",
+    "listr": "^0.14.3",
+    "open": "^9.1.0"
+  }
 }
