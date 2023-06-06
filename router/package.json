@@ -13,7 +13,7 @@
     "watch": "rollup -cw"
   },
   "peerDependencies": {
-    "@monster-js/core": "0.0.0"
+    "@monster-js/core": "1.5"
   },
   "homepage": "https://monster-js.org",
   "repository": {

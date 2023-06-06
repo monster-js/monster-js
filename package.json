@@ -35,5 +35,8 @@
     "rollup": "^3.20.2",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@monster-js/core": "^1.5.15"
   }
 }

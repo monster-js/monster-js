@@ -13,7 +13,7 @@
     "build:watch": "rollup -cw"
   },
   "peerDependencies": {
-    "@monster-js/core": "0.0.0"
+    "@monster-js/core": "1.5"
   },
   "publishConfig": {
     "access": "public"

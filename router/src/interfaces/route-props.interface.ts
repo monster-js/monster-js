@@ -6,5 +6,7 @@ export interface RouteProps extends BaseProps {
     exact?: boolean;
     redirectTo?: string;
     'redirect-to'?: string;
-    guards?: any[];
+    canActivate?: ((data?: any) => Promise<boolean> | boolean)[];
+    canDeactivate?: ((data?: any) => Promise<boolean> | boolean)[];
+    data?: any;
 }
