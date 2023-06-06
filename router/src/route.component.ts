@@ -42,7 +42,7 @@ export function Route(props: RouteProps) {
                 canActivate = response.every(item => !!item);
             }
 
-            if (canActivate) {
+            if (canActivate && props.element) {
                 element = props.element();
                 (element as any).routerParams = {};
                 (element as any).routerOnRouteChangeHooks = [];
