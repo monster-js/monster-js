@@ -2,6 +2,7 @@ import { Subscription, afterInit, detectChanges, onDestroy } from "@monster-js/c
 import { InternalService } from "./internal.service";
 import { RouteProps } from "./interfaces/route-props.interface";
 import { evaluateRoutePath } from "./utils/evaluate-route-path";
+import { navigate } from "./public_apis";
 
 export function Route(props: RouteProps) {
     let element: HTMLElement;
@@ -33,6 +34,10 @@ export function Route(props: RouteProps) {
     }
 
     const ifMatch = async () => {
+        if (props.redirectTo) {
+            return navigate(props.redirectTo);
+        }
+
         if (!element) {
             let canActivate = true;
             if(props.canActivate) {
