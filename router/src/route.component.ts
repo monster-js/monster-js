@@ -35,7 +35,9 @@ export function Route(props: RouteProps) {
 
     const ifMatch = async () => {
         if (props.redirectTo) {
-            return navigate(props.redirectTo);
+            const url = props.redirectTo;
+            setTimeout(() => navigate(url));
+            return;
         }
 
         if (!element) {
