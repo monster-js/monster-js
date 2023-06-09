@@ -1,7 +1,6 @@
 import { ObservedAttributeWatcher } from "../attributes/interfaces/observed-attribute-watcher.interface";
 import { Hooks } from "../hook/enums/hooks.enum";
 import { Hook } from "../hook/interfaces/hook.interface";
-import { deepClone } from "../utils/deep-clone";
 import { Watcher } from "../watcher/interfaces/watcher.interface";
 import { GlobalStyle } from "./global-style";
 import { Component } from "./interfaces/component.interface";
@@ -12,7 +11,7 @@ declare const globalThis: {
 };
 globalThis.globalStyle = new GlobalStyle();
 
-export function createComponent(fnComponent: (props?: any) => HTMLElement, superClass: CustomElementConstructor = HTMLElement) {
+export function createComponent(fnComponent: (props?: any) => HTMLElement, superClass: CustomElementConstructor = HTMLElement): CustomElementConstructor {
     if ((fnComponent as any).__superClass) {
         superClass = (fnComponent as any).__superClass;
     }
