@@ -15,6 +15,7 @@ export function createComponent(fnComponent: (props?: any) => HTMLElement, super
     if ((fnComponent as any).__superClass) {
         superClass = (fnComponent as any).__superClass;
     }
+
     return class extends superClass implements Component {
 
         public watchers: Watcher[] = [];

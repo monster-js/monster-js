@@ -28,6 +28,8 @@ export { useState } from './core/state/use-state';
 export { createSharedState } from './core/state/create-shared-state';
 export { UseStateReturn } from './core/state/types/use-state-return.type';
 
+export { createSharedEvent } from './core/events/create-shared-events';
+
 export { createDIContainer } from './core/di/create-di-container';
 
 export { Service } from './core/decorators/service.decorator';
