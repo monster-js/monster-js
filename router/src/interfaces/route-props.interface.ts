@@ -2,9 +2,10 @@ import { BaseProps } from "@monster-js/core";
 
 export interface RouteProps extends BaseProps {
     path: string;
-    element: () => any;
+    element?: () => any;
     exact?: boolean;
     redirectTo?: string;
-    'redirect-to'?: string;
-    guards?: any[];
+    canActivate?: ((data?: any) => Promise<boolean> | boolean)[];
+    canDeactivate?: ((data?: any) => Promise<boolean> | boolean)[];
+    data?: any;
 }

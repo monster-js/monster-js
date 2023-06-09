@@ -1,6 +1,6 @@
 {
   "name": "@monster-js/router",
-  "version": "1.5.4",
+  "version": "1.5.8",
   "main": "dist/index.js",
   "description": "Router for MonsterJS framework.",
   "author": "Darius Bualan Jr.",
@@ -13,7 +13,7 @@
     "watch": "rollup -cw"
   },
   "peerDependencies": {
-    "@monster-js/core": "0.0.0"
+    "@monster-js/core": "1.5"
   },
   "homepage": "https://monster-js.org",
   "repository": {

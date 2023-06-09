@@ -45,20 +45,9 @@ function createGuardFile(path, content) {
 }
 
 function generateGuardContent(name) {
-    const camelCasedName = kebabToCamel(`-${name}`);
-    const content = `import { Guard } from '@monster-js/router';
-
-@Guard
-export class ${camelCasedName}Guard {
-
-    public canActivate(): Promise<boolean> | boolean {
-        return true;
-    }
-
-    public canDeactivate(): Promise<boolean> | boolean {
-        return true;
-    }
-
+    const camelCasedName = kebabToCamel(name);
+    const content = `export function ${camelCasedName}Guard(data: any): Promise<boolean> | boolean {
+    return true;
 }
 `;
     

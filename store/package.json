@@ -1,6 +1,6 @@
 {
   "name": "@monster-js/store",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "main": "dist/index.js",
   "description": "State management for MonsterJS framework.",
   "author": "Darius Bualan Jr.",
@@ -13,7 +13,7 @@
     "build:watch": "rollup -cw"
   },
   "peerDependencies": {
-    "@monster-js/core": "0.0.0"
+    "@monster-js/core": "1.5"
   },
   "publishConfig": {
     "access": "public"

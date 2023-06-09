@@ -2,6 +2,7 @@ import { Subscription, afterInit, detectChanges, onDestroy } from "@monster-js/c
 import { InternalService } from "./internal.service";
 import { RouteProps } from "./interfaces/route-props.interface";
 import { evaluateRoutePath } from "./utils/evaluate-route-path";
+import { navigate } from "./public_apis";
 
 export function Route(props: RouteProps) {
     let element: HTMLElement;
@@ -15,20 +16,51 @@ export function Route(props: RouteProps) {
         else ifNotMatch();
     }
 
-    const ifNotMatch = () => {
+    const ifNotMatch = async () => {
         if (!element) return;
-        element.remove();
-        element = null!;
+
+        let canDeactivate = true;
+        if(props.canDeactivate) {
+            const promises: (boolean | Promise<boolean>)[] = [];
+            props.canDeactivate.forEach(item => promises.push(item(props.data)));
+            const response = await Promise.all(promises);
+            canDeactivate = response.every(item => !!item);
+        }
+
+        if (canDeactivate) {
+            element.remove();
+            element = null!;
+        }
     }
 
-    const ifMatch = () => {
-        if (!element) {
-            element = props.element();
-            (element as any).routerParams = {};
-            (element as any).routerOnRouteChangeHooks = [];
-            comment.after(element);
+    const ifMatch = async () => {
+        if (props.redirectTo) {
+            const url = props.redirectTo;
+            setTimeout(() => navigate(url));
+            return;
         }
-        popularParams();
+
+        if (!element) {
+            let canActivate = true;
+            if(props.canActivate) {
+                const promises: (boolean | Promise<boolean>)[] = [];
+                props.canActivate.forEach(item => promises.push(item(props.data)));
+                const response = await Promise.all(promises);
+                canActivate = response.every(item => !!item);
+            }
+
+            if (canActivate && props.element) {
+                element = props.element();
+                (element as any).routerParams = {};
+                (element as any).routerOnRouteChangeHooks = [];
+                comment.after(element);
+            }
+
+        }
+
+        if (element) {
+            populateParams();
+        }
     }
 
     const getParams = () => {
@@ -46,7 +78,7 @@ export function Route(props: RouteProps) {
         return params;
     }
 
-    const popularParams = () => {
+    const populateParams = () => {
         const params = getParams();
         let hasChanges = false;
         let tempElement: any = element;
