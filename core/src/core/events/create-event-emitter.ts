@@ -11,7 +11,7 @@ interface SharedEvent {
 
 type ReturnType<T> = [(value?: T) => void, (callback: (value?: T) => void) => void];
 
-export function createSharedEvent() {
+export function createEventEmitter() {
     const sharedEvent: SharedEvent = {
         watchers: []
     };
