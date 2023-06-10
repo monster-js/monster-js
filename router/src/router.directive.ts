@@ -1,4 +1,4 @@
-import { DirectiveObject, FunctionComponent, Subscription, afterInit, createDirective, onDestroy } from "@monster-js/core";
+import { DirectiveObject, FunctionComponent, Subscription, afterInit, createDirective, onDestroy, onViewChange } from "@monster-js/core";
 import { watchDirective } from "./utils/watch-directive";
 import { InternalService } from "./internal.service";
 import { navigate } from './utils/navigate';
@@ -11,6 +11,7 @@ export function routerDirective(element: HTMLElement, directives: DirectiveObjec
     const { link, linkActive, linkActiveExact } = directives;
 
     afterInit(context, () => active());
+    onViewChange(context, () => active());
 
     onDestroy(
         context,
@@ -19,9 +20,10 @@ export function routerDirective(element: HTMLElement, directives: DirectiveObjec
     );
 
     const active = (): void => {
-        if (!linkActive) return;
+        if (!linkActive || (element as any).routerLinkActiveSet) return;
 
         if (element.localName === "a") {
+            (element as any).routerLinkActiveSet = true;
             subscriptions.push(internalService.onRouteChange.subscribe(checkRouterLinkActive));
             checkRouterLinkActive();
         }
