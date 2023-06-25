@@ -14,12 +14,12 @@ type ReturnType<T> = {
     subscribe: (callback: (value?: T) => void) => void
 };
 
-export function createEventEmitter() {
+export function createEventEmitter<T>() {
     const sharedEvent: SharedEvent = {
         watchers: []
     };
 
-    return function<T>(context: FunctionComponent): ReturnType<T> {
+    return function(context: FunctionComponent): ReturnType<T> {
         const trigger = (value?: T) => {
             sharedEvent.watchers.forEach(watcher => {
                 if (watcher.isConnected()) {
