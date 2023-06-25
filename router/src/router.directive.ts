@@ -37,7 +37,6 @@ export function routerDirective(element: HTMLElement, directives: DirectiveObjec
             exact
         });
 
-        console.log(ifMatch, element, valueCaller(), linkActive.get);
         if (ifMatch) element.classList.add(valueCaller());
         else element.classList.remove(valueCaller());
     }
