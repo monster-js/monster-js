@@ -10,15 +10,6 @@ export function routerDirective(element: HTMLElement, directives: DirectiveObjec
     const internalService = new InternalService();
     const { link, linkActive, linkActiveExact } = directives;
 
-    afterInit(context, () => active());
-    onViewChange(context, () => active());
-
-    onDestroy(
-        context,
-        () => subscriptions.forEach(item => item.unsubscribe()),
-        () => element.isConnected
-    );
-
     const active = (): void => {
         if (!linkActive || (element as any).routerLinkActiveSet) return;
 
@@ -46,6 +37,7 @@ export function routerDirective(element: HTMLElement, directives: DirectiveObjec
             exact
         });
 
+        console.log(ifMatch, element, valueCaller(), linkActive.get);
         if (ifMatch) element.classList.add(valueCaller());
         else element.classList.remove(valueCaller());
     }
@@ -67,6 +59,20 @@ export function routerDirective(element: HTMLElement, directives: DirectiveObjec
             });
         }
     }
+
+    afterInit(context, () => active());
+    onViewChange(context, () => active());
+
+    onDestroy(
+        context,
+        () => subscriptions.forEach(item => item.unsubscribe()),
+        () => element.isConnected
+    );
+
+    onViewChange(context, () => {
+        if (!linkActive) return;
+        checkRouterLinkActive();
+    }, () => element.isConnected);
 
     return element;
 }
