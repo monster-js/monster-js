@@ -9,7 +9,10 @@ interface SharedEvent {
     watchers: SharedEventWatcher[];
 }
 
-type ReturnType<T> = [(value?: T) => void, (callback: (value?: T) => void) => void];
+type ReturnType<T> = {
+    dispatch: (value?: T) => void,
+    subscribe: (callback: (value?: T) => void) => void
+};
 
 export function createEventEmitter() {
     const sharedEvent: SharedEvent = {
@@ -33,6 +36,9 @@ export function createEventEmitter() {
             sharedEvent.watchers.push(watcher);
         }
 
-        return [trigger, subscriber];
+        return {
+            dispatch: trigger,
+            subscribe: subscriber
+        };
     };
 }

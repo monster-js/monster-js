@@ -1,6 +1,6 @@
 {
   "name": "@monster-js/core",
-  "version": "1.5.18",
+  "version": "1.5.20",
   "license": "MIT",
   "main": "dist/index.js",
   "description": "Simple but powerful JavaScript framework.",

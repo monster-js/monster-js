@@ -51,7 +51,7 @@ export function createComponent(fnComponent: (props?: any) => HTMLElement, super
             this.debounce = setTimeout(() => {
                 this.hooksCaller(Hooks.onChangeDetection);
 
-                [...this.cWatchers, ...this.watchers].forEach(watcher => {
+                [...[...this.cWatchers].reverse(), ...this.watchers].forEach(watcher => {
                     if (watcher.isConnected() && watcher.isUpdated()) {
                         hasChanges = true;
                         watcher.update(watcher.val);
