@@ -1,25 +1,13 @@
-import { FunctionComponent, UseStateReturn } from "@monster-js/core";
+import { StoreFn } from "./create-store";
 
-function createAction<S, P = any>(
-    reducer: <T extends keyof S>(state: any, payload?: P) => S[T],
-    key: keyof S,
-    message: string,
-    store: <K extends keyof S>(context: FunctionComponent, key: K) => UseStateReturn<S[K]>
-) {
-    return function(context: FunctionComponent, payload?: P) {
-        const [getter, setter] = store(context, key);
-        const reducerValue = reducer(getter(), payload);
-        setter(reducerValue, `[${key as string}] ${message}`)
+export function createActionCreator<T, K extends keyof T>(store: StoreFn<T>, key: K) {
+    const [getter, setter] = store(null, key);
+
+    return function<P = any>(reducer: (state: T[K], payload: P) => T[K], message: string) {
+
+        return function(payload: P) {
+            const newState = reducer(getter(), payload);
+            setter(newState, message)
+        };
     }
-}
-
-export function actionCreator<S = any>(
-    store: <K extends keyof S>(context: FunctionComponent, key: K) => UseStateReturn<S[K]>,
-    key: keyof S
-) {
-
-    return function<SS = any, P = any>(reducer: (state: SS, payload?: P) => SS, message: string) {
-        return createAction<S, P>(reducer as any, key, message, store);
-    }
-
 }

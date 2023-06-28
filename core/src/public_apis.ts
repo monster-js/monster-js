@@ -26,7 +26,6 @@ export { defineComponent } from './core/component/define-component';
 
 export { useState } from './core/state/use-state';
 export { createSharedState } from './core/state/create-shared-state';
-export { createStoreState } from './core/state/create-store-state';
 export { UseStateReturn } from './core/state/types/use-state-return.type';
 
 export { createEventEmitter } from './core/events/create-event-emitter';
