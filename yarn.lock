@@ -2306,10 +2306,10 @@ restore-cursor@^3.1.0:
     onetime "^5.1.0"
     signal-exit "^3.0.2"
 
-rollup@^3.24.0:
-  version "3.24.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.24.0.tgz#865dee1fe0bb528747b59914dfab25e6f480e370"
-  integrity sha512-OgraHOIg2YpHQTjl0/ymWfFNBEyPucB7lmhXrQUh38qNOegxLapSPFs9sNr0qKR75awW41D93XafoR2QfhBdUQ==
+rollup@^3.26.1:
+  version "3.26.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.26.1.tgz#b375bf4b3cbb35bdca717e3cee2413894c469397"
+  integrity sha512-I5gJCSpSMr3U9wv4D5YA8g7w7cj3eaSDeo7t+JcaFQOmoOUBgu4K9iMp8k3EZnwbJrjQxUMSKxMyB8qEQzzaSg==
   optionalDependencies:
     fsevents "~2.3.2"
 
