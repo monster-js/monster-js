@@ -34,7 +34,7 @@
     "parcel": "^2.9.1",
     "rollup": "^3.24.0",
     "tslib": "^2.5.3",
-    "typescript": "^5.0.4"
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@monster-js/core": "^1.5.15"
