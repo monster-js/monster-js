@@ -1,0 +1,22 @@
+{
+  "name": "weco-js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "docs": "docsify serve ./docs",
+    "build-all": "npm run build --workspaces",
+    "publish-all": "npm unlink --workspaces"
+  },
+  "private": false,
+  "workspaces": [
+    "packages/*"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1"
+  }
+}
