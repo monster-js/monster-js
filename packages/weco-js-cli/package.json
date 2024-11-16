@@ -4,7 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -r ./dist && tsc && cp -r ./project-scaffold ./dist",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "publish-dev": "npm version patch && npm publish && npm install weco-js-cli"
   },
   "bin": {
     "weco": "./dist/index.js"

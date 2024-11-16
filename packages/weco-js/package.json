@@ -1,10 +1,11 @@
 {
   "name": "weco-js",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "publish-dev": "npm version patch && npm publish"
   },
   "author": "",
   "license": "ISC",
