@@ -1,11 +1,11 @@
 {
   "name": "weco-js-cli",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -r ./dist && tsc && cp -r ./project-scaffold ./dist",
     "prepublishOnly": "npm run build",
-    "publish-dev": "npm version patch && npm publish && npm install weco-js-cli"
+    "publish-dev": "npm version patch && npm publish && npm install -g weco-js-cli@latest"
   },
   "bin": {
     "weco": "./dist/index.js"

@@ -31,7 +31,7 @@ This will create a new project with a default structure, including the following
 * `index.html`: The HTML template for your application.
 * `.gitignore`: Git ignore file.
 * `src/main.ts`: The entry point for your app.
-* `src/app/app-root.component.tsx`: The root component of your app.
+* `src/app/app.component.tsx`: The root component of your app.
 
 ### Step 3: Project Structure Overview
 
@@ -39,16 +39,14 @@ The generated `main.ts` will look like this:
 
 ```ts
 import { defineComponent } from "weco-js";
-import { AppRoot } from "./app";
+import { App } from "./app/app.component";
 
-(function() {
-    defineComponent('app-root', AppRoot);
-})();
+defineComponent('app-root', App);
 ```
 
-The AppRoot component in app-root.component.tsx will look like this:
+The `App` component in app.component.tsx will look like this:
 ```tsx
-export function AppRoot() {
+export function App() {
     return <h1>Weco JS App</h1>;
 }
 ```
@@ -155,7 +153,7 @@ import { countSharedState } from './shared-state';
 export function UpdateCountButton() {
     const [count, setCount] = countSharedState(this);
 
-    return <button on:click={() => setCount(count() + 1)}>Increase Shared Count</button>;
+    return <button on:click={setCount(count() + 1)>Increase Shared Count</button>;
 }
 ```
 
@@ -173,32 +171,18 @@ export function Greeting() {
 }
 ```
 
-#### app-root.component.tsx
+#### app.component.tsx
 
 ```tsx
 import { Greeting } from './greeting.component';
 
-export function AppRoot() {
+export function App() {
     return (
         <div>
             <Greeting prop:name="John" />
         </div>
     );
 }
-```
-
-### Step 11: Organizing Your Application
-
-To keep your app clean and maintainable, it's best to structure it by organizing components into separate files and directories. For example:
-
-```bash
-src/
-├── app/
-│   ├── app-root.component.tsx
-│   ├── greeting.component.tsx
-│   └── shared-state.ts
-├── main.ts
-└── index.html
 ```
 
 ## Conclusion

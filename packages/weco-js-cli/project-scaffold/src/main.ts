@@ -1,6 +1,4 @@
 import { defineComponent } from "weco-js";
-import { AppRoot } from "./app";
+import { App } from "./app/app.component";
 
-(function() {
-    defineComponent('app-root', AppRoot);
-})()
+defineComponent('app-root', App);

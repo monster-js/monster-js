@@ -38,6 +38,7 @@ export function applyProps(instance: WebComponentInterface, element: HTMLElement
             (element as any)[PROPS_SYMBOL](value);
         }
     };
+    watcher.handlerChange(initialValue);
     instance.addWatcher(watcher);
     return element;
 }
