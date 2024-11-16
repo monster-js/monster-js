@@ -21,6 +21,23 @@ export function newProject(projectName: string, options: NewProjectOptionsInterf
         fs.cpSync(scaffoldPath, projectPath, { recursive: true });
         console.log(`New project '${projectName}' created.`);
 
+        const templates = {
+            "gitignore.template": ".gitignore",
+            "npmrc.template": ".npmrc"
+        };
+
+        for (const [templateFile, targetFile] of Object.entries(templates)) {
+            const sourceFile = path.join(scaffoldPath, templateFile);
+            const destFile = path.join(projectPath, targetFile);
+
+            if (fs.existsSync(sourceFile)) {
+                fs.copyFileSync(sourceFile, destFile);
+                fs.unlinkSync(path.join(projectPath, templateFile));
+            } else {
+                console.log(`${templateFile} not found in scaffold.`);
+            }
+        }
+
         // Run npm install if --install-packages is true
         if (!(options.installPackages === false)) {
             console.log("Installing npm packages...");

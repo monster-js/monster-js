@@ -21,7 +21,7 @@ program
 program
     .command("serve")
     .description("start a local development server")
-    .option("--port <port>", "specify the port to run the dev server on", "3000")
+    .option("--port <port>", "specify the port to run the dev server on", "4000")
     .option("--mode <mode>", "specify the mode of the development server. Ex. development, production, or none", "development")
     .action(serveProject);
 
