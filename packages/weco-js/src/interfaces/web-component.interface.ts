@@ -5,6 +5,6 @@ export interface WebComponentInterface {
     addWatcher: (watcher: WatcherInterface) => void;
     addConditionWatcher: (watcher: WatcherInterface) => void;
     detectChanges(): void;
-    addHook: (type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted', callback: (...args: any[]) => void) => void;
+    addHook: (type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted' | 'afterViewInit', callback: (...args: any[]) => void) => void;
     props: Record<any, any>;
 }

@@ -1,8 +1,9 @@
 import path from 'path';
 import Webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-export const defaultWebpackConfig: Webpack.Configuration = {
+export const getDefaultWebpackConfig = (): Webpack.Configuration => ({
     entry: './src/main.ts',
     output: {
         filename: 'bundle.js',
@@ -12,6 +13,13 @@ export const defaultWebpackConfig: Webpack.Configuration = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js'], // Resolve .ts and .js extensions
     },
+    plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: path.resolve(process.cwd(), 'index.html'), to: '' }, // Copy index.html to the root of dist
+            ],
+        }),
+    ],
     module: {
         rules: [
             {
@@ -31,4 +39,4 @@ export const defaultWebpackConfig: Webpack.Configuration = {
         minimize: false,
         minimizer: [new TerserPlugin()],
     },
-};
+});

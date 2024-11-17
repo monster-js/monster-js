@@ -32,7 +32,7 @@ export function ifCondition(classComponent: any, elementCreator: () => Element, 
     };
 
     fragment.appendChild(comment);
-    changeDetection.handlerChange(initialValue);
+    // changeDetection.handlerChange(initialValue);
     instance.addConditionWatcher(changeDetection);
 
     return fragment;

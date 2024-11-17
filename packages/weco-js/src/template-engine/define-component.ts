@@ -9,11 +9,13 @@ export function defineComponent(selector: string, renderFunction: () => Element,
         private watchers: WatcherInterface[] = [];
         private conditionWatchers: WatcherInterface[] = [];
         private element: Element;
+        private privateProps: Record<any, any> = {};
+
+        private connectedCallbacks: (() => void)[] = [];
+        private afterViewInits: (() => void)[] = [];
         private disconnectedCallbacks: (() => void)[] = [];
         private attributeChangedCallbacks: ((attrName: any, oldVal: any, newVal: any) => void)[] = [];
         private adoptedCallbacks: (() => void)[] = [];
-        private privateProps: Record<any, any> = {};
-        private connectedCallbacks: (() => void)[] = [];
 
         constructor() {
             super();
@@ -30,10 +32,13 @@ export function defineComponent(selector: string, renderFunction: () => Element,
             }
         }
 
-        public addHook(type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted', callback: (...args: any[]) => void) {
+        public addHook(type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted' | 'afterViewInit', callback: (...args: any[]) => void) {
             switch (type) {
                 case 'connected':
                     this.connectedCallbacks.push(callback);
+                    break;
+                case 'afterViewInit':
+                    this.afterViewInits.push(callback);
                     break;
                 case 'disconnected':
                     this.disconnectedCallbacks.push(callback);
@@ -61,10 +66,7 @@ export function defineComponent(selector: string, renderFunction: () => Element,
             }
             this.connectedCallbacks.forEach((callback) => callback());
             this.detectChanges();
-
-            /**
-             * TODO: Here should be a hook called afterViewInit
-             */
+            this.afterViewInits.forEach((callback) => callback());
         }
 
         public disconnectedCallback() {

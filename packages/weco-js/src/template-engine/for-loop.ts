@@ -48,7 +48,7 @@ export function forLoop(classComponent: any, elementCreator: (index: number) => 
     };
 
     fragment.appendChild(comment);
-    watcher.handlerChange(watcher.value);
+    // watcher.handlerChange(watcher.value);
     instance.addConditionWatcher(watcher);
 
     return fragment;

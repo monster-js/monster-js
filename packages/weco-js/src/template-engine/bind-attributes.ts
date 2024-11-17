@@ -28,7 +28,7 @@ export function bindAttributes(classComponent: any, element: Element, attributes
             }
         };
 
-        changeDetection.handlerChange(initialValue);
+        // changeDetection.handlerChange(initialValue);
         instance.addWatcher(changeDetection);
     });
 
