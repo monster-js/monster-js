@@ -12,8 +12,11 @@ export { connected } from './lifecycle-hooks/connected';
 export { disconnected } from './lifecycle-hooks/disconnected';
 export { attributeChanged } from './lifecycle-hooks/attribute-changed';
 
+// component
+export { createWebComponent } from './component/create-web-component';
+export { defineComponent } from './component/define-component';
+
 // template engine
-export { defineComponent } from './template-engine/define-component';
 export { createElement } from './template-engine/create-element';
 export { createComponent } from './template-engine/create-component';
 export { addEventListener } from './template-engine/add-event-listener';

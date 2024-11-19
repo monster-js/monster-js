@@ -29,7 +29,7 @@ program
     .command("build")
     .description("build the project for production")
     .option("--mode <mode>", "specify the build mode. Ex. development, production, or none", "development")
-    .option("--standalone [component]", "build a component as a web component", null)
+    .option("--standalone", "build a component as a web component", false)
     .option("--output <path>", "the build output path of a project or the build output file of a standalone component", "dist")
     .action(buildProject);
 

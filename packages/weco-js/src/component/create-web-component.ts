@@ -3,8 +3,8 @@ import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
 import { PROPS_SYMBOL } from "../utils/props-symbol";
 
-export function defineComponent(selector: string, renderFunction: () => Element, parentClass = HTMLElement) {
-    class WebComponent extends parentClass implements WebComponentInterface {
+export function createWebComponent(renderFunction: () => Element, parentClass = HTMLElement): any {
+    return class extends parentClass implements WebComponentInterface {
 
         private watchers: WatcherInterface[] = [];
         private conditionWatchers: WatcherInterface[] = [];
@@ -104,5 +104,4 @@ export function defineComponent(selector: string, renderFunction: () => Element,
             this.watchers.push(watcher);
         }
     }
-    customElements.define(selector, WebComponent);
 }
