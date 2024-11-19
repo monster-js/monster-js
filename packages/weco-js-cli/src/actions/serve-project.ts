@@ -5,7 +5,6 @@ import { generateWebpackConfig } from '../webpack-files/generate-webpack-config'
 interface ServeProjectOptionsInterface {
     port: number;
     mode: Webpack.Configuration['mode'];
-    output: string;
 }
 
 const path = require('path');
@@ -19,8 +18,8 @@ const devServerConfig: WebpackDevServer.Configuration = {
 };
 
 export async function serveProject(options: ServeProjectOptionsInterface) {
-    const { port, mode, output } = options;
-    const config = generateWebpackConfig(options.mode, output);
+    const { port, mode } = options;
+    const config = generateWebpackConfig(options.mode, 'dist');
 
     config.mode = mode;
     devServerConfig.port = port;

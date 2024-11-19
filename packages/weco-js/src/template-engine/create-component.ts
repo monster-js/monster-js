@@ -1,6 +1,6 @@
 import { FnComponentInterface } from "../interfaces/fn-component.interface";
 import { createElement } from "./create-element";
-import { defineComponent } from "./define-component";
+import { defineComponent } from "../component/define-component";
 
 export function createComponent(fnComponentInput: any, attributes: Record<any, any> = null) {
     const fnComponent: FnComponentInterface = fnComponentInput;

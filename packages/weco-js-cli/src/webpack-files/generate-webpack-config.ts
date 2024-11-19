@@ -2,8 +2,8 @@ import path from "path";
 import Webpack from 'webpack';
 import { getDefaultWebpackConfig } from './get-default-webpack-config';
 
-export function generateWebpackConfig(mode: Webpack.Configuration['mode'], output: string) {
-    const defaultWebpackConfig = getDefaultWebpackConfig();
+export function generateWebpackConfig(mode: Webpack.Configuration['mode'], output: string, additionalConfig: any[] = []) {
+    const defaultWebpackConfig = getDefaultWebpackConfig(additionalConfig);
     const config: Webpack.Configuration = {
         ...defaultWebpackConfig,
         mode,

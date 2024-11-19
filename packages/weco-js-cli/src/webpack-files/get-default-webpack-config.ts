@@ -1,9 +1,8 @@
 import path from 'path';
 import Webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-export const getDefaultWebpackConfig = (): Webpack.Configuration => ({
+export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.Configuration => ({
     entry: './src/main.ts',
     output: {
         filename: 'bundle.js',
@@ -14,11 +13,7 @@ export const getDefaultWebpackConfig = (): Webpack.Configuration => ({
         extensions: ['.ts', '.tsx', '.js'], // Resolve .ts and .js extensions
     },
     plugins: [
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: path.resolve(process.cwd(), 'index.html'), to: '' }, // Copy index.html to the root of dist
-            ],
-        }),
+        ...additionalConfig,
     ],
     module: {
         rules: [
@@ -28,8 +23,12 @@ export const getDefaultWebpackConfig = (): Webpack.Configuration => ({
                 use: {
                     loader: require.resolve('babel-loader'),
                     options: {
-                        presets: [require.resolve('@babel/preset-env'), require.resolve('@babel/preset-typescript')],
+                        presets: [
+                            require.resolve('@babel/preset-env'),
+                            require.resolve('@babel/preset-typescript')
+                        ],
                         plugins: [require.resolve('weco-js-transformers')],
+                        compact: false,
                     },
                 },
             },
