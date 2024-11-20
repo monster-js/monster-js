@@ -5,11 +5,10 @@ export function ifCondition(classComponent: any, elementCreator: () => Element, 
     const instance: WebComponentInterface = classComponent;
     const comment = document.createComment(' if ');
     const fragment = document.createDocumentFragment();
-    const initialValue = valueGetter();
     let element: Element;
     const changeDetection: WatcherInterface = {
         hasChanges: false,
-        value: initialValue,
+        value: undefined,
         getIsConnected: () => comment.isConnected,
         evaluate: () => {
             const newValue = valueGetter();

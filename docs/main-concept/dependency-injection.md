@@ -1,187 +1,144 @@
 # Dependency Injection
 
-Dependency Injection (DI) in **Weco JS** enables components and services to share dependencies efficiently. Weco JS's DI system provides flexible configuration options and allows developers to manage dependencies as singletons or transient instances, improving code modularity and testability.
+Dependency Injection (DI) in **Weco JS** allows you to share dependencies across components and services seamlessly. Weco JS's DI system is flexible, supporting both singleton and transient instances, and it significantly improves code modularity, maintainability, and testability.
 
-## Creating a Dependency Injection Container
+## Using the Default DI Container
 
-In Weco JS, you can create a DI container using the `createDIContainer()` function, which returns two elements:
+The default DI container is ready for use as soon as you import it. This container simplifies dependency management without requiring additional setup.
 
-* `inject`: A function to retrieve dependencies within components. It can accept any data type, which is especially helpful for mocking values during testing.
-* `setConfig`: A function to configure or override the DI container with specific dependency configurations.
-
-## Default DI Container
-
-Weco JS provides a default DI container, so you don’t need to create a new one if it isn’t necessary. You can simply use:
-
-```ts
-export const [inject, overrideProvider] = createDIContainer();
-```
-
-The `overrideProvider` function behaves like `setConfig`, allowing you to modify dependency configurations as needed.
-
-## Basic Example
-
-Here’s how to use the default DI container:
-
-```ts
-// Use the default DI container
-export const [inject, overrideProvider] = createDIContainer();
-```
-
-With this container set up, you can inject dependencies into components using the `inject` function.
-
-## Example: Injecting a Service into a Component
-
-The following example demonstrates how to inject a `MessageService` into a component and use it:
+### Example: Simplest Usage of the Default DI Container
 
 ```tsx
-function Button() {
-    const message = inject(MessageService); // Inject the MessageService
+import { inject } from 'weco-js';
 
-    const logMessage = () => {
-        console.log(message.getMessage()); // Use the injected service
-    }
+function App() {
+    const messageService = inject(MessageService); // Retrieve MessageService from the default container
 
-    return <button on:click={logMessage()}>Log Message</button>
+    return <h1>{messageService.getMessage()}</h1>;
 }
 ```
 
 In this example:
+* The `inject(MessageService)` call retrieves an instance of `MessageService` from the default DI container.
+* `MessageService` can now be used directly within the `App` component.
 
-* The `inject(MessageService)` call retrieves an instance of `MessageService` from the DI container.
-* The `logMessage` function accesses the `getMessage()` method of `MessageService` and logs its return value when the button is clicked.
+## Creating a Custom DI Container
 
-## Configuring Dependencies
+To create a custom DI container, use the `createDIContainer()` function. This allows you to define custom configurations or use alternative variable names to avoid conflicts with the default container.
 
-The `setConfig` function allows you to configure how dependencies are provided within the DI container. By default, all services in Weco JS’s DI container are singletons, meaning they are instantiated once and shared across the application.
-
-When creating the DI container, you can pass an array of configuration objects that control each dependency’s behavior. Each configuration object can have the following properties:
-
-* `provide` (required): The dependency to be provided. This can be a class, function, or variable.
-* `useValue`: A static value to use instead of the provided dependency. If this is specified, it overrides `provide`.
-* `useClass`: A class to use in place of the provided dependency, enabling substitution or extension of classes.
-* `singleton`: A boolean indicating if the dependency should be a singleton. Defaults to `true`, meaning dependencies are singletons by default.
-
-## Example: Configuring Dependencies
-
-The following example provides a custom `MessageService` and specifies it as a non-singleton, meaning a new instance is created each time it is injected:
-
-```ts
-export const [inject, setConfig] = createDIContainer([
-    {
-        provide: MessageService,
-        useValue: { getMessage: () => "Hello world" }, // Override MessageService with a custom value
-        singleton: false // Creates a new instance each time it's injected
-    }
-]);
-```
-
-In this example:
-
-* `useValue` provides a custom `MessageService` with a specific `getMessage()` function.
-* `singleton: false` overrides the default singleton behavior, creating a new instance each time `MessageService` is injected.
-
-### Using useClass to Substitute Dependencies
-
-The `useClass` option allows you to specify a class that will be instantiated instead of the original class provided. This is useful for substituting implementations while keeping the interface consistent.
-
-#### Example: Substituting a Service with `useClass`
-
-Suppose you have a `NotificationService` and want to replace it with a `MockNotificationService` for testing purposes. You can configure this substitution using `useClass`:
+### Example: Simplest Custom DI Container Usage
 
 ```tsx
-class NotificationService {
-    sendNotification(message: string) {
-        console.log("Sending notification:", message);
-    }
-}
+// custom-container.di.ts
+import { createDIContainer } from 'weco-js';
 
-class MockNotificationService {
-    sendNotification(message: string) {
-        console.log("Mock notification:", message);
-    }
-}
+// Create a new DI container
+export const [customInject] = createDIContainer();
 
-// Create a DI container with NotificationService substituted by MockNotificationService
-export const [inject, setConfig] = createDIContainer([
-    {
-        provide: NotificationService,
-        useClass: MockNotificationService // Substitute NotificationService with MockNotificationService
-    }
-]);
+function App() {
+    const messageService = customInject(MessageService); // Retrieve MessageService from the custom container
 
-function AlertComponent() {
-    const notifier = inject(NotificationService);
-
-    const alertUser = () => {
-        notifier.sendNotification("Alert: Important update!"); // Calls MockNotificationService's method
-    };
-
-    return <button onClick={alertUser}>Send Alert</button>;
+    return <h1>{messageService.getMessage()}</h1>;
 }
 ```
 
 In this example:
+* `createDIContainer()` returns a custom `customInject` function.
+* Services can be injected using `customInject`.
 
-* The `useClass: MockNotificationService` setting in `setConfig` ensures that `NotificationService` requests are fulfilled by `MockNotificationService`.
-* When `inject(NotificationService)` is called in `AlertComponent`, it returns an instance of `MockNotificationService`, and `sendNotification` logs the mock message.
+### Creating a Custom DI Container with Initial Configuration
 
-#### Extending Classes with useClass
+The `createDIContainer()` function accepts an optional array of initial configurations for services, specifying their behavior within the container.
 
-You can also use `useClass` to provide an extended version of a service class, allowing you to add or modify functionality without changing the original class.
+## Example: Custom DI Container with Configuration
 
-```ts
-class EnhancedNotificationService extends NotificationService {
-    sendNotification(message: string) {
-        super.sendNotification(message);
-        console.log("Enhanced: Notification also logged to database.");
-    }
-}
+```tsx
+// custom-container.di.ts
+import { createDIContainer } from 'weco-js';
 
-export const [inject, setConfig] = createDIContainer([
-    {
-        provide: NotificationService,
-        useClass: EnhancedNotificationService // Use the extended service class
-    }
-]);
-
-// Now, inject(NotificationService) will return an instance of EnhancedNotificationService.
-```
-
-In this setup:
-
-* `NotificationService` is replaced with `EnhancedNotificationService`, which extends the original class and adds additional logging behavior.
-* Any component that injects `NotificationService` will receive an instance of `EnhancedNotificationService` with the extended functionality.
-
-## Overriding Dependency Configuration with setConfig
-
-The `setConfig` function can be called separately to override existing configurations, which is particularly useful for testing.
-
-### Example: Overriding Dependency Configuration in Unit Tests
-
-```ts
-// Override MessageService with a mock for testing
-setConfig([
+// Create a custom DI container with an initial configuration
+export const [customInject] = createDIContainer([
     {
         provide: MessageService,
-        useValue: { getMessage: () => "Mock message" }
-    }
+        singleton: false, // Creates a new instance each time it's injected
+    },
 ]);
+
+function App() {
+    const messageService = customInject(MessageService); // Retrieve a non-singleton instance
+
+    return <h1>{messageService.getMessage()}</h1>;
+}
 ```
 
-To clear all overridden configurations (such as at the end of a unit test), you can call `setConfig` with an empty array:
+In this example:
+* `singleton: false` ensures that a new instance of `MessageService` is created each time it’s injected.
 
-```ts
-setConfig([]); // Clears all overrides
+## Overriding Dependency Configurations
+
+The `overrideProvider` function (for the default container) and `customSetConfig` function (for custom containers) allow you to dynamically change dependency configurations at runtime. This is particularly useful for testing or modifying application behavior without altering the core configuration.
+
+### Example: Overriding the Default DI Container Configuration
+
+```tsx
+import { inject, overrideProvider } from 'weco-js';
+
+// Override MessageService in the default container
+overrideProvider([
+    {
+        provide: MessageService,
+        useValue: { getMessage: () => "Overridden Message" }, // Provide a mock implementation
+    },
+]);
+
+function App() {
+    const messageService = inject(MessageService); // Retrieve the overridden service
+
+    return <h1>{messageService.getMessage()}</h1>; // Displays: Overridden Message
+}
 ```
 
-## Summary
+### Example: Overriding a Custom DI Container Configuration
 
-Dependency Injection in Weco JS provides:
+```tsx
+// custom-container.di.ts
+import { createDIContainer } from 'weco-js';
 
-* **Flexible Configuration**: Customize dependencies using `provide`, `useValue`, `useClass`, and `singleton`.
-* **Singleton Default**: All services are singletons by default, ensuring state consistency across the application unless `singleton: false` is specified.
-* **Enhanced Testing**: Use setConfig to mock or override dependencies easily in unit tests.
-* **Flexible Inject Support**: The `inject` function can accept any data type, which is beneficial for testing and mocking.
+// Create a custom DI container
+export const [customInject, customSetConfig] = createDIContainer();
 
-With Weco JS's DI system, managing shared dependencies becomes straightforward, improving modularity and facilitating a more testable codebase.
+// Override the configuration
+customSetConfig([
+    {
+        provide: MessageService,
+        useValue: { getMessage: () => "Custom Overridden Message" }, // Custom mock implementation
+    },
+]);
+
+function App() {
+    const messageService = customInject(MessageService); // Retrieve the overridden service
+
+    return <h1>{messageService.getMessage()}</h1>; // Displays: Custom Overridden Message
+}
+```
+
+In both cases:
+* `useValue` provides a mock or alternative implementation for `MessageService`.
+* Overrides apply globally within the container's scope, affecting all components that use the container.
+
+## Available Configuration Properties
+| Property | Purpose | Type |
+| --- | --- | --- |
+| `provide` | Specifies the dependency token or identifier. | `any` |
+| `useValue` | Directly provides a pre-defined value or object. | `any` |
+| `useClass` | Specifies the class to instantiate when the dependency is injected. | `constructor` |
+| `singleton` | Determines if the dependency should be a singleton (shared instance) or transient (new). | `boolean` |
+
+## Key Features of Weco JS DI
+1. **Default DI Container**: Convenient and ready to use without extra setup.
+2. **Custom DI Containers**: Flexible and configurable, avoiding naming conflicts.
+3. **Initial Configurations**: Define behaviors (e.g., singleton or transient) during container creation.
+4. **Runtime Overrides**: Dynamically change dependency behavior using `overrideProvider` or `customSetConfig`.
+5. **Testability**: Easily mock dependencies for unit tests using the DI system.
+
+With Weco JS’s DI, you can streamline your application's dependency management while maintaining flexibility and clarity.

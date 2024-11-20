@@ -4,72 +4,59 @@ A standalone component in **Weco Js** is a self-contained web component that can
 
 ## Building a Standalone Component
 
-To build a standalone component, use the following command:
-
-```bash
-weco build --standalone path/to/component/button.component.tsx --output path/to/output/button.component.js
-```
-
-* The `--output` option is optional. If not specified, it defaults to `./dist/standalone/button.component.js`.
-
-This command generates a JavaScript file, such as `path/to/output/button.component.js`, containing a class definition like:
-
-```js
-class ButtonComponent extends HTMLElement {
-    ...
-}
-```
-
-To customize the class name, add the `--name=<class name>` option:
-
-```bash
-weco build --standalone path/to/component/button.component.tsx --output path/to/output/button.component.js --name=CustomBtnComponent
-```
-
-### Using the `.standalone.json` Configuration File
-
-You can also configure standalone components with a `.standalone.json` file, allowing for a simpler build command:
+To build standalone components, use the following command:
 
 ```bash
 weco build --standalone
 ```
 
-The command above will look for a `.standalone.json` file, which might look like this:
+### Input and Output
 
-```json
-{
-    "components": [
-        {
-            "input": "./path/to/component/button.component.tsx",
-            "output": "./dist/standalone/button.component.js",
-            "name": "CustomButtonComponent"
-        }
-    ]
-}
+* The command will look for files inside the `./src/standalone` directory.
+* The output files will be generated in the `./dist/standalone` directory.
+
+For example:
+
+* If you have `button.component.ts` and `message.component.ts` in the `./src/standalone` directory, running the command will produce:
+    * `./dist/standalone/button.js`
+    * `./dist/standalone/message.js`
+
+These files are standalone web components ready for use.
+
+### File Structure
+
+Each `.component.ts` file should contain an `export default` definition, like this:
+
+`src/standalone/button.component.ts`
+
+```ts
+import { createComponent } from "weco-js";
+import { Button } from "../app/button.component";
+
+export default createComponent(Button);
 ```
 
-To build multiple standalone components, include them in the `components` array within the `.standalone.json` file:
+The imported `Button` from `../app/button.component` is the actual button component.
 
-```json
-{
-    "components": [
-        {
-            "input": "./path/to/component/button.component.tsx",
-            "output": "./dist/standalone/button.component.js",
-            "name": "CustomButtonComponent"
-        },
-        {
-            "input": "./path/to/component/button-2.component.tsx",
-            "output": "./dist/standalone/button-2.component.js",
-            "name": "CustomButton2Component"
-        }
-    ]
-}
+`src/standalone/message.component.ts`
+
+```ts
+import { createComponent } from "weco-js";
+import { Message } from "../app/message.component";
+
+export default createComponent(Message);
 ```
 
-## Using the Standalone Component
+The imported `Message` from `../app/message.component` is the actual message component.
 
-To use a standalone web component, include the generated output file in your HTML and register the component as shown below:
+The class names in the generated JavaScript files are derived from the file names:
+
+* `src/standalone/button.component.ts` generates a class named `Button`.
+* `src/standalone/message.component.ts` generates a class named `Message`.
+
+## Using the Standalone Components
+
+To use the generated standalone components, include the output files in your HTML and define the web components:
 
 ```html
 <!-- index.html -->
@@ -81,15 +68,18 @@ To use a standalone web component, include the generated output file in your HTM
 </head>
 <body>
 
-    <my-button></my-button> <!-- Your component will output in here -->
-    
-    <script src="/path/to/component/button.component.js"></script> <!-- Include your component -->
+    <app-button></app-button> <!-- Example usage of a web component -->
+    <app-message></app-message> <!-- Another web component -->
+
+    <!-- Include the generated files -->
+    <script src="./dist/standalone/button.js"></script>
+    <script src="./dist/standalone/message.js"></script>
+
+    <!-- Define the custom elements -->
     <script>
-        // define the component
-        customElements.define("my-button", ButtonComponent);
+        customElements.define('app-button', Button);
+        customElements.define('app-message', Message);
     </script>
 </body>
 </html>
 ```
-
-This approach allows you to integrate standalone **Weco Js** components seamlessly into your project.

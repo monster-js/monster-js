@@ -5,13 +5,14 @@ export function forLoop(classComponent: any, elementCreator: (index: number) => 
     const instance: WebComponentInterface = classComponent;
     const comment = document.createComment(' if ');
     const fragment = document.createDocumentFragment();
-    const initialValue = valueGetter();
+    // const initialValue = valueGetter();
     let elements: Element[] = [];
     const watcher: WatcherInterface = {
         hasChanges: false,
         value: {
             oldValue: [],
-            newValue: initialValue
+            // newValue: initialValue
+            newValue: []
         },
         getIsConnected: () => comment.isConnected,
         evaluate: () => {

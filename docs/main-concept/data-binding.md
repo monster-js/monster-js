@@ -15,12 +15,8 @@ The following example demonstrates a simple counter component with two-way data 
 function ButtonDataBinding() {
     const [count, setCount] = createState(this, 0); // Initialize state with 0
 
-    const onClick = () => {
-        setCount(count() + 1); // Update state on button click
-    }
-
     return <div>
-        <button on:click={onClick}>Increment</button> <!-- Attach event to update state -->
+        <button on:click={setCount(count() + 1)}>Increment</button> <!-- Attach event to update state -->
         <p>Count: {count()}</p> <!-- Display current count value -->
     </div>
 }

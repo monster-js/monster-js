@@ -4,3 +4,4 @@ export interface DependencyConfigInterface<T = any> {
     useClass?: { new(...args: any[]): T }; // A class to instantiate in place of the provided dependency
     singleton?: boolean;        // Whether to use a singleton instance (default is true)
 };
+

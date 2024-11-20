@@ -8,11 +8,10 @@ export function bindAttributes(classComponent: any, element: Element, attributes
     Object.keys(attributes).forEach((key) => {
         const attributeName = key;
         const valueGetter = attributes[key];
-        const initialValue = valueGetter();
 
         const changeDetection: WatcherInterface = {
             hasChanges: false,
-            value: initialValue,
+            value: undefined,
             getIsConnected: () => element.isConnected,
             evaluate: () => {
                 const newValue = valueGetter();
@@ -28,7 +27,6 @@ export function bindAttributes(classComponent: any, element: Element, attributes
             }
         };
 
-        // changeDetection.handlerChange(initialValue);
         instance.addWatcher(changeDetection);
     });
 

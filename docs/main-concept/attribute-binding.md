@@ -12,11 +12,7 @@ In Weco JS, attribute binding is achieved by embedding expressions within attrib
 function ButtonAttrBinding() {
     const [count, setCount] = createState(this, 0); // Initialize state with 0
 
-    const onClick = () => {
-        setCount(count() + 1); // Increment count when button is clicked
-    }
-
-    return <button id={'count-' + count()} on:click={onClick}>Increment</button>
+    return <button id={'count-' + count()} on:click={setCount(count() + 1)}>Increment</button>
 }
 ```
 
@@ -34,13 +30,15 @@ You can bind multiple attributes to the same or different state variables within
 function ToggleButton() {
     const [isEnabled, setEnabled] = createState(this, true);
 
-    const toggleEnabled = () => {
-        setEnabled(!isEnabled()); // Toggle enabled/disabled state
-    };
-
-    return <button id={isEnabled() ? 'enabled' : 'disabled'} on:click={toggleEnabled} disabled={!isEnabled()}>
-        {isEnabled() ? 'Enabled' : 'Disabled'}
-    </button>
+    return <div>
+        <button
+            id={isEnabled() ? 'enabled' : 'disabled'}
+            disabled={!isEnabled()}
+        >
+            {isEnabled() ? 'Enabled' : 'Disabled'}
+        </button>
+        <button on:click={setEnabled(!isEnabled())}>Click Me</button>
+    </div>
 }
 ```
 
