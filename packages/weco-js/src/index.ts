@@ -1,3 +1,4 @@
+
 // dependency injection
 export { createDIContainer } from './di/create-di-container';
 export { inject, overrideProvider } from './di/default-di-container';
@@ -11,6 +12,7 @@ export { adopted } from './lifecycle-hooks/adopted';
 export { connected } from './lifecycle-hooks/connected';
 export { disconnected } from './lifecycle-hooks/disconnected';
 export { attributeChanged } from './lifecycle-hooks/attribute-changed';
+export { namedAttrChanged } from './lifecycle-hooks/named-attr-changed';
 
 // component
 export { createWebComponent } from './component/create-web-component';
@@ -39,3 +41,12 @@ export { directive } from './directives/directive';
 
 // types
 export { DirectiveDataType } from './types/directive-data.type';
+
+// event emitter
+export { createEventEmitter } from './event-emitter/create-event-emitter';
+export { createFeatureEventEmitter } from './event-emitter/create-feature-event-emitter';
+
+// utils
+export { jsonTransformer } from './utils/json-transformer';
+export { booleanTransformer } from './utils/boolean-transformer';
+export { numberTransformer } from './utils/number-transformer';

@@ -46,7 +46,7 @@ export default directive(highlight, 'highlight');
 To use the `highlight` directive in a component:
 
 ```tsx
-import { directive, component } from 'weco-js';
+import { component } from 'weco-js';
 import highlight from './highlight.directive';
 
 export default function App() {
@@ -67,7 +67,7 @@ component(App, {
 Directives can also adapt their behavior based on dynamic values. Below is an example:
 
 ```tsx
-import { directive } from 'weco-js';
+import { directive, DirectiveDataType } from 'weco-js';
 
 function highlight(element: Element, data: DirectiveDataType) {
     return (
@@ -89,7 +89,8 @@ export default directive(highlight, 'highlight');
 Here's how to integrate a dynamic directive into a component:
 
 ```tsx
-import { directive, component } from 'weco-js';
+import { component, createState } from 'weco-js';
+import highlight from './highlight.directive';
 
 export function App() {
     const [color] = createState(this, 'blue'); // Reactive state for color

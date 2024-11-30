@@ -1,4 +1,3 @@
-import { ComponentConfigInterface } from "../interfaces/component-config.interface";
 import { FnComponentInterface } from "../interfaces/fn-component.interface";
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
@@ -56,7 +55,7 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
         }
 
         static get observedAttributes() {
-            return ((renderFunction as any)?.config as ComponentConfigInterface)?.observedAttributes || [];
+            return ((renderFunction as any) as FnComponentInterface)?.__meta?.observedAttributes || [];
         }
 
         public connectedCallback() {

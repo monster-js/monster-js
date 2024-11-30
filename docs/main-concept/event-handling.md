@@ -29,6 +29,9 @@ You can also access both the event object and the clicked element within the eve
 ### Example
 
 ```tsx
+declare const $event: any;
+declare const $element: any;
+
 function Button() {
     const onClick = (event, element) => {
         console.log('I am the event', event);

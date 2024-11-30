@@ -1,3 +1,3 @@
-export interface ComponentConfigInterface {
+export interface ComponentConfigInterfacex {
     observedAttributes: string[];
 }

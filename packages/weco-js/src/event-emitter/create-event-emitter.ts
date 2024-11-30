@@ -1,7 +1,6 @@
+const events = new Map<any, Function[]>();
+
 export function createEventEmitter<T extends Record<string, any>>() {
-
-    const events = new Map<keyof T, Function[]>();
-
     return {
         /**
          * Registers a listener for the specified event.

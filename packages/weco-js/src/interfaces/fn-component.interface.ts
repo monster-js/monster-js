@@ -3,5 +3,6 @@ export interface FnComponentInterface {
         selector: string;
         parentClass?: CustomElementConstructor;
         directives?: ({ namespace: string } & any)[];
+        observedAttributes?: string[];
     }
 }
