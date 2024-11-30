@@ -12,7 +12,7 @@ export function applyDirectives(
         if (!obj[namespace]) {
             obj[namespace] = {};
         }
-        obj[namespace][name] = valueCaller || (() => null);
+        obj[namespace][name] = valueCaller || (() => undefined);
     });
 
     let returnEl: Element = element;
