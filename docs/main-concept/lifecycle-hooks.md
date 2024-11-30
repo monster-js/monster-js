@@ -115,14 +115,13 @@ Weco JS provides several transformers for `namedAttrChanged` to handle common da
 function Component() {
     namedAttrChanged(this, 'is-admin', (newVal, oldVal) => {
         console.log(`attributeChangedCallback for is-admin attribute: ${newVal} - ${oldVal}`);
-    }, booleanTransformer);
+    }, [booleanTransformer]);
 
     return <h1>Hello world!</h1>;
 }
 ```
 
 In this example:
-
 * The `namedAttrChanged` hook specifically watches the `is-admin` attribute.
 * The `booleanTransformer` converts `is-admin` to a boolean (`true` or `false`), ensuring that the handler receives values in the correct type.
 
@@ -150,7 +149,7 @@ function Component() {
 
     namedAttrChanged(this, 'data-value', (newVal, oldVal) => {
         console.log(`attributeChangedCallback for data-value: ${newVal} - ${oldVal}`);
-    }, numberTransformer);
+    }, [numberTransformer]);
 
     return <h1>Hello world!</h1>;
 }
