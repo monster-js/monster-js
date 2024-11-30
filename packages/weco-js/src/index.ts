@@ -28,7 +28,14 @@ export { ifCondition } from './template-engine/if-condition';
 export { forLoop } from './template-engine/for-loop';
 export { applyProps } from './template-engine/apply-props';
 export { component } from './template-engine/component';
+export { applyDirectives } from './template-engine/apply-directives';
 
 // props
 export { createProp } from './props/create-prop';
 export { createProps } from './props/create-props';
+
+// directives
+export { directive } from './directives/directive';
+
+// types
+export { DirectiveDataType } from './types/directive-data.type';

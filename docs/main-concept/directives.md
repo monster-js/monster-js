@@ -1,82 +1,148 @@
 # Directives
 
-In **Weco JS**, directives allow you to define reusable behavior that can be attached to elements within your components.
-Directives can be used to modify elements or apply specific behaviors based on the directive's logic.
-This documentation explains how to define and use directives in Weco JS.
+In **Weco JS**, directives allow you to encapsulate reusable logic that can be applied to elements in your components. They provide a way to modify or enhance the behavior of elements by defining a directive function that can be registered and applied dynamically.
+
+This section explains how to define, register, and use directives in **Weco JS**.
 
 ## Defining a Directive
 
-To create a directive, you define a function that will receive:
+To create a directive, use the `directive` function from `weco-js`. The directive function takes two parameters:
 
-* The **element** to which the directive is applied.
-* A **value caller** function that returns the dynamic value passed to the directive.
+1. **The directive function**: A function that defines the logic for the directive and returns the modified element.
+2. **The namespace**: A unique name that is used to apply the directive to an element.
 
-Here's an example of a directive called `highlightDirective` that applies a background color to the element based on the value provided:
+## Basic Directive Example
+
+Here’s a simple example of a directive called `highlightDirective`, which applies a background color based on the provided name:
 
 ```tsx
-function highlightDirective(element: Element, valueCaller: () => any) {
-    return <div style={`background: ${valueCaller()};`}>
-        <element-outlet element={element} />
-    </div>;
+import { directive } from 'weco-js';
+
+function highlightDirective(element: Element, name: string) {
+    return (
+        <div style={`background: ${name};`}>
+            <element-outlet element={element} />
+        </div>
+    );
 }
+
+// Register the directive with the 'highlight' namespace
+directive(highlightDirective, 'highlight');
 ```
 
 ### Explanation
 
-* **element**: The element to which the directive is applied. The `highlightDirective` can modify this element by wrapping it in a new element with specific styles.
-* **valueCaller**: A function that returns the value passed to the directive, in this case, the background color.
+* `name`: The background color is passed as a string to the directive, and the directive applies that color to the element.
+* `<element-outlet>`: This component reinserts the original element into the directive’s structure, preserving its content and behavior.
 
-In the example above, `highlightDirective` wraps the original element in a `<div>` with a background color based on `valueCaller()`.
+This simple directive directly uses the `name` parameter as the background color for the target element.
 
-### Special Element: `<element-outlet>`
+### How to Use in a Component
 
-The `<element-outlet>` component is used as a placeholder to reinsert the original element inside the directive's structure, preserving its original behavior and content.
-
-## Using Directives in Components
-
-After defining a directive, you can apply it to an element in your component by specifying it with the `dir:` prefix. To make the directive available in your component, you must register it using `registerConfig`.
-
-### Example Usage
-
-Here’s an example of a component that uses the `highlightDirective` to highlight text:
+You can use the `highlight` directive inside a component by applying the directive's namespace (`highlight`) to an element:
 
 ```tsx
-function Message() {
-    return <p>Welcome, <span dir:highlight="red">John</span>!</p>;
+import { directive, component } from 'weco-js';
+
+export function App() {
+    return <p>Welcome, <span highlight:red>John</span>!</p>;
 }
 
-registerConfig(Message, {
-    directives: {
-        highlight: highlightDirective
-    }
+component(App, {
+    selector: 'app-root',
+    imports: [
+        highlightDirective // Import the directive
+    ]
 });
 ```
 
+In this example:
+* `highlight:red`: The `highlight` directive is applied to the `<span>` element, setting the background color to `red`.
+
+## Dynamic Value Directive Example
+
+For more dynamic behavior, you can use a `valueCaller` function to determine the value passed to the directive, as shown in the following example:
+
+```tsx
+import { directive } from 'weco-js';
+
+function highlightDirective(element: Element, name: string, valueCaller: () => any) {
+    let getColor = () => name; // Default color from directive name
+    if (name === 'color') { 
+        getColor = valueCaller; // Dynamic color from provided value
+    }
+
+    return (
+        <div style={`background: ${getColor()};`}>
+            <element-outlet element={element} />
+        </div>
+    );
+}
+
+// Register the directive with the 'highlight' namespace
+directive(highlightDirective, 'highlight');
+```
+
 ### Explanation
+* `name`: In this example, the directive defaults to using the `name` parameter (e.g., `'red'`) as the background color.
+* `valueCaller`: If the `name` is `'color'`, the `valueCaller` function is used to dynamically retrieve the value passed to the directive, such as the color defined in the component state or props.
 
-1. **dir:highlight="red"**: Applies the `highlight` directive to the `<span>` element. The `highlight` directive will use `"red"` as the background color.
-2. **registerConfig**: Registers the `highlight` directive with the `Message` component so it can be used within the component.
+This approach allows the directive to adapt its behavior based on the value passed, making it more flexible.
 
-## How It Works
+### How to Use in a Component
 
-When Weco JS processes the component:
+Here’s how you can use the dynamic directive inside a component with reactive values:
 
-* It locates elements with the `dir:` prefix (in this case, `dir:highlight`).
-* It replaces the directive with the output of the directive function, modifying the element based on the directive logic.
+```tsx
+import { directive, component } from 'weco-js';
 
-## Registering Multiple Directives
+export function App() {
+    const [color] = createState(this, 'blue'); // Reactive state for color
 
-You can register multiple directives with a component by adding them to the directives object in `registerConfig`. For example:
+    return <p>Welcome, <span highlight:color={color()}>John</span>!</p>;
+}
+
+component(App, {
+    selector: 'app-root',
+    imports: [
+        highlightDirective // Import the directive
+    ]
+});
+```
+
+In this example:
+* `highlight:color={color()}`: The `highlight` directive is applied to the `<span>` element, and the background color is determined by the dynamic value stored in the `color` state.
+
+## Registering Directives
+
+You must import and register directives in the component where they will be used. This is done via the `imports` property in the `component` function.
 
 ```ts
-registerConfig(Message, {
-    directives: {
-        highlight: highlightDirective,
-        anotherDirective: anotherDirectiveFunction
-    }
+component(App, {
+    selector: 'app-root',
+    imports: [
+        highlightDirective // Import the directive
+    ]
+});
+```
+
+You can also register multiple directives at once:
+
+```ts
+component(App, {
+    selector: 'app-root',
+    imports: [
+        highlightDirective,
+        anotherDirective // Registering multiple directives
+    ]
 });
 ```
 
 ## Summary
 
-Directives in Weco JS provide a powerful way to encapsulate and reuse behavior. By defining a directive function and registering it with `registerConfig`, you can easily apply reusable transformations or behaviors to any element in your components.
+Directives in Weco JS:
+* Provide a flexible way to encapsulate reusable logic.
+* Can accept static or dynamic values for greater flexibility.
+* Are registered using the `directive` function and applied to elements with the `namespace:value` syntax.
+
+By defining directives and leveraging dynamic values, you can create highly reusable and configurable UI behaviors in your Weco JS components.

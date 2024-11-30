@@ -1,6 +1,6 @@
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
-import { PROPS_SYMBOL } from "../utils/props-symbol";
+import { setProps } from "../utils/props-store";
 
 export function applyProps(instance: WebComponentInterface, element: HTMLElement, propsCallers: Record<string, () => any>) {
     const valueGetter = () => {
@@ -35,7 +35,7 @@ export function applyProps(instance: WebComponentInterface, element: HTMLElement
             }
         },
         handlerChange: (value: any) => {
-            (element as any)[PROPS_SYMBOL](value);
+            setProps(element as any, value);
         }
     };
     watcher.handlerChange(initialValue);

@@ -1,7 +1,7 @@
 import { ComponentConfigInterface } from "../interfaces/component-config.interface";
+import { FnComponentInterface } from "../interfaces/fn-component.interface";
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
-import { PROPS_SYMBOL } from "../utils/props-symbol";
 
 export function createWebComponent(renderFunction: () => Element, parentClass = HTMLElement): any {
     return class extends parentClass implements WebComponentInterface {
@@ -9,7 +9,6 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
         private watchers: WatcherInterface[] = [];
         private conditionWatchers: WatcherInterface[] = [];
         private element: Element;
-        private privateProps: Record<any, any> = {};
 
         private connectedCallbacks: (() => void)[] = [];
         private afterViewInits: (() => void)[] = [];
@@ -17,19 +16,23 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
         private attributeChangedCallbacks: ((attrName: any, oldVal: any, newVal: any) => void)[] = [];
         private adoptedCallbacks: (() => void)[] = [];
 
+        private directives: Record<string, any> = {};
+
         constructor() {
             super();
 
-            (this as any)[PROPS_SYMBOL] = (props: Record<any, any>) => {
-                this.privateProps = props;
-                if (this.isConnected) {
-                    this.detectChanges();
-                }
-            };
+            const fnComponent: FnComponentInterface = renderFunction as any;
+            (fnComponent.__meta?.directives || []).forEach((directiveFn) => {
+                this.directives[directiveFn.namespace] = directiveFn;
+            });
 
             if (typeof renderFunction === 'function') {
                 this.element = renderFunction.bind(this)();
             }
+        }
+
+        public getDirective(namespace: string) {
+            return this.directives[namespace];
         }
 
         public addHook(type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted' | 'afterViewInit', callback: (...args: any[]) => void) {
@@ -50,10 +53,6 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
                     this.adoptedCallbacks.push(callback);
                     break;
             }
-        }
-
-        public get props() {
-            return this.privateProps;
         }
 
         static get observedAttributes() {

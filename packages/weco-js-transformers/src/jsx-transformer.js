@@ -8,10 +8,11 @@ const FN_NAMES = {
   BIND_ATTRIBUTES: "bindAttributes",
   IF_CONDITION: "ifCondition",
   FOR_LOOP: "forLoop",
-  APPLY_PROPS: "applyProps"
+  APPLY_PROPS: "applyProps",
+  APPLY_DIRECTIVES: "applyDirectives"
 };
 
-const CORE_PACKAGE_NAME = 'weco-js';
+const CORE_PACKAGE_NAME = "weco-js";
 
 let programPathGetter;
 
@@ -45,23 +46,23 @@ module.exports = function (babel) {
         const isComponent = tagName[0] === tagName[0].toUpperCase();
         const staticAttributes = node.openingElement.attributes.filter(
           (attribute) =>
+            attribute.value &&
             attribute.value.type === "StringLiteral" &&
             attribute.name.type === "JSXIdentifier"
         );
         const bindAttributes = node.openingElement.attributes.filter(
           (attribute) =>
+            attribute.value &&
             attribute.value.type === "JSXExpressionContainer" &&
             attribute.name.type === "JSXIdentifier"
         );
         const props = node.openingElement.attributes.filter(
           (attribute) =>
-            attribute.name.type === "JSXNamespacedName" &&
-            attribute.name.namespace.name === "prop"
+            attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "prop"
         );
         const events = node.openingElement.attributes.filter(
           (attribute) =>
-            attribute.name.type === "JSXNamespacedName" &&
-            attribute.name.namespace.name === "on"
+            attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "on"
         );
         const ifCondition = node.openingElement.attributes.find(
           (attribute) =>
@@ -87,9 +88,18 @@ module.exports = function (babel) {
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "for-index"
         );
+        const directives = node.openingElement.attributes.filter(
+          (attribute) =>
+            attribute.name.type === "JSXNamespacedName" &&
+            attribute.name.namespace.name !== "on" &&
+            attribute.name.namespace.name !== "v"
+        );
         const children = node.children;
 
-        if (isComponent) {
+        if (node.openingElement.name.name === "element-outlet") {
+          applyElementOutlet(path);
+          return;
+        } else if (isComponent) {
           applyCreateComponent(node);
           applyProps(node, props);
         } else {
@@ -100,12 +110,75 @@ module.exports = function (babel) {
         applyEvents(events, node);
         applyChildren(children, node);
         applyBindAttributes(bindAttributes, node);
+        applyDirectives(node, directives);
         applyIfCondition(ifCondition, node);
         applyForCondition(forLoop, forLoopItem, forLoopIndex, path);
       }
     }
   };
 };
+
+function applyElementOutlet(path) {
+  const element = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "element");
+  console.log(element);
+  Object.keys(element.value.expression).forEach((key) => {
+    const except = ["end", "innerComments", "leadingComments", "loc", "start", "trailingComments"];
+    if (except.includes(key)) return;
+    path.node[key] = element.value.expression[key];
+  });
+}
+
+function applyDirectives(node, directives) {
+  console.log(directives);
+  if (directives.length > 0) {
+    addImport(FN_NAMES.APPLY_DIRECTIVES);
+    const originalNode = { ...node };
+    node.type = "CallExpression";
+    node.callee = {
+      type: "Identifier",
+      name: FN_NAMES.APPLY_DIRECTIVES
+    };
+    node.arguments = [
+      {
+        type: "ThisExpression"
+      },
+      originalNode,
+      {
+        type: "ArrayExpression",
+        elements: directives.map((directive) => {
+          const elements = [];
+          elements.push({
+            type: "StringLiteral",
+            value: directive.name.namespace.name
+          });
+          elements.push({
+            type: "StringLiteral",
+            value: directive.name.name.name
+          });
+          if (directive.value) {
+            if (directive.value.type === "StringLiteral") {
+              elements.push({
+                type: "ArrowFunctionExpression",
+                params: [],
+                body: directive.value
+              });
+            } else {
+              elements.push({
+                type: "ArrowFunctionExpression",
+                params: [],
+                body: directive.value.expression
+              });
+            }
+          }
+          return {
+            type: "ArrayExpression",
+            elements
+          };
+        })
+      }
+    ];
+  }
+}
 
 function applyProps(node, props) {
   if (props.length === 0) return;
@@ -246,17 +319,15 @@ function applyForCondition(forLoop, forLoopItem, forLoopIndex, path) {
     path.traverse({
       VariableDeclaration(path2) {
         if (path2.scope.bindings[forLoopItemValue]) {
-          path2.scope.bindings[forLoopItemValue].referencePaths.forEach(
-            (item) => {
-              item.node.type = "MemberExpression";
-              item.node.object = forLoop.value.expression;
-              item.node.computed = true;
-              item.node.property = {
-                type: "Identifier",
-                name: forLoopIndexValue
-              };
-            }
-          );
+          path2.scope.bindings[forLoopItemValue].referencePaths.forEach((item) => {
+            item.node.type = "MemberExpression";
+            item.node.object = forLoop.value.expression;
+            item.node.computed = true;
+            item.node.property = {
+              type: "Identifier",
+              name: forLoopIndexValue
+            };
+          });
           path2.remove();
         }
       }
@@ -449,15 +520,15 @@ function jsxAttributesToObject(attributes) {
 
 function addImport(name) {
   let coreImports = [];
-  programPathGetter().node.body.forEach(item => {
-    if (item.type === 'ImportDeclaration' && item.source.value === CORE_PACKAGE_NAME) {
+  programPathGetter().node.body.forEach((item) => {
+    if (item.type === "ImportDeclaration" && item.source.value === CORE_PACKAGE_NAME) {
       coreImports.push(item);
     }
   });
 
   let hasImport = false;
-  coreImports.forEach(item => {
-    item.specifiers.forEach(item2 => {
+  coreImports.forEach((item) => {
+    item.specifiers.forEach((item2) => {
       if (item2.imported.name === name) {
         hasImport = true;
       }
@@ -466,9 +537,9 @@ function addImport(name) {
 
   if (!hasImport && coreImports.length > 0) {
     coreImports[0].specifiers.push({
-      type: 'ImportSpecifier',
+      type: "ImportSpecifier",
       imported: {
-        type: 'Identifier',
+        type: "Identifier",
         name: name
       }
     });
@@ -476,16 +547,16 @@ function addImport(name) {
   if (!hasImport && coreImports.length === 0) {
     programPathGetter().node.body = [
       {
-        type: 'ImportDeclaration',
+        type: "ImportDeclaration",
         source: {
-          type: 'StringLiteral',
+          type: "StringLiteral",
           value: CORE_PACKAGE_NAME
         },
         specifiers: [
           {
-            type: 'ImportSpecifier',
+            type: "ImportSpecifier",
             imported: {
-              type: 'Identifier',
+              type: "Identifier",
               name: name
             }
           }

@@ -1,6 +1,6 @@
 {
   "name": "weco-js-cli",
-  "version": "0.0.65",
+  "version": "0.0.69",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -r ./dist && tsc && cp -r ./project-scaffold ./dist",
@@ -23,6 +23,6 @@
     "ts-loader": "^9.5.1",
     "webpack": "^5.96.1",
     "webpack-dev-server": "^5.1.0",
-    "weco-js-transformers": "^0.0.2"
+    "weco-js-transformers": "^0.0.6"
   }
 }
