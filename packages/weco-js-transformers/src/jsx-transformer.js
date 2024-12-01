@@ -88,6 +88,12 @@ module.exports = function (babel) {
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "for-index"
         );
+        const forLoopTrackBy = node.openingElement.attributes.find(
+          (attribute) =>
+            attribute.name.type === "JSXNamespacedName" &&
+            attribute.name.namespace.name === "v" &&
+            attribute.name.name.name === "for-track-by"
+        );
         const directives = node.openingElement.attributes.filter(
           (attribute) =>
             attribute.name.type === "JSXNamespacedName" &&
@@ -112,7 +118,7 @@ module.exports = function (babel) {
         applyBindAttributes(bindAttributes, node);
         applyDirectives(node, directives);
         applyIfCondition(ifCondition, node);
-        applyForCondition(forLoop, forLoopItem, forLoopIndex, path);
+        applyForCondition(forLoop, forLoopItem, forLoopIndex, forLoopTrackBy, path);
       }
     }
   };
@@ -250,7 +256,7 @@ function applyCreateElement(node) {
   ];
 }
 
-function applyForCondition(forLoop, forLoopItem, forLoopIndex, path) {
+function applyForCondition(forLoop, forLoopItem, forLoopIndex, forLoopTrackBy, path) {
   if (forLoop) {
     addImport(FN_NAMES.FOR_LOOP);
     const { node } = path;
@@ -315,6 +321,10 @@ function applyForCondition(forLoop, forLoopItem, forLoopIndex, path) {
         body: forLoop.value.expression
       }
     ];
+    
+    if (forLoopTrackBy) {
+      node.arguments.push(forLoopTrackBy.value.expression || forLoopTrackBy.value);
+    }
 
     path.traverse({
       VariableDeclaration(path2) {

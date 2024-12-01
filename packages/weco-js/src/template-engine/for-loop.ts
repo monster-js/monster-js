@@ -1,17 +1,20 @@
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
 
-export function forLoop(classComponent: any, elementCreator: (index: number) => Element, valueGetter: () => any[]) {
+export function forLoop(
+    classComponent: any,
+    elementCreator: (index: number) => Element,
+    valueGetter: () => any[],
+    trackBy: string = null
+) {
     const instance: WebComponentInterface = classComponent;
     const comment = document.createComment(' if ');
     const fragment = document.createDocumentFragment();
-    // const initialValue = valueGetter();
     let elements: Element[] = [];
     const watcher: WatcherInterface = {
         hasChanges: false,
         value: {
             oldValue: [],
-            // newValue: initialValue
             newValue: []
         },
         getIsConnected: () => comment.isConnected,
@@ -49,7 +52,6 @@ export function forLoop(classComponent: any, elementCreator: (index: number) => 
     };
 
     fragment.appendChild(comment);
-    // watcher.handlerChange(watcher.value);
     instance.addConditionWatcher(watcher);
 
     return fragment;

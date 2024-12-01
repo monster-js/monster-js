@@ -44,6 +44,38 @@ In this example:
 * `v:for-index="listIndex"` sets the current index to `listIndex`.
 * Each `<li>` displays the item and index using these custom variable names.
 
+## Adding Track By Functionality
+
+The `v:for-track-by` attribute allows you to optimize rendering by specifying a unique property of each item in the array. This ensures efficient DOM updates when the array changes. If no `v:for-track-by` is provided, Weco JS defaults to tracking items by their `index`.
+
+### Example with `v:for-track-by`
+
+```tsx
+function ListComponent() {
+    const items = [
+        { id: 1, value: 'Item 1' },
+        { id: 2, value: 'Item 2' },
+        { id: 3, value: 'Item 3' }
+    ];
+
+    return <ul>
+        <li v:for={items} v:for-track-by="id" v:for-item="listItem" v:for-index="listIndex">
+            Item value: {listItem.value}, Item index: {listIndex}
+        </li>
+    </ul>
+}
+```
+
+In this example:
+* `v:for-track-by="id"` uses the id property of each item to uniquely identify it.
+* The DOM updates efficiently when the array changes because Weco JS tracks items by their `id`.
+
+If no `v:for-track-by` is provided, the framework will default to tracking items by their index, which may be sufficient for simple arrays without unique properties.
+
+### Benefits of Using `v:for-track-by`
+* Avoids unnecessary re-rendering of list items when their order or content changes.
+* Ensures better performance, especially for large lists.
+
 ## Handling Undefined Variables
 
 If you encounter an error related to undefined variables (e.g., `$item` or `$index` not being defined), you may need to explicitly declare these variables at the top of the component function using `declare`. This can happen due to TypeScript's type checking or if the variables are not recognized in certain contexts.
@@ -80,6 +112,7 @@ function ListComponent() {
 
 * Use `v:for` to iterate over arrays in Weco JS, where `$item` represents the current item and `$index` represents the index.
 * Customize item and index variable names with `v:for-item` and `v:for-index`.
+* Optimize rendering using `v:for-track-by` to track items by a unique property. If `v:for-track-by` is not provided, items are tracked by their index.
 * Declare `$item`, `$index`, or custom variables at the top of the function if you encounter undefined variable errors.
 
 List rendering in Weco JS provides a powerful way to dynamically generate elements based on arrays, offering flexibility with custom variable names and explicit declarations when needed.
