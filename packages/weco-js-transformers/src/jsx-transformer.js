@@ -98,7 +98,8 @@ module.exports = function (babel) {
           (attribute) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name !== "on" &&
-            attribute.name.namespace.name !== "v"
+            attribute.name.namespace.name !== "v" &&
+          	attribute.name.namespace.name !== "prop"
         );
         const children = node.children;
 
@@ -126,7 +127,6 @@ module.exports = function (babel) {
 
 function applyElementOutlet(path) {
   const element = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "element");
-  console.log(element);
   Object.keys(element.value.expression).forEach((key) => {
     const except = ["end", "innerComments", "leadingComments", "loc", "start", "trailingComments"];
     if (except.includes(key)) return;
@@ -135,7 +135,6 @@ function applyElementOutlet(path) {
 }
 
 function applyDirectives(node, directives) {
-  console.log(directives);
   if (directives.length > 0) {
     addImport(FN_NAMES.APPLY_DIRECTIVES);
     const originalNode = { ...node };

@@ -78,11 +78,16 @@ function Component() {
 
     return <h1>Hello world!</h1>;
 }
+
+component(Component, {
+    selector: 'app-component',
+    observedAttributes: ['data-name']
+});
+
 ```
 
 In this example:
-
-* The `attributeChanged` hook logs the attribute name and its old and new values whenever an attribute changes on the component.
+* The `attributeChanged` hook is called whenever one of the specified attributes in the `observedAttributes` array changes from the parent component.
 
 ### `namedAttrChanged`
 
@@ -99,15 +104,20 @@ function Component() {
 
     return <h1>Hello world!</h1>;
 }
+
+component(Component, {
+    selector: 'app-component',
+    observedAttributes: ['data-name']
+});
 ```
 
 ### Using Transformers with `namedAttrChanged`
 
 Weco JS provides several transformers for `namedAttrChanged` to handle common data types:
 
-* `numberTransformer`: Converts the attribute value to a number.
-* `booleanTransformer`: Converts the attribute value to a boolean.
-* `jsonTransformer`: Parses the attribute value as JSON.
+* `toNumber`: Converts the attribute value to a number.
+* `toBoolean`: Converts the attribute value to a boolean.
+* `toJsonObject`: Parses the attribute value as JSON.
 
 #### Example with Transformer
 
@@ -115,7 +125,7 @@ Weco JS provides several transformers for `namedAttrChanged` to handle common da
 function Component() {
     namedAttrChanged(this, 'is-admin', (newVal, oldVal) => {
         console.log(`attributeChangedCallback for is-admin attribute: ${newVal} - ${oldVal}`);
-    }, [booleanTransformer]);
+    }, [toBoolean]);
 
     return <h1>Hello world!</h1>;
 }
@@ -123,7 +133,7 @@ function Component() {
 
 In this example:
 * The `namedAttrChanged` hook specifically watches the `is-admin` attribute.
-* The `booleanTransformer` converts `is-admin` to a boolean (`true` or `false`), ensuring that the handler receives values in the correct type.
+* The `toBoolean` converts `is-admin` to a boolean (`true` or `false`), ensuring that the handler receives values in the correct type.
 
 ## Full Example
 
@@ -149,7 +159,7 @@ function Component() {
 
     namedAttrChanged(this, 'data-value', (newVal, oldVal) => {
         console.log(`attributeChangedCallback for data-value: ${newVal} - ${oldVal}`);
-    }, [numberTransformer]);
+    }, [toNumber]);
 
     return <h1>Hello world!</h1>;
 }
@@ -171,6 +181,6 @@ Weco JS lifecycle hooks allow you to tap into various stages of a component's li
 * `disconnected`: Triggered when the component is disconnected from the DOM.
 * `adopted`: Triggered when the component is moved to a different document.
 * `attributeChanged`: Triggered whenever an observed attribute on the component changes.
-* `namedAttrChanged`: Observes changes on a specific attribute, with optional transformations using `numberTransformer`, `booleanTransformer`, or `jsonTransformer`.
+* `namedAttrChanged`: Observes changes on a specific attribute, with optional transformations using `toNumber`, `toBoolean`, or `toJsonObject`.
 
 Using these hooks, you can handle initialization, cleanup, document transfer, and attribute updates efficiently, providing greater control over component behavior throughout its lifecycle.

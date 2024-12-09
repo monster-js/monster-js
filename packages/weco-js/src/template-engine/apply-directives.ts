@@ -18,6 +18,9 @@ export function applyDirectives(
     let returnEl: Element = element;
     Object.keys(obj).forEach((namespace) => {
         const directiveFn = componentInstance.getDirective(namespace);
+        if (!directiveFn) {
+            throw new Error(`The directive '${namespace}' is being used in the template but has not been registered in the corresponding component.`);
+        }
         returnEl = directiveFn.bind(componentInstance)(returnEl, obj[namespace], element);
     });
     return returnEl;

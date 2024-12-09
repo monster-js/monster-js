@@ -1,3 +1,4 @@
+import { LifecycleHooksEnum } from "../enums/lifecycle-hooks.enum";
 import { WatcherInterface } from "./watcher.interface";
 
 export interface WebComponentInterface {
@@ -6,5 +7,5 @@ export interface WebComponentInterface {
     addConditionWatcher: (watcher: WatcherInterface) => void;
     detectChanges(): void;
     getDirective(namespace: string): any;
-    addHook: (type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted' | 'afterViewInit', callback: (...args: any[]) => void) => void;
+    addHook: (type: LifecycleHooksEnum, callback: (...args: any[]) => void) => void;
 }

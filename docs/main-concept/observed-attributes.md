@@ -1,10 +1,10 @@
 # Observed Attributes
 
-In Weco JS, observed attributes allow you to track specific attribute changes on a component. When an observed attribute's value changes, the `attributeChanged` or `namedAttrChanged` hooks can respond to that change, enabling dynamic updates to the component based on attribute values.
+In Weco JS, observed attributes allow you to track specific attribute changes on a component. When an observed attribute's value changes, the `attributeChanged` or `namedAttrChanged` hooks can respond to that change, enabling dynamic updates to the component based on attribute values. These hooks are part of Weco JS's lifecycle system, providing fine-grained control over how attribute changes are handled.
 
 ## Defining Observed Attributes
 
-To observe attributes on a component, specify them in the `registerConfig` function under `observedAttributes`. Below is an example of a `Counter` component that observes the `count` attribute.
+To observe attributes on a component, specify them in the `component` function under the `observedAttributes` option. Below is an example of a `Counter` component that observes the `count` attribute.
 
 ### Example: Counter Component with Observed Attribute
 
@@ -12,11 +12,10 @@ To observe attributes on a component, specify them in the `registerConfig` funct
 function Counter() {
     const [count, setCount] = createState(this, 0);
 
-    const toNumber = (countStr) => +countStr;
-
+    // Using the `attributeChanged` hook to handle attribute changes
     attributeChanged(this, (attrName, oldVal, newVal) => {
         if (attrName === 'count') {
-            setCount(toNumber(newVal));
+            setCount(Number(newVal));
         }
     });
 
@@ -24,26 +23,139 @@ function Counter() {
 }
 
 // Register the component with the observed attribute
-registerConfig(Counter, {
+component(Counter, {
+    selector: 'app-counter',
     observedAttributes: ['count']
 });
 ```
 
-In this example, whenever the `count` attribute changes, the `attributeChanged` hook is triggered. It checks if the changed attribute is `count`, and if so, converts the new value to a number and updates the component’s state accordingly.
+In this example:
+* The `attributeChanged` hook is triggered whenever an observed attribute (in this case, `count`) changes.
+* The hook checks if the changed attribute is `count` and, if so, converts the new value to a number and updates the component’s state.
 
 ## Observing a Single Attribute with `namedAttrChanged`
 
-For simpler cases, you can observe a single attribute directly by using the `namedAttrChanged` hook. This allows you to monitor a specific attribute without needing to check for its name within the `attributeChanged` hook.
+For simpler use cases, the `namedAttrChanged` hook is a streamlined alternative to `attributeChanged`. It directly observes a specific attribute, optionally applying transformations to the new value.
 
-```ts
-namedAttrChanged(this, 'count', (newVal, oldVal) => {
-    setCount(toNumber(newVal));
+### Example: Observing a Single Attribute
+
+```tsx
+function Counter() {
+    const [count, setCount] = createState(this, 0);
+
+    // Observing the `count` attribute with `namedAttrChanged`
+    namedAttrChanged(this, 'count', (newVal, oldVal) => {
+        setCount(+newVal);
+    });
+
+    return <div>Count: {count()}</div>;
+}
+
+// Register the component
+component(Counter, {
+    selector: 'app-counter',
+    observedAttributes: ['count']
 });
 ```
 
+In this example:
+* The `namedAttrChanged` hook simplifies the code by focusing solely on the `count` attribute.
+* No additional logic is needed to check the attribute name inside the callback.
+
+## Adding Transformers with `namedAttrChanged`
+
+The `namedAttrChanged` hook supports transformers to process attribute values before passing them to the handler. This feature is useful when dealing with specific data types.
+
+### Example: Using a Transformer
+
+```tsx
+function Counter() {
+    const [isEnabled, setIsEnabled] = createState(this, false);
+
+    // Observing the `is-active` attribute as a boolean
+    namedAttrChanged(this, 'is-active', (newVal, oldVal) => {
+        setIsEnabled(newVal);
+    }, [toBoolean]);
+
+    return <div>Status: {isEnabled() ? 'Active' : 'Inactive'}</div>;
+}
+
+// Register the component
+component(Counter, {
+    selector: 'app-counter',
+    observedAttributes: ['is-active']
+});
+```
+
+In this example:
+* The `toBoolean` ensures the `is-active` attribute is interpreted as a boolean (`true` or `false`).
+
+## Creating Transformers
+
+Transformers in Weco JS are simple functions that accept a value, process it, and return the transformed value. They can be chained in an array to apply multiple transformations to an attribute value before it reaches the handler function.
+
+### Defining a Transformer
+
+A transformer is just a standard function:
+
+```tsx
+function toUpperCase(value) {
+    return String(value).toUpperCase();
+}
+```
+
+### Using Transformers with `namedAttrChanged`
+
+You can pass an array of transformers to `namedAttrChanged`. Each transformer in the array processes the value sequentially before it is passed to the handler.
+
+```tsx
+function Component() {
+    namedAttrChanged(this, 'username', (newVal, oldVal) => {
+        console.log(`Transformed value: ${newVal}`);
+    }, [
+        (value) => value.trim(), // Remove extra spaces
+        (value) => value.toLowerCase(), // Convert to lowercase
+        toUpperCase // Custom transformer
+    ]);
+
+    return <h1>Hello world!</h1>;
+}
+```
+
+In this example:
+1. The first transformer removes extra spaces from the attribute value.
+2. The second transformer converts the value to lowercase.
+3. The `toUpperCase` transformer then converts the value to uppercase.
+
+### Common Transformers
+
+Here are some frequently used transformers:
+1. `toNumber`: Converts the input value into a number..
+2. `toBoolean`: Converts the input value into a boolean. Returns `false` for `undefined`, `null`, `false`, or `"false"`, and `true` otherwise.
+3. `toJsonObject`: Parses the input string as a JSON object.
+
+### Combining Transformers
+
+Transformers can be combined to handle complex scenarios:
+
+```tsx
+function Component() {
+    namedAttrChanged(this, 'config', (newVal, oldVal) => {
+        console.log(`Parsed JSON:`, newVal);
+    }, [
+        (value) => value.trim(),
+        toJsonObject // Parse the cleaned JSON string
+    ]);
+
+    return <h1>Hello world!</h1>;
+}
+```
+
+By defining and using transformers, you can easily customize how attribute values are processed and ensure they are correctly formatted for your component logic.
+
 ## Using a Component with Observed Attributes
 
-To demonstrate the use of the `Counter` component with an observed attribute, we’ll create a parent component that passes a dynamic `count` value to `Counter` as an attribute.
+Let’s demonstrate the usage of a component with observed attributes in a parent component. Here, the `Counter` component is integrated with a dynamic `count` value.
 
 ### Example: Parent Component
 
@@ -65,15 +177,13 @@ function App() {
 ```
 
 In this example:
-
-* The `App` component contains a button that increments a `clickCount` state each time it’s clicked.
-* The `Counter` component is used with the `count` attribute set to `clickCount()`—the current value of `clickCount`.
-* As `clickCount` changes, `Counter` receives the updated `count` attribute, triggering the `attributeChanged` hook to update the displayed count.
+* The `App` component contains a button that increments a `clickCount` state.
+* The `Counter` component observes the `count` attribute, updating its display dynamically as the `clickCount` state changes in the parent.
 
 ## Key Points
+* **Specifying Observed Attributes**: Define observed attributes in the `observedAttributes` array when registering a component.
+* **Reacting to Changes**: Use the `attributeChanged` hook to handle multiple attributes or `namedAttrChanged` for single attributes.
+* **Transforming Attribute Values**: Leverage transformers like `toBoolean`, `toNumber`, or `toJsonObject` with `namedAttrChanged` to process attribute values automatically.
+* **Lifecycle Hooks Integration**: The `attributeChanged` and `namedAttrChanged` hooks are part of Weco JS's robust lifecycle system, making it easy to manage dynamic component behavior efficiently.
 
-* Use `observedAttributes` in `registerConfig` to specify which attributes to monitor.
-* `attributeChanged` responds to all observed attributes, allowing you to react to multiple changes in a single hook.
-* `namedAttrChanged` simplifies observing single attributes and is an alternative to `attributeChanged`.
-
-By following these steps, Weco JS components can efficiently track and respond to attribute changes for reactive, data-driven behavior.
+By leveraging Weco JS's observed attributes and lifecycle hooks, you can create components that dynamically respond to attribute changes, enabling powerful and reactive application designs.

@@ -1,4 +1,4 @@
-export function numberTransformer(value: string): number {
+export function toNumber(value: string): number {
     if (typeof value === "number") {
         return value; // Already a number
     }

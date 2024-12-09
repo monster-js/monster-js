@@ -13,6 +13,8 @@ export { connected } from './lifecycle-hooks/connected';
 export { disconnected } from './lifecycle-hooks/disconnected';
 export { attributeChanged } from './lifecycle-hooks/attribute-changed';
 export { namedAttrChanged } from './lifecycle-hooks/named-attr-changed';
+export { afterViewInit } from './lifecycle-hooks/after-view-init';
+export { afterViewChanged } from './lifecycle-hooks/after-view-changed';
 
 // component
 export { createWebComponent } from './component/create-web-component';
@@ -47,6 +49,6 @@ export { createEventEmitter } from './event-emitter/create-event-emitter';
 export { createFeatureEventEmitter } from './event-emitter/create-feature-event-emitter';
 
 // utils
-export { jsonTransformer } from './utils/json-transformer';
-export { booleanTransformer } from './utils/boolean-transformer';
-export { numberTransformer } from './utils/number-transformer';
+export { toJsonObject } from './utils/to-json-object';
+export { toBoolean } from './utils/to-boolean';
+export { toNumber } from './utils/to-number';

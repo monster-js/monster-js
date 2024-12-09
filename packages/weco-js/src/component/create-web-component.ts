@@ -1,3 +1,4 @@
+import { LifecycleHooksEnum } from "../enums/lifecycle-hooks.enum";
 import { FnComponentInterface } from "../interfaces/fn-component.interface";
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
@@ -9,11 +10,7 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
         private conditionWatchers: WatcherInterface[] = [];
         private element: Element;
 
-        private connectedCallbacks: (() => void)[] = [];
-        private afterViewInits: (() => void)[] = [];
-        private disconnectedCallbacks: (() => void)[] = [];
-        private attributeChangedCallbacks: ((attrName: any, oldVal: any, newVal: any) => void)[] = [];
-        private adoptedCallbacks: (() => void)[] = [];
+        private hooks: Record<LifecycleHooksEnum, ((...args: any[]) => void)[]> = {} as any;
 
         private directives: Record<string, any> = {};
 
@@ -34,24 +31,14 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
             return this.directives[namespace];
         }
 
-        public addHook(type: 'connected' | 'disconnected' | 'attributeChanged' | 'adopted' | 'afterViewInit', callback: (...args: any[]) => void) {
-            switch (type) {
-                case 'connected':
-                    this.connectedCallbacks.push(callback);
-                    break;
-                case 'afterViewInit':
-                    this.afterViewInits.push(callback);
-                    break;
-                case 'disconnected':
-                    this.disconnectedCallbacks.push(callback);
-                    break;
-                case 'attributeChanged':
-                    this.attributeChangedCallbacks.push(callback);
-                    break;
-                case 'adopted':
-                    this.adoptedCallbacks.push(callback);
-                    break;
-            }
+        public addHook(type: LifecycleHooksEnum, callback: (...args: any[]) => void) {
+            if (!this.hooks[type]) this.hooks[type] = [];
+            this.hooks[type].push(callback);
+        }
+
+        private triggerHooks(type: LifecycleHooksEnum, args: any[] = []) {
+            const hooks = this.hooks[type] || [];
+            hooks.forEach((callback) => callback(...args));
         }
 
         static get observedAttributes() {
@@ -62,36 +49,44 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
             if (this.element) {
                 this.appendChild(this.element);
             }
-            this.connectedCallbacks.forEach((callback) => callback());
+            this.triggerHooks(LifecycleHooksEnum.connected);
             this.detectChanges();
-            this.afterViewInits.forEach((callback) => callback());
+            this.triggerHooks(LifecycleHooksEnum.afterViewInit);
         }
 
         public disconnectedCallback() {
-            this.disconnectedCallbacks.forEach((callback) => callback());
+            this.triggerHooks(LifecycleHooksEnum.disconnected);
         }
 
         public attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-            this.attributeChangedCallbacks.forEach((callback) => callback(attrName, oldVal, newVal));
+            this.triggerHooks(LifecycleHooksEnum.attributeChanged, [attrName, oldVal, newVal]);
         }
 
         public adoptedCallback() {
-            this.adoptedCallbacks.forEach((callback) => callback());
+            this.triggerHooks(LifecycleHooksEnum.adopted);
         }
 
-        private evaluateWatcher(watcher: WatcherInterface) {
-            if (!watcher.getIsConnected()) return;
+        private evaluateWatcher(watcher: WatcherInterface): boolean {
+            if (!watcher.getIsConnected()) return false;
             watcher.evaluate();
             if (watcher.hasChanges) {
                 watcher.handlerChange(watcher.value);
+                return true;
             }
+            return false;
         }
 
         public detectChanges() {
-            this.conditionWatchers.forEach(watcher => this.evaluateWatcher(watcher));
-            this.watchers.forEach(watcher => this.evaluateWatcher(watcher));
+            let hasViewChange = false;
+            this.conditionWatchers.forEach(watcher => {
+                if (this.evaluateWatcher(watcher)) hasViewChange = true;
+            });
+            this.watchers.forEach(watcher => {
+                if (this.evaluateWatcher(watcher)) hasViewChange = true;
+            });
             this.conditionWatchers = this.conditionWatchers.filter(watcher => watcher.getIsConnected());
             this.watchers = this.watchers.filter(watcher => watcher.getIsConnected());
+            if (hasViewChange) this.triggerHooks(LifecycleHooksEnum.afterViewChanged);
         }
 
         public addConditionWatcher(watcher: WatcherInterface) {
