@@ -13,7 +13,7 @@ Class-based services are structured as ES6 classes and often include methods and
 ```ts
 // Example of a class-based service
 
-import { inject } from 'weco';
+import { inject } from 'weco-js';
 
 class MessageService {
     private readonly httpService = inject(HttpService); // Injecting HttpService

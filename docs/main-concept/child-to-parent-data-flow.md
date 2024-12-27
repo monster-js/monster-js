@@ -46,7 +46,7 @@ function ChildComponent() {
         props().onUpdateMessage("Hello from Child!");
     };
 
-    return <button on:click={sendMessage}>Send Message to Parent</button>;
+    return <button on:click={sendMessage()}>Send Message to Parent</button>;
 }
 ```
 
