@@ -26,6 +26,7 @@
     - [Defining a State](store/defining-a-state.md)
     - [Action Reducer](store/action-reducer.md)
     - [Selector](store/selectors.md)
+    - [Retrieving State](store/retrieving-state.md)
     - [Subscriptions](store/subscriptions.md)
 - Router
     - [Weco JS Router](router/weco-js-router.md)

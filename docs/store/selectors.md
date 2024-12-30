@@ -27,7 +27,7 @@ Once you have defined a selector, you can use it in your components to access th
 
 ```ts
 export function CountComponent() {
-    const count = store.select(counterSelector);
+    const count = store.select(counterSelector).value;
 
     return <h1>Count: {count()}</h1>;
 }

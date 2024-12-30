@@ -59,3 +59,11 @@ Subscriptions in the Weco JS Framework Store are a powerful feature that enables
 3. **Improve performance**: Limit re-renders to only when the relevant data has changed.
 
 Subscriptions are an essential part of building dynamic, responsive applications with the Weco JS Framework Store.
+
+```tsx
+export function HomeComponent() {
+    const counter = store.get<StoreState>('counter').value;
+
+    return <h1>Count: {counter().count}</h1>
+}
+```
