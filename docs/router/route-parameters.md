@@ -7,7 +7,7 @@ Route parameters allow you to define dynamic segments in your application paths.
 To define a route with parameters, use the following syntax:
 
 ```tsx
-<Route component={UserComponent} path="user/{id}" />
+<router-outlet component={UserComponent} path="user/{id}" />
 ```
 
 In this example, navigating to `/user/123` will render the `UserComponent` and pass `123` as the `id` parameter.
@@ -33,7 +33,7 @@ In this example, the `routeParams` object will contain the parameter values, e.g
 You can define routes with multiple parameters by adding more curly-braced segments:
 
 ```tsx
-<Route component={OrderComponent} path="order/{orderId}/user/{userId}" />
+<router-outlet component={OrderComponent} path="order/{orderId}/user/{userId}" />
 ```
 
 Navigating to /order/456/user/123 will pass both orderId and userId as route parameters.
@@ -56,7 +56,7 @@ export function OrderComponent() {
 To define optional parameters, you can omit them from the URL. Ensure your component handles the absence of these parameters gracefully:
 
 ```tsx
-<Route component={SearchComponent} path="search/{query?}" />
+<router-outlet component={SearchComponent} path="search/{query?}" />
 ```
 
 Here, `{query}` is optional. Navigating to `/search` or `/search/keyword` will both render the `SearchComponent`. In the first case, `query` will be undefined.
@@ -85,7 +85,7 @@ The `queryParams` object will contain key-value pairs of all query parameters, e
 You can use both route and query parameters together:
 
 ```tsx
-<Route component={DetailsComponent} path="details/{id}" />
+<router-outlet component={DetailsComponent} path="details/{id}" />
 ```
 
 Navigating to `/details/456?view=summary` will provide both the `id` route parameter and the `view` query parameter.

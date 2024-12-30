@@ -6,19 +6,19 @@ The Weco JS Router is a powerful and flexible routing solution designed to simpl
 
 * **Declarative Routing**: Easily define routes and their components using a clean, intuitive syntax.
 ```tsx
-<Route component={HomeComponent} path="path/1" />
+<router-outlet component={HomeComponent} path="path/1" />
 ```
 * **Lazy Loaded Routes**: Improve performance by loading components only when needed.
 ```tsx
-<Route component={import('./home.component').then(c => c.HomeComponent)} path="path/1" />
+<router-outlet component={import('./home.component').then(c => c.HomeComponent)} path="path/1" />
 ```
 * **Route Parameters**: Define dynamic routes to handle parameters.
 ```tsx
-<Route component={HomeComponent} path="path/{id}" />
+<router-outlet component={HomeComponent} path="path/{id}" />
 ```
 * **Redirects**: Simplify navigation by redirecting users to specific routes.
 ```tsx
-<Route path="path/1" redirectTo="/login" pathMatch="full" />
+<router-outlet path="path/1" redirectTo="/login" pathMatch="full" />
 ```
 * **Link Creation**: Navigate to routes using intuitive link components.
 ```tsx
@@ -37,7 +37,7 @@ export function HomeComponent() {
 ```
 * **Route Guards**: Protect routes with canActivate and canDeactivate guards.
 ```tsx
-<Route component={HomeComponent} path="path/1" can-activate={[canActivateGuard1]} />
+<router-outlet component={HomeComponent} path="path/1" can-activate={[canActivateGuard1]} />
 ```
 * **Subscriptions**: Listen to route changes, parameters, and query parameters in real-time.
 ```tsx

@@ -3,7 +3,14 @@ import { ActionPayloadType } from "../types/action-payload.type";
 import { ActionReducerType } from "../types/action-reducer.type";
 import { ActionReducersType } from "../types/action-reducers.type";
 
-export function createStore<T>(initialState: T, actionReducers: ActionReducersType<T>) {
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION__: any;
+    }
+}
+
+export function createStore<T>(initialState: T, actionReducers: ActionReducersType<T>, connectDevTools: boolean = false) {
+
     let state: T = Object.freeze(initialState);
     let changeDetections: { isConnected: () => boolean; detectChanges: () => any; }[] = [];
 
@@ -28,7 +35,7 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         subscribers = subscribers.filter((subscriber) => subscriber.isConnected());
     }
 
-    const modifyState = (newState: T[keyof T], stateKey: keyof T) => {
+    const modifyState = (newState: T[keyof T], stateKey: keyof T, actionName: string) => {
         state = Object.freeze({
             ...state,
             [stateKey]: newState
@@ -41,21 +48,39 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         });
         changeDetections = changeDetections.filter((changeDetection) => changeDetection.isConnected());
         runSubscribers(stateKey);
+
+        // Notify DevTools of state changes
+        if (connectDevTools && devtools) {
+            devtools.send({ type: `[${String(stateKey)}] ${actionName}` }, state);
+        }
     }
 
     const actionReducersStateKeyMap = new WeakMap<any, keyof T>();
+    const actionReducersNameMap = new WeakMap<any, string>();
 
     Object.keys(actionReducers).forEach((key) => {
         Object.keys(actionReducers[key as keyof T]).forEach((key2) => {
             const fn = actionReducers[key as keyof T][key2];
             actionReducersStateKeyMap.set(fn, key as keyof T);
+            actionReducersNameMap.set(fn, key2);
         });
     });
+
+    // Redux DevTools setup
+    const devtools =
+        connectDevTools && (window as any).__REDUX_DEVTOOLS_EXTENSION__
+            ? (window as any).__REDUX_DEVTOOLS_EXTENSION__.connect()
+            : null;
+
+    if (devtools) {
+        devtools.init(initialState);
+    }
 
     return {
         dispatch: <A extends ActionReducerType<any, any>>(action: A, payload: ActionPayloadType<A> = null) => {
             const stateKey = actionReducersStateKeyMap.get(action);
-            modifyState(action(state[stateKey], payload), stateKey);
+            const actionName = actionReducersNameMap.get(action);
+            modifyState(action(state[stateKey], payload), stateKey, actionName);
         },
         select: <TT>(selector: SelectorObjectInterface) => {
             return {

@@ -9,7 +9,8 @@ const FN_NAMES = {
   IF_CONDITION: "ifCondition",
   FOR_LOOP: "forLoop",
   APPLY_PROPS: "applyProps",
-  APPLY_DIRECTIVES: "applyDirectives"
+  APPLY_DIRECTIVES: "applyDirectives",
+  ROUTER_OUTLET: "routerOutlet"
 };
 
 const CORE_PACKAGE_NAME = "weco-js";
@@ -102,8 +103,10 @@ module.exports = function (babel) {
           	attribute.name.namespace.name !== "prop"
         );
         const children = node.children;
-
-        if (node.openingElement.name.name === "element-outlet") {
+		if (node.openingElement.name.name === "router-outlet") {
+          applyRouterOutlet(path);
+          return;
+        } else if (node.openingElement.name.name === "element-outlet") {
           applyElementOutlet(path);
           return;
         } else if (isComponent) {
@@ -124,6 +127,33 @@ module.exports = function (babel) {
     }
   };
 };
+
+function applyRouterOutlet(path) {
+  const component = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "component");
+  const routerPath = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "path");
+  const redirectTo = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "redirectTo");
+  const pathMatch = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "pathMatch");
+  const canActivate = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "can-activate");
+  const canDeactivate = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "can-deactivate");
+  const routeData = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "route-data");
+
+  addImport(FN_NAMES.ROUTER_OUTLET);
+  path.node.type = 'CallExpression';
+  path.node.callee = {
+    type: 'Identifier',
+    name: FN_NAMES.ROUTER_OUTLET
+  };
+  path.node.arguments = [
+    { type: 'ThisExpression' },
+  	component.value.expression,
+    routerPath ? routerPath.value.expression || routerPath.value : { type: 'NullLiteral' },
+    redirectTo ? redirectTo.value.expression || redirectTo.value : { type: 'NullLiteral' },
+    pathMatch ? pathMatch.value.expression || pathMatch.value : { type: 'NullLiteral' },
+    canActivate ? canActivate.value.expression || canActivate.value : { type: 'NullLiteral' },
+    canDeactivate ? canDeactivate.value.expression || canDeactivate.value : { type: 'NullLiteral' },
+    routeData ? routeData.value.expression || routeData.value : { type: 'NullLiteral' },
+  ];
+}
 
 function applyElementOutlet(path) {
   const element = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "element");

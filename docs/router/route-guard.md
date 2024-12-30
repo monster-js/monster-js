@@ -58,7 +58,7 @@ You can apply guards to individual routes by specifying them in the `can-activat
 ### Example: Applying `canActivate` and `canDeactivate` Guards
 
 ```tsx
-<Route 
+<router-outlet 
     component={HomeComponent} 
     path="path/1" 
     can-activate={[canActivateGuard]} 
@@ -80,7 +80,7 @@ You can pass additional data to route guards via the `route-data` attribute in t
 ### Example: Passing Data to Guards
 
 ```tsx
-<Route 
+<router-outlet 
     component={HomeComponent} 
     path="path/1" 
     can-activate={[canActivateGuard]} 
@@ -108,8 +108,8 @@ export function canActivateGuard(routeData: any) {
 
 | Guard Type | Description | Example Usage |
 | --- | --- | --- |
-| `canActivate` | Prevents or allows navigation to a route before it is activated. | `<Route can-activate={[canActivateGuard]} />` |
-| `canDeactivate` | Prevents or allows navigation away from a route before it is deactivated. | `<Route can-deactivate={[canDeactivateGuard]} />` |
+| `canActivate` | Prevents or allows navigation to a route before it is activated. | `<router-outlet can-activate={[canActivateGuard]} />` |
+| `canDeactivate` | Prevents or allows navigation away from a route before it is deactivated. | `<router-outlet can-deactivate={[canDeactivateGuard]} />` |
 
 ## 6. Best Practices
 

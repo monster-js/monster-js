@@ -52,3 +52,10 @@ export { createFeatureEventEmitter } from './event-emitter/create-feature-event-
 export { toJsonObject } from './utils/to-json-object';
 export { toBoolean } from './utils/to-boolean';
 export { toNumber } from './utils/to-number';
+
+// router
+export { routerOutlet } from './router/router-outlet';
+
+// store
+export { createSelector } from './store/create-selector';
+export { createStore } from './store/create-store';
