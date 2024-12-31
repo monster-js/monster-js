@@ -143,7 +143,6 @@ function applyRouterOutlet(path) {
     type: 'Identifier',
     name: FN_NAMES.ROUTER_OUTLET
   };
-  console.log(redirectTo);
   path.node.arguments = [
     { type: 'ThisExpression' },
   	component ? component.value.expression : { type: 'NullLiteral' },

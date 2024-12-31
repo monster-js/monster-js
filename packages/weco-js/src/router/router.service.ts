@@ -33,13 +33,12 @@ export class RouterService {
             }
         });
 
-        if (hasRedirect) return;
         watchers.forEach((watcher) => {
             if (watcher.handler) {
                 watcher.handler();
             }
         });
-        next();
+        if (!hasRedirect) next();
     }
 
     private async evaluateWatcher(watcher: WatcherInterface, newUrl: string, initialEvaluate: boolean = false) {
