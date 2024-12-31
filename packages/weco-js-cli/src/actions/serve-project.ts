@@ -12,6 +12,7 @@ const path = require('path');
 const devServerConfig: WebpackDevServer.Configuration = {
     static: {
         directory: path.join(process.cwd()),
+        publicPath: '/'
     },
     historyApiFallback: {
       index: 'index.html'

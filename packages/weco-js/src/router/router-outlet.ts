@@ -37,6 +37,9 @@ export function routerOutlet(
             } else {
                 changeDetection.hasChanges = false;
             }
+            return {
+                redirectTo
+            };
         },
         handlerChange: (value: any) => {
             if (value) {

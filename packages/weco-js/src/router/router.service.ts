@@ -1,5 +1,10 @@
 import { WatcherInterface } from "../interfaces/watcher.interface";
 
+export interface RouterWatcherInterface {
+    handler: () => void;
+    redirectTo: string;
+}
+
 export class RouterService {
 
     private static instance: RouterService;
@@ -12,24 +17,57 @@ export class RouterService {
         RouterService.instance = this;
     }
 
-    public addWatcher(watcher: WatcherInterface) {
+    public async addWatcher(watcher: WatcherInterface) {
         this.watchers.push(watcher);
-        this.evaluateWatcher(watcher, window.location.pathname, true);
+        const handler = await this.evaluateWatcher(watcher, window.location.pathname, true);
+        this.processHandlers([handler], () => {});
+    }
+
+    private processHandlers(watchers: RouterWatcherInterface[], next: () => any) {
+        watchers = watchers.filter((watcher) => !!watcher);
+        let hasRedirect = false;
+        watchers.forEach((watcher) => {
+            if (watcher.redirectTo && !hasRedirect) {
+                this.navigate(watcher.redirectTo);
+                hasRedirect = true;
+            }
+        });
+
+        if (hasRedirect) return;
+        watchers.forEach((watcher) => {
+            if (watcher.handler) {
+                watcher.handler();
+            }
+        });
+        next();
     }
 
     private async evaluateWatcher(watcher: WatcherInterface, newUrl: string, initialEvaluate: boolean = false) {
-        if (!watcher.getIsConnected() && !initialEvaluate) return;
-        await watcher.evaluate(newUrl);
+        if (!watcher.getIsConnected() && !initialEvaluate) return null;
+        const evaluateResponse: { redirectTo: string; } = await watcher.evaluate(newUrl);
         if (watcher.hasChanges) {
-            watcher.handlerChange(watcher.value);
+            return {
+                handler: () => watcher.handlerChange(watcher.value),
+                ...evaluateResponse
+            };
         }
+        return null;
     }
 
     public async navigate(url: string) {
+
+        let changeHandlers: RouterWatcherInterface[] = [];
         for (let i = 0; i < this.watchers.length; i++) {
-            await this.evaluateWatcher(this.watchers[i], url);
+            const handler = await this.evaluateWatcher(this.watchers[i], url);
+            changeHandlers.push(handler);
         }
-        window.history.pushState({}, "", url);
+
+        this.processHandlers(changeHandlers, () => {
+
+            this.watchers = this.watchers.filter((watcher) => watcher.getIsConnected());
+            window.history.pushState({}, "", url);
+
+        });
     }
 
 }

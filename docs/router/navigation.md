@@ -17,12 +17,12 @@ export function HomeComponent() {
 
 component(HomeComponent, {
     selector: 'app-home',
-    directives: [routerLink]
+    directives: [routerDirective]
 });
 ```
 
 * `router:link`: This directive links the anchor element to the route specified (`/login` in this case). When clicked, the application will navigate to the `/login` route.
-* `routerLink`: Before using the `router:link` directive, ensure that the `routerLink` directive is included in the `directives` array of your component.
+* `routerDirective`: Before using the `router:link` directive, ensure that the `routerDirective` directive is included in the `directives` array of your component.
 
 ### Key Notes:
 

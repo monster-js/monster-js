@@ -131,7 +131,7 @@ module.exports = function (babel) {
 function applyRouterOutlet(path) {
   const component = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "component");
   const routerPath = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "path");
-  const redirectTo = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "redirectTo");
+  const redirectTo = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "redirect-to");
   const pathMatch = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "pathMatch");
   const canActivate = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "can-activate");
   const canDeactivate = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "can-deactivate");
@@ -143,9 +143,10 @@ function applyRouterOutlet(path) {
     type: 'Identifier',
     name: FN_NAMES.ROUTER_OUTLET
   };
+  console.log(redirectTo);
   path.node.arguments = [
     { type: 'ThisExpression' },
-  	component.value.expression,
+  	component ? component.value.expression : { type: 'NullLiteral' },
     routerPath ? routerPath.value.expression || routerPath.value : { type: 'NullLiteral' },
     redirectTo ? redirectTo.value.expression || redirectTo.value : { type: 'NullLiteral' },
     pathMatch ? pathMatch.value.expression || pathMatch.value : { type: 'NullLiteral' },
