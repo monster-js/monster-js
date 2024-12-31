@@ -13,6 +13,9 @@ const devServerConfig: WebpackDevServer.Configuration = {
     static: {
         directory: path.join(process.cwd()),
     },
+    historyApiFallback: {
+      index: 'index.html'
+    },
     compress: true,
     hot: true,
 };

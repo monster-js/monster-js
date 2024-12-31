@@ -1,6 +1,6 @@
 {
   "name": "weco-js-transformers",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "src/jsx-transformer.js",
   "scripts": {
     "build": "",

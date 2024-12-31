@@ -1,9 +1,9 @@
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
 
-export function ifCondition(classComponent: any, elementCreator: () => Element, valueGetter: () => any, label: string = ' if ') {
+export function ifCondition(classComponent: any, elementCreator: () => Element, valueGetter: () => any) {
     const instance: WebComponentInterface = classComponent;
-    const comment = document.createComment(label);
+    const comment = document.createComment(' if ');
     const fragment = document.createDocumentFragment();
     let element: Element;
     const changeDetection: WatcherInterface = {
