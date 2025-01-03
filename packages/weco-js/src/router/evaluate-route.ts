@@ -1,17 +1,25 @@
+import { removeStartAndEndSlashes } from "../utils/remove-start-and-end-slashes";
+
 export function evaluateRoute(path: string, newUrl: string, pathMatch: 'full' | 'prefix') {
-    const removeSlashes = (str: string) => str.replace(/^\/+|\/+$/g, '');
-    const cleanedUrl = removeSlashes(newUrl);
-    const cleanedPath = removeSlashes(path);
+    const cleanedUrl = removeStartAndEndSlashes(newUrl);
+    const cleanedPath = removeStartAndEndSlashes(path);
     const urlArray = cleanedUrl.split('/');
     const pathArray = cleanedPath.split('/');
 
     if (pathArray.length > urlArray.length) return null;
     if (pathMatch === 'full' && pathArray.length !== urlArray.length) return null;
 
-    return matchAndExtractVariables(cleanedPath, cleanedUrl);
+    return matchAndExtractVariables(pathArray, urlArray);
 }
 
-function matchAndExtractVariables(routePath: string, currentPath: string) {
+function matchAndExtractVariables(routePathArr: string[], currentPathArr: string[]) {
+
+    const routePath = routePathArr.join('/');
+    let currentPath = currentPathArr.join('/');
+    if (currentPathArr.length > routePathArr.length) {
+        currentPath = currentPathArr.slice(0, routePathArr.length).join('/');
+    }
+
     // Normalize paths by removing trailing slashes
     const normalizedRoutePath = routePath.replace(/\/$/, '');
     const normalizedCurrentPath = currentPath.replace(/\/$/, '');
