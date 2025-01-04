@@ -27,14 +27,14 @@ Once you have defined a selector, you can use it in your components to access th
 
 ```ts
 export function CountComponent() {
-    const count = store.select(counterSelector).value;
+    const count = store.select(this, counterSelector).value;
 
     return <h1>Count: {count()}</h1>;
 }
 ```
 
-* **store.select(counterSelector)**: This line uses the `select` method to retrieve the value of `count` from the store using the `counterSelector`.
-* `count()`: The result of `store.select(counterSelector)` is a function that you can invoke to get the current value of `count` from the store.
+* **store.select(this, counterSelector).value**: This line uses the `select` method to retrieve the value of `count` from the store using the `counterSelector`. The `this` context is passed to ensure proper binding and scope.
+* `count()`: The result of `store.select(this, counterSelector).value` is a function that you can invoke to get the current value of `count` from the store.
 
 ## 4. Benefits of Using Selectors
 

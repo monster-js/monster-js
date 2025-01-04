@@ -1,4 +1,5 @@
 import { SelectorObjectInterface } from "../interfaces/selector-object.interface";
+import { WebComponentInterface } from "../interfaces/web-component.interface";
 import { ActionPayloadType } from "../types/action-payload.type";
 import { ActionReducerType } from "../types/action-reducer.type";
 import { ActionReducersType } from "../types/action-reducers.type";
@@ -12,7 +13,7 @@ declare global {
 export function createStore<T>(initialState: T, actionReducers: ActionReducersType<T>, connectDevTools: boolean = false) {
 
     let state: T = Object.freeze(initialState);
-    let changeDetections: { isConnected: () => boolean; detectChanges: () => any; }[] = [];
+    let changeDetections: WebComponentInterface[] = [];
 
     let subscribers: {
         stateKey: keyof T;
@@ -21,6 +22,12 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         callback: (value?: any) => any;
         isConnected: () => boolean;
     }[] = [];
+
+    const addComponent = (component: any) => {
+        if (!changeDetections.includes(component)) {
+            changeDetections.push(component);
+        }
+    };
 
     const runSubscribers = (stateKey: keyof T) => {
         subscribers.forEach((subscriber) => {
@@ -42,11 +49,11 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         });
 
         changeDetections.forEach((changeDetection) => {
-            if (changeDetection.isConnected()) {
+            if (changeDetection.isConnected) {
                 changeDetection.detectChanges();
             }
         });
-        changeDetections = changeDetections.filter((changeDetection) => changeDetection.isConnected());
+        changeDetections = changeDetections.filter((changeDetection) => changeDetection.isConnected);
         runSubscribers(stateKey);
 
         // Notify DevTools of state changes
@@ -82,10 +89,12 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
             const actionName = actionReducersNameMap.get(action);
             modifyState(action(state[stateKey], payload), stateKey, actionName);
         },
-        select: <TT>(selector: SelectorObjectInterface) => {
+        select: <TT>(fnComponent: any, selector: SelectorObjectInterface) => {
+            addComponent(fnComponent);
+
             return {
                 value: (): TT => selector.filter((state as any)[selector.stateKey]),
-                subscribe: (fnComponent: any, callback: (value?: any) => any) => {
+                subscribe: (callback: (value?: any) => any) => {
                     const subscriber = {
                         stateKey: selector.stateKey,
                         value: selector.filter((state as any)[selector.stateKey]),
@@ -99,10 +108,12 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
                 }
             };
         },
-        get: (stateKey: keyof T) => {
+        get: (fnComponent: any, stateKey: keyof T) => {
+            addComponent(fnComponent);
+
             return {
                 value: () => state[stateKey],
-                subscribe: (fnComponent: any, callback: (value?: any) => any) => {
+                subscribe: (callback: (value?: any) => any) => {
                     const subscriber = {
                         stateKey,
                         value: state[stateKey],

@@ -14,15 +14,15 @@ You can subscribe to a specific state, and your component will be notified whene
 
 ```ts
 export function CountComponent() {
-    store.get<StoreState>('counter').subscribe(this, () => {
+    store.get(this, 'counter').subscribe(() => {
         console.log('counter state changed');
     });
 
     return <h1>...</h1>;
 }
 ```
-* **store.get<StoreState>('counter')**: This retrieves the `counter` state from the store.
-* **.subscribe(this, callback)**: The `subscribe` method listens for changes to the `counter` state. The `this` context refers to the component or instance that is subscribing. The callback function is called whenever the state changes, and in this example, it logs `'counter state changed'` to the console.
+* **store.get(this, 'counter')**: This retrieves the `counter` state from the store. The `this` context refers to the component or instance.
+* **.subscribe(callback)**: The `subscribe` method listens for changes to the `counter` state. The callback function is called whenever the state changes, and in this example, it logs `'counter state changed'` to the console.
 * **Automatic Unsubscription**: When the component is no longer connected to the store (e.g., unmounted), the subscription is automatically unsubscribed, preventing memory leaks.
 
 ## 3. Subscribing to Selector Changes
@@ -33,15 +33,15 @@ In addition to subscribing to entire states, you can subscribe to selector chang
 
 ```tsx
 export function CountComponent() {
-    store.select(counterSelector).subscribe(this, () => {
+    store.select(this, counterSelector).subscribe(() => {
         console.log('counter count changed');
     });
 
     return <h1>...</h1>;
 }
 ```
-* **store.select(counterSelector)**: This retrieves the value of the `counter` state using the `counterSelector`.
-* **.subscribe(this, callback)**: The `subscribe` method listens for changes in the value derived by the `counterSelector`. Every time the value changes, the callback function is invoked. In this example, it logs `'counter count changed'` to the console.
+* **store.select(this, counterSelector)**: This retrieves the value of the `counter` state using the `counterSelector`.
+* **.subscribe(callback)**: The `subscribe` method listens for changes in the value derived by the `counterSelector`. Every time the value changes, the callback function is invoked. In this example, it logs `'counter count changed'` to the console.
 * **Automatic Unsubscription**: Like state subscriptions, when the component is removed or disconnected, the subscription will automatically be cleaned up.
 
 ## 4. Benefits of Subscriptions
@@ -59,11 +59,3 @@ Subscriptions in the Weco JS Framework Store are a powerful feature that enables
 3. **Improve performance**: Limit re-renders to only when the relevant data has changed.
 
 Subscriptions are an essential part of building dynamic, responsive applications with the Weco JS Framework Store.
-
-```tsx
-export function HomeComponent() {
-    const counter = store.get<StoreState>('counter').value;
-
-    return <h1>Count: {counter().count}</h1>
-}
-```

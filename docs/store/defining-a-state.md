@@ -36,6 +36,10 @@ After defining the state and initial state, you can create the store by passing 
 
 Here’s how you create the store:
 ```ts
+const actionReducers = {
+    counter: { }
+};
+
 export const store = createStore<StoreState>(initialState, actionReducers);
 ```
 * **createStore**: This function initializes the store with the given state structure and initial values. It will allow you to manage and update the state throughout your application.

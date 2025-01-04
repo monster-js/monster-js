@@ -16,14 +16,14 @@ Here’s an example of how to retrieve the `counter` state and display its `coun
 
 ```tsx
 export function HomeComponent() {
-    const counter = store.get<StoreState>('counter').value;
+    const counter = store.get<StoreState>(this, 'counter').value;
 
     return <h1>Count: {counter().count}</h1>;
 }
 ```
 
 ### Explanation:
-* `store.get<StoreState>('counter')`: This retrieves the `counter` slice of the state from the store.
+* `store.get<StoreState>(this, 'counter')`: This retrieves the `counter` slice of the state from the store.
 * `.value`: Accesses the current value of the state slice.
 * `counter().count`: Invokes the function returned by `.value` to get the current state object and accesses the `count` property.
 * The `count` value is then displayed in the `<h1>` element.
