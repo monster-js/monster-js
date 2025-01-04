@@ -132,7 +132,7 @@ function applyRouterOutlet(path) {
   const component = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "component");
   const routerPath = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "path");
   const redirectTo = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "redirect-to");
-  const pathMatch = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "pathMatch");
+  const pathMatch = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "path-match");
   const canActivate = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "can-activate");
   const canDeactivate = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "can-deactivate");
   const routeData = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "route-data");
@@ -145,7 +145,7 @@ function applyRouterOutlet(path) {
   };
   path.node.arguments = [
     { type: 'ThisExpression' },
-  	component ? component.value.expression : { type: 'NullLiteral' },
+    { type: 'ArrowFunctionExpression', params: [], body: component ? component.value.expression : { type: 'NullLiteral' } },
     routerPath ? routerPath.value.expression || routerPath.value : { type: 'NullLiteral' },
     redirectTo ? redirectTo.value.expression || redirectTo.value : { type: 'NullLiteral' },
     pathMatch ? pathMatch.value.expression || pathMatch.value : { type: 'NullLiteral' },

@@ -18,7 +18,7 @@ The Weco JS Router is a powerful and flexible routing solution designed to simpl
 ```
 * **Redirects**: Simplify navigation by redirecting users to specific routes.
 ```tsx
-<router-outlet path="path/1" redirectTo="/login" pathMatch="full" />
+<router-outlet path="path/1" redirect-to="/login" path-match="full" />
 ```
 * **Link Creation**: Navigate to routes using intuitive link components.
 ```tsx

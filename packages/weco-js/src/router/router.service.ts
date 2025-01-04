@@ -1,10 +1,11 @@
+import { createComponent } from "../template-engine/create-component";
 import { removeStartAndEndSlashes } from "../utils/remove-start-and-end-slashes";
 import { evaluateRoute } from "./evaluate-route";
 
 export interface ViewRoutesInterface {
     comment: Comment;
     element: Element; // null element value means not yet activated
-    elementCreator: () => Element;
+    rawComponent: () => Promise<any>,
     canActivate: any[],
     canDeactivate: any[],
     routerData: any,
@@ -136,8 +137,9 @@ export class RouterService {
         let handler: () => void = null;
         const shouldActivate = !route.element && evaluateRoute(route.routerPath, url, route.pathMatch);
         if (shouldActivate) {
+            const component = await route.rawComponent();
             handler = () => {
-                const element = route.elementCreator();
+                const element = createComponent(component);
                 route.element = element;
                 route.comment.after(element);
             };

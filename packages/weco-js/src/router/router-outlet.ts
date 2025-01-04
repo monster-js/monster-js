@@ -1,9 +1,8 @@
-import { createComponent } from "../template-engine/create-component";
 import { RouterService } from "./router.service";
 
 export function routerOutlet(
     classComponent: any,
-    rawComponent: any,
+    rawComponent: () => Promise<any>,
     routerPath: string,
     redirectTo: string,
     pathMatch: 'full' | 'prefix',
@@ -21,7 +20,7 @@ export function routerOutlet(
 
     routerService.addViewRoute({
         comment,
-        elementCreator: () => createComponent(rawComponent),
+        rawComponent,
         canActivate,
         canDeactivate,
         routerData,

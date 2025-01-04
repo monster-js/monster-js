@@ -25,17 +25,17 @@ Routes can include dynamic parameters to handle variable paths. Use curly braces
 In this case, navigating to `/user/123` will render the `UserComponent` and provide `123` as the `id` parameter.
 
 ## Redirect Routes
-Redirect routes allow you to automatically redirect users from one path to another. Use the `redirectTo` property to specify the target route, and the `pathMatch` property to define the matching strategy:
+Redirect routes allow you to automatically redirect users from one path to another. Use the `redirect-to` property to specify the target route, and the `path-match` property to define the matching strategy:
 ```tsx
-<router-outlet path="old-home" redirectTo="/new-home" pathMatch="full" />
+<router-outlet path="old-home" redirect-to="/new-home" path-match="full" />
 ```
-The pathMatch property can have the following values:
+The `path-match` property can have the following values:
 * `full`: Matches the entire URL.
 * `prefix`: Matches the beginning of the URL.
 
 > **Note** Place redirect routes at the top of their sibling routes to ensure they are evaluated first
 ```tsx
-<router-outlet path="old-home" redirectTo="/new-home" pathMatch="full" />
+<router-outlet path="old-home" redirect-to="/new-home" path-match="full" />
 <router-outlet component={NewHomeComponent} path="new-home" />
 <router-outlet component={OtherComponent} path="other" />
 ```
