@@ -1,4 +1,4 @@
-import { RouterService } from "./router.service";
+import { InternalRouterService } from "./internal-router.service";
 
 export function routerOutlet(
     classComponent: any,
@@ -10,7 +10,7 @@ export function routerOutlet(
     canDeactivate: any[],
     routerData: any,
 ) {
-    const routerService = new RouterService();
+    const routerService = new InternalRouterService();
     console.log(classComponent);
 
     const comment = document.createComment(' router ');
