@@ -32,7 +32,7 @@ export function HomeComponent() {
     const onClick = () => {
         navigate('/login');
     };
-    return <button on:click={onClick()}>Go to login page</button>;
+    return <button on:click={onClick()}>Go to login page</button>
 }
 ```
 * **Route Guards**: Protect routes with canActivate and canDeactivate guards.
