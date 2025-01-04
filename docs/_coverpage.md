@@ -2,13 +2,13 @@
 
 ![logo](_media/icon.svg)
 
-# docsify <small>3.5</small>
+# Weco JS <small>1.0</small>
 
-> A magical documentation site generator.
+> A Lightweight JavaScript Framework Powered by Web Components.
 
 - Simple and lightweight
-- No statically built html files
-- Multiple themes
+- Web Component-Based
+- Familiar Syntax
 
 [GitHub](https://github.com/docsifyjs/docsify/)
-[Get Started](/getting-started/what-is-weco-js)
+[Get Started](/?id=what-is-weco-js)

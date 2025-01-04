@@ -1,5 +1,5 @@
 - Getting started
-    - [What is Weco JS?](getting-started/what-is-weco-js.md)
+    - [What is Weco JS?](/?id=what-is-weco-js)
     - [Quick start](getting-started/quick-start.md)
     - [Installation](getting-started/installation.md)
 - Main concept
