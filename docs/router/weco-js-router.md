@@ -29,9 +29,12 @@ export function HomeComponent() {
 * **Programmatic Navigation**: Dynamically navigate to routes in response to events.
 ```tsx
 export function HomeComponent() {
+    const navigate = inject(routerNavigate);
+
     const onClick = () => {
         navigate('/login');
     };
+
     return <button on:click={onClick()}>Go to login page</button>
 }
 ```
@@ -41,7 +44,7 @@ export function HomeComponent() {
 ```
 * **Subscriptions**: Listen to route changes, parameters, and query parameters in real-time.
 ```tsx
-routeChange().subscribe(this, (routeParams, queryParams) => {
+routerChange(this, (routeParams, queryParams) => {
     console.log(routeParams, queryParams);
 });
 ```

@@ -144,7 +144,6 @@ function applyRouterOutlet(path) {
     name: FN_NAMES.ROUTER_OUTLET
   };
   path.node.arguments = [
-    { type: 'ThisExpression' },
     { type: 'ArrowFunctionExpression', params: [], body: component ? component.value.expression : { type: 'NullLiteral' } },
     routerPath ? routerPath.value.expression || routerPath.value : { type: 'NullLiteral' },
     redirectTo ? redirectTo.value.expression || redirectTo.value : { type: 'NullLiteral' },

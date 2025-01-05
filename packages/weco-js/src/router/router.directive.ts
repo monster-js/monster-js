@@ -3,11 +3,11 @@ import { directive } from "../directives/directive";
 import { addEventListener } from "../template-engine/add-event-listener";
 import { bindAttributes } from "../template-engine/bind-attributes";
 import { DirectiveDataType } from "../types/directive-data.type";
-import { RouterService } from "./router.service";
+import { routerNavigate } from "./router-navigate";
 
 export function routerDirective(element: Element, data: DirectiveDataType) {
 
-    const routerService = inject(RouterService);
+    const navigate = inject(routerNavigate);
 
     if (element.tagName === 'A') {
         bindAttributes(this, element, { href: data.link });
@@ -15,7 +15,7 @@ export function routerDirective(element: Element, data: DirectiveDataType) {
 
     const clickEvent = (event: Event) => {
         event.preventDefault();
-        routerService.navigate(data.link());
+        navigate(data.link());
     };
 
     addEventListener(element, { click: clickEvent });

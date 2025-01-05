@@ -40,18 +40,18 @@ Here’s an example of how to navigate to another route when a button is clicked
 ```tsx
 export function HomeComponent() {
     const onClick = () => {
-        navigate('/login');
+        routerNavigate('/login');
     };
 
     return <button on:click={onClick()}>Go to login page</button>;
 }
 ```
 
-* `navigate('/login')`: This function navigates to the `/login` route when the button is clicked.
+* `routerNavigate('/login')`: This function navigates to the `/login` route when the button is clicked.
 
 ### Key Notes:
 
-* The `navigate()` function can be triggered by any event, such as button clicks, form submissions, or even complex logic.
+* The `routerNavigate()` function can be triggered by any event, such as button clicks, form submissions, or even complex logic.
 * Use this method when you need to control navigation programmatically, for example, after performing validation or based on user input.
 
 ## 3. Summary of Navigation Methods
@@ -59,7 +59,7 @@ export function HomeComponent() {
 | Method | Description | Example Usage |
 | --- | --- | --- |
 | `router:link` | Creates a link to a route. | `<a router:link="/path/to/route">Link</a>` |
-| `navigate()` | Programmatically navigates to a route. | `navigate('/path/to/route')` |
+| `routerNavigate()` | Programmatically navigates to a route. | `routerNavigate('/path/to/route')` |
 
 Both methods provide flexible ways to navigate between routes in your Weco JS application, whether through user interaction with links or through programmatic control over navigation.
 

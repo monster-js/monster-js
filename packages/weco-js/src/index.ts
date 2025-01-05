@@ -56,7 +56,8 @@ export { toNumber } from './utils/to-number';
 // router
 export { routerOutlet } from './router/router-outlet';
 export { routerDirective } from './router/router.directive';
-export { RouterService } from './router/router.service';
+export { routerNavigate } from './router/router-navigate';
+export { routerChange } from './router/router-change';
 
 // store
 export { createSelector } from './store/create-selector';

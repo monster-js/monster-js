@@ -18,7 +18,7 @@ To access route parameters in your component, subscribe to route changes using t
 
 ```tsx
 export function UserComponent() {
-    routeParamChange().subscribe(this, (routeParams) => {
+    routeParamChange(this, (routeParams) => {
         console.log('Route Parameters:', routeParams);
     });
 
@@ -42,7 +42,7 @@ To access these parameters:
 
 ```tsx
 export function OrderComponent() {
-    routeParamChange().subscribe(this, (routeParams) => {
+    routeParamChange(this, (routeParams) => {
         console.log('Order ID:', routeParams.orderId);
         console.log('User ID:', routeParams.userId);
     });
@@ -70,7 +70,7 @@ For example, `/user/123?active=true` includes a query parameter `active` with th
 To access query parameters:
 ```tsx
 export function UserComponent() {
-    routeQueryParamChange().subscribe(this, (queryParams) => {
+    routeQueryParamChange(this, (queryParams) => {
         console.log('Query Parameters:', queryParams);
     });
 
@@ -94,7 +94,7 @@ Access them like this:
 
 ```tsx
 export function DetailsComponent() {
-    routeChange().subscribe(this, (routeParams, queryParams) => {
+    routerChange(this, (routeParams, queryParams) => {
         console.log('Route Parameters:', routeParams);
         console.log('Query Parameters:', queryParams);
     });

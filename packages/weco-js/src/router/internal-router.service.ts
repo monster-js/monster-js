@@ -1,4 +1,5 @@
 import { createComponent } from "../template-engine/create-component";
+import { getURLQueryParams } from "../utils/get-url-query-params";
 import { removeStartAndEndSlashes } from "../utils/remove-start-and-end-slashes";
 import { evaluateRoute } from "./evaluate-route";
 
@@ -14,6 +15,15 @@ export interface ViewRouteInterface {
     redirectTo: string,
 }
 
+export interface RouteChangeSubscriberInterface {
+    type: 'all' | 'param' | 'query';
+    callback: (...args: any[]) => any;
+    isConnected: () => boolean;
+    component: any;
+}
+
+export const COMPONENT_URL_PATH_SYMBOL = Symbol('COMPONENT_URL_PATH_SYMBOL');
+
 export class InternalRouterService {
 
     private static instance: InternalRouterService;
@@ -21,6 +31,8 @@ export class InternalRouterService {
     private navigating: boolean;
 
     private readonly viewRoutes: ViewRouteInterface[] = [];
+
+    private subscribers: RouteChangeSubscriberInterface[] = [];
 
     constructor() {
         if (InternalRouterService.instance) return InternalRouterService.instance;
@@ -140,6 +152,7 @@ export class InternalRouterService {
             const component = await route.rawComponent();
             handler = () => {
                 const element = createComponent(component);
+                (element as any)[COMPONENT_URL_PATH_SYMBOL] = route.routerPath;
                 route.element = element;
                 route.comment.after(element);
             };
@@ -174,6 +187,46 @@ export class InternalRouterService {
         // process activation
         const handler = await this.processSingleActivations(window.location.pathname, route);
         if (handler) handler();
+    }
+
+    public redirect(url: string, replaceState: boolean) {
+        if (replaceState) {
+            window.history.replaceState({}, '', url);
+        }
+        else {
+            window.history.pushState({}, '', url);
+        }
+
+        this.triggerRouterChangeSubscribers();
+    }
+
+    public addSubscriber(subscriber: RouteChangeSubscriberInterface) {
+        this.subscribers.push(subscriber);
+    }
+
+    private triggerRouterChangeSubscribers() {
+        this.subscribers.forEach((subscriber) => {
+            if (subscriber.isConnected()) {
+                let routeParams: Record<string, string> = {};
+                let queryParams: Record<string, string> = {};
+                switch(subscriber.type) {
+                    case 'all':
+                        queryParams = getURLQueryParams();
+                        routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
+                        subscriber.callback(routeParams, queryParams);
+                        break;
+                    case 'param':
+                        routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
+                        subscriber.callback(routeParams);
+                        break;
+                    case 'query':
+                        queryParams = getURLQueryParams();
+                        subscriber.callback(queryParams);
+                        break;
+                }
+            }
+        });
+        this.subscribers = this.subscribers.filter((subscriber) => subscriber.isConnected());
     }
 
     public async navigate(url: string, replaceState: boolean = false) {
@@ -214,15 +267,6 @@ export class InternalRouterService {
 
         this.redirect(url, replaceState);
         this.navigating = false;
-    }
-
-    public redirect(url: string, replaceState: boolean) {
-        if (replaceState) {
-            window.history.replaceState({}, '', url);
-        }
-        else {
-            window.history.pushState({}, '', url);
-        }
     }
 
 }

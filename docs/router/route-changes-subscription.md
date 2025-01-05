@@ -8,11 +8,11 @@ Weco JS provides an API to subscribe to route changes. This allows you to listen
 
 ### Example: Subscribing to Route Changes
 
-You can subscribe to route changes using the `routeChange()` method. This method will notify you whenever the route changes, including updates to route parameters and query parameters.
+You can subscribe to route changes using the `routerChange()` method. This method will notify you whenever the route changes, including updates to route parameters and query parameters.
 
 ```tsx
 export function HomeComponent() {
-    routeChange().subscribe(this, (routeParams, queryParams) => {
+    routerChange(this, (routeParams, queryParams) => {
         console.log(routeParams, queryParams);
     });
 
@@ -20,11 +20,11 @@ export function HomeComponent() {
 }
 ```
 
-* `routeChange()`: Subscribes to route changes, providing both `routeParams` and `queryParams` as arguments. When the route changes, the callback function is triggered with the updated route parameters and query parameters.
+* `routerChange()`: Subscribes to route changes, providing both `routeParams` and `queryParams` as arguments. When the route changes, the callback function is triggered with the updated route parameters and query parameters.
 
 ### Key Notes:
 
-* The `routeChange()` method is ideal for tracking all types of route changes.
+* The `routerChange()` method is ideal for tracking all types of route changes.
 * You can use this subscription to update the state of your application based on the new route data.
 
 ## 2. Subscribing to Route Parameter Changes
@@ -35,7 +35,7 @@ Sometimes, you may want to subscribe specifically to changes in the route parame
 
 ```tsx
 export function HomeComponent() {
-    routeParamChange().subscribe(this, (routeParams) => {
+    routeParamChange(this, (routeParams) => {
         console.log(routeParams);
     });
 
@@ -57,7 +57,7 @@ In addition to route parameters, Weco JS allows you to subscribe to changes in q
 
 ```tsx
 export function HomeComponent() {
-    routeQueryParamChange().subscribe(this, (queryParams) => {
+    routeQueryParamChange(this, (queryParams) => {
         console.log(queryParams);
     });
 
@@ -75,9 +75,9 @@ export function HomeComponent() {
 
 | Method | Description | Example Usage |
 | --- | --- | --- |
-| `routeChange()` | Subscribes to all route changes, including route and query params | `routeChange().subscribe(this, (routeParams, queryParams) => {...})`
-| `routeParamChange()` | Subscribes to changes in route parameters | `routeParamChange().subscribe(this, (routeParams) => {...})` |
-| `routeQueryParamChange()` | Subscribes to changes in query parameters | `routeQueryParamChange().subscribe(this, (queryParams) => {...})` |
+| `routerChange()` | Subscribes to all route changes, including route and query params | `routerChange(this, (routeParams, queryParams) => {...})`
+| `routeParamChange()` | Subscribes to changes in route parameters | `routeParamChange(this, (routeParams) => {...})` |
+| `routeQueryParamChange()` | Subscribes to changes in query parameters | `routeQueryParamChange(this, (queryParams) => {...})` |
 
 These methods allow you to track and react to different types of changes in your routes, enabling you to keep the application state in sync with the current route.
 
