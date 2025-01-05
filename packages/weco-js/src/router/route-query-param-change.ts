@@ -1,14 +1,15 @@
 import { InternalRouterService, RouteChangeSubscriberInterface } from "./internal-router.service";
 
-export function routerChange(fnComponent: any, callback: (params?: Record<string, string>, queryParams?: Record<string, string>) => any) {
+export function routeQueryParamChange(fnComponent: any, callback: (queryParams?: Record<string, string>) => any) {
     const subscriber: RouteChangeSubscriberInterface = {
-        type: 'all',
+        type: 'query',
         callback,
         isConnected: () => fnComponent.isConnected,
         component: fnComponent,
-        queryParams: {},
-        params: {}
+        params: {},
+        queryParams: {}
     };
     const internalRouterService = new InternalRouterService();
     internalRouterService.addSubscriber(subscriber);
 }
+

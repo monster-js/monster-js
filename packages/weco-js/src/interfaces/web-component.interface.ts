@@ -8,4 +8,6 @@ export interface WebComponentInterface {
     detectChanges(): void;
     getDirective(namespace: string): any;
     addHook: (type: LifecycleHooksEnum, callback: (...args: any[]) => void) => void;
+    addTriggerAfterConnected: (callback: (...args: any[]) => any) => void;
+    removeTriggerAfterConnected: (callback: (...args: any[]) => any) => void;
 }

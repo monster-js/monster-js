@@ -1,5 +1,7 @@
+import { WebComponentInterface } from "../interfaces/web-component.interface";
 import { createComponent } from "../template-engine/create-component";
 import { getURLQueryParams } from "../utils/get-url-query-params";
+import { haveSameProperties } from "../utils/have-same-properties";
 import { removeStartAndEndSlashes } from "../utils/remove-start-and-end-slashes";
 import { evaluateRoute } from "./evaluate-route";
 
@@ -20,6 +22,8 @@ export interface RouteChangeSubscriberInterface {
     callback: (...args: any[]) => any;
     isConnected: () => boolean;
     component: any;
+    params: Record<string, string>;
+    queryParams: Record<string, string>;
 }
 
 export const COMPONENT_URL_PATH_SYMBOL = Symbol('COMPONENT_URL_PATH_SYMBOL');
@@ -42,7 +46,7 @@ export class InternalRouterService {
 
     private isSameRoute(url: string) {
         const cleanNewUrl = removeStartAndEndSlashes(url);
-        const cleanOldUrl = removeStartAndEndSlashes(window.location.pathname);
+        const cleanOldUrl = removeStartAndEndSlashes(window.location.pathname + window.location.search);
         return cleanNewUrl === cleanOldUrl;
     }
 
@@ -202,29 +206,45 @@ export class InternalRouterService {
 
     public addSubscriber(subscriber: RouteChangeSubscriberInterface) {
         this.subscribers.push(subscriber);
+        const webComponent = (subscriber.component as WebComponentInterface);
+        const callback = () => {
+            this.triggerRouterChangeSubscriber(subscriber);
+            webComponent.removeTriggerAfterConnected(callback);
+        };
+        webComponent.addTriggerAfterConnected(callback);
+    }
+
+    private triggerRouterChangeSubscriber(subscriber: RouteChangeSubscriberInterface) {
+        if (subscriber.isConnected()) {
+            let routeParams: Record<string, string> = {};
+            let queryParams: Record<string, string> = {};
+            switch(subscriber.type) {
+                case 'all':
+                    queryParams = getURLQueryParams();
+                    routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
+                    subscriber.callback(routeParams, queryParams);
+                    break;
+                case 'param':
+                    routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
+                    if (!haveSameProperties(subscriber.params, routeParams)) {
+                        subscriber.params = routeParams;
+                        subscriber.callback(routeParams);
+                    }
+                    break;
+                case 'query':
+                    queryParams = getURLQueryParams();
+                    if (!haveSameProperties(subscriber.queryParams, queryParams)) {
+                        subscriber.queryParams = queryParams;
+                        subscriber.callback(queryParams);
+                    }
+                    break;
+            }
+        }
     }
 
     private triggerRouterChangeSubscribers() {
         this.subscribers.forEach((subscriber) => {
-            if (subscriber.isConnected()) {
-                let routeParams: Record<string, string> = {};
-                let queryParams: Record<string, string> = {};
-                switch(subscriber.type) {
-                    case 'all':
-                        queryParams = getURLQueryParams();
-                        routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
-                        subscriber.callback(routeParams, queryParams);
-                        break;
-                    case 'param':
-                        routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
-                        subscriber.callback(routeParams);
-                        break;
-                    case 'query':
-                        queryParams = getURLQueryParams();
-                        subscriber.callback(queryParams);
-                        break;
-                }
-            }
+            this.triggerRouterChangeSubscriber(subscriber);
         });
         this.subscribers = this.subscribers.filter((subscriber) => subscriber.isConnected());
     }

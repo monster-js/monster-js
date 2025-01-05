@@ -58,6 +58,8 @@ export { routerOutlet } from './router/router-outlet';
 export { routerDirective } from './router/router.directive';
 export { routerNavigate } from './router/router-navigate';
 export { routerChange } from './router/router-change';
+export { routeParamChange } from './router/route-param-change';
+export { routeQueryParamChange } from './router/route-query-param-change';
 
 // store
 export { createSelector } from './store/create-selector';

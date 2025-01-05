@@ -14,6 +14,8 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
 
         private directives: Record<string, any> = {};
 
+        private triggerAfterConnected: ((...args: any[]) => any)[] = [];
+
         constructor() {
             super();
 
@@ -25,6 +27,14 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
             if (typeof renderFunction === 'function') {
                 this.element = renderFunction.bind(this)();
             }
+        }
+
+        public addTriggerAfterConnected(callback: (...args: any[]) => any) {
+            this.triggerAfterConnected.push(callback);
+        }
+
+        public removeTriggerAfterConnected(callback: (...args: any[]) => any) {
+            this.triggerAfterConnected = this.triggerAfterConnected.filter((item) => item === callback);
         }
 
         public getDirective(namespace: string) {
@@ -50,6 +60,7 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
                 this.appendChild(this.element);
             }
             this.triggerHooks(LifecycleHooksEnum.connected);
+            this.triggerAfterConnected.forEach((callback) => callback());
             this.detectChanges();
             this.triggerHooks(LifecycleHooksEnum.afterViewInit);
         }
@@ -84,6 +95,9 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
             this.watchers.forEach(watcher => {
                 if (this.evaluateWatcher(watcher)) hasViewChange = true;
             });
+
+            if (!this.isConnected) return;
+
             this.conditionWatchers = this.conditionWatchers.filter(watcher => watcher.getIsConnected());
             this.watchers = this.watchers.filter(watcher => watcher.getIsConnected());
             if (hasViewChange) this.triggerHooks(LifecycleHooksEnum.afterViewChanged);
