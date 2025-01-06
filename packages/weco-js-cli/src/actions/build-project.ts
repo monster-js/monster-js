@@ -53,6 +53,14 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
             }),
         ]);
         config.output!.path += '/app';
+        config.stats = {
+            assets: true,        // Include information about assets
+            assetsSort: 'size',  // Sort assets by size
+            modules: false,      // Hide module details (optional)
+            colors: true,        // Add colors to the output
+            entrypoints: false,  // Hide entry point details (optional)
+        }
+
         runBuild(config);
     }
 }
@@ -66,6 +74,14 @@ function runBuild(config: Webpack.Configuration) {
         } else if (stats?.hasErrors()) {
             console.error(stats.toString('errors-only'));
         } else {
+            console.log('');
+            console.log(stats?.toString({
+                assets: true,
+                colors: true,
+                modules: false,
+                entrypoints: false,
+            }));
+            console.log('');
             console.log('Build completed successfully.');
         }
     });
