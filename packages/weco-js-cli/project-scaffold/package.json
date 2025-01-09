@@ -10,6 +10,6 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "weco-js": "^0.0.5"
+    "weco-js": "^0.0.160"
   }
 }
