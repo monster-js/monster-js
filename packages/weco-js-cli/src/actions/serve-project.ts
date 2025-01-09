@@ -2,6 +2,7 @@ import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { generateWebpackConfig } from '../webpack-files/generate-webpack-config';
 import { getWecoConfig } from '../utils/get-weco-config';
+import { info } from '../utils/logger';
 
 interface ServeProjectOptionsInterface {
     port: number;
@@ -36,6 +37,6 @@ export async function serveProject(options: ServeProjectOptionsInterface) {
     const compiler = Webpack(config);
     const server = new WebpackDevServer(devServerConfig, compiler);
 
-    console.log('Starting server...');
+    info('Starting server...');
     await server.start();
 };

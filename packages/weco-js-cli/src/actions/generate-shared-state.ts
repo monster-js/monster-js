@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { getWecoConfig } from '../utils/get-weco-config';
 import { filenameToCamelCase } from '../utils/filename-to-camel-case';
-import chalk from 'chalk';
+import { failed, success } from '../utils/logger';
 
 export function generateSharedState(name: string) {
 
@@ -22,7 +22,7 @@ export function generateSharedState(name: string) {
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
         console.log('');
-        console.log(`[${chalk.red('Failed')}] The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
+        failed(`The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
         return;
     }
 
@@ -40,7 +40,7 @@ export const ${filenameCamelCase} = createSharedState(null);
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
 
     console.log('');
-    console.log(`[${chalk.green('SUCCESS')}] Shared state ${filenameCamelCase} created at ${targetFilePath}`);
+    success(`Shared state ${filenameCamelCase} created at ${targetFilePath}`);
 }
 
 

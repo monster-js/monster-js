@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { filenameToPascalCase } from "../utils/filename-to-pascal-case";
 import { getWecoConfig } from '../utils/get-weco-config';
-import chalk from 'chalk';
+import { failed, success } from '../utils/logger';
 
 export function generateDirective(name: string) {
 
@@ -25,7 +25,7 @@ export function generateDirective(name: string) {
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
         console.log('');
-        console.log(`[${chalk.red('Failed')}] The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
+        failed(`The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
         return;
     }
 
@@ -47,7 +47,7 @@ export default directive(${filenameCamelCase}, '${directiveName}');
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
 
     console.log('');
-    console.log(`[${chalk.green('SUCCESS')}] Directive ${filenameCamelCase} created at ${targetFilePath}`);
+    success(`Directive ${filenameCamelCase} created at ${targetFilePath}`);
 }
 
 

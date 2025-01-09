@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { execSync } from "child_process";
+import { error, info, success } from "../utils/logger";
 
 interface NewProjectOptionsInterface {
     installPackages: boolean;
@@ -12,14 +13,14 @@ export function newProject(projectName: string, options: NewProjectOptionsInterf
 
     // Check if the project directory already exists
     if (fs.existsSync(projectPath)) {
-        console.error(`Error: Directory ${projectName} already exists.`);
+        error(`Directory ${projectName} already exists.`);
         process.exit(1);
     }
 
     try {
         // Copy scaffold folder contents to the new project directory
         fs.cpSync(scaffoldPath, projectPath, { recursive: true });
-        console.log(`New project '${projectName}' created.`);
+        info(`New project '${projectName}' created.`);
 
         const templates = {
             "gitignore.template": ".gitignore",
@@ -34,20 +35,20 @@ export function newProject(projectName: string, options: NewProjectOptionsInterf
                 fs.copyFileSync(sourceFile, destFile);
                 fs.unlinkSync(path.join(projectPath, templateFile));
             } else {
-                console.log(`${templateFile} not found in scaffold.`);
+                error(`${templateFile} not found in scaffold.`);
             }
         }
 
         // Run npm install if --install-packages is true
         if (!(options.installPackages === false)) {
-            console.log("Installing npm packages...");
+            info('Installing npm packages...');
             execSync("npm install", { stdio: "inherit", cwd: projectPath });
-            console.log("Packages installed successfully.");
+            success('Packages installed successfully.');
         } else {
-            console.log("Skipping package installation.");
+            info('Skipping package installation.');
         }
     } catch (error) {
-        console.error("Error creating project:", error);
+        console.error('Error creating project:', error);
         process.exit(1);
     }
 }

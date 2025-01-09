@@ -6,6 +6,7 @@ import { getFileNameWithoutExtension } from '../utils/get-filename-without-exten
 import { toPascalCase } from '../utils/to-pascal-case';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { getWecoConfig } from '../utils/get-weco-config';
+import { error, info, success } from '../utils/logger';
 
 export interface BuildProjectOptionsInterface {
     mode: Webpack.Configuration['mode'];
@@ -20,12 +21,12 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
 
     const { mode, output, standalone } = options;
 
-    console.log('Building project...');
+    info('Building project...');
     if (standalone) {
         const standaloneDir = path.join(process.cwd(), wecoConfig.standaloneDir);
         fs.readdir(standaloneDir, (err, files) => {
             if (err) {
-                return console.error('Unable to read standalone directory');
+                return error('Unable to read standalone directory');
             }
 
             const config = generateWebpackConfig(mode, output);
@@ -77,7 +78,7 @@ function runBuild(config: Webpack.Configuration) {
         if (err) {
             console.error(err);
         } else if (stats?.hasErrors()) {
-            console.error(stats.toString('errors-only'));
+            error(stats.toString('errors-only'))
         } else {
             console.log('');
             console.log(stats?.toString({
@@ -87,7 +88,7 @@ function runBuild(config: Webpack.Configuration) {
                 entrypoints: false,
             }));
             console.log('');
-            console.log('Build completed successfully.');
+            success('Build completed successfully.');
         }
     });
 }
