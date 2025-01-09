@@ -1,6 +1,6 @@
 {
   "name": "weco-js-cli",
-  "version": "0.0.112",
+  "version": "0.0.113",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -r ./dist && tsc && cp -r ./project-scaffold ./dist",
