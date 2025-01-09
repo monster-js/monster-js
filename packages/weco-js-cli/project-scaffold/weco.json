@@ -1,0 +1,6 @@
+{
+    "appRoot": "src/app",
+    "componentSelectorPrefix": "app",
+    "environmentsPath": "src/environments",
+    "standaloneDir": "src/standalone"
+}

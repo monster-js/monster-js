@@ -1,6 +1,7 @@
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { generateWebpackConfig } from '../webpack-files/generate-webpack-config';
+import { getWecoConfig } from '../utils/get-weco-config';
 
 interface ServeProjectOptionsInterface {
     port: number;
@@ -22,6 +23,10 @@ const devServerConfig: WebpackDevServer.Configuration = {
 };
 
 export async function serveProject(options: ServeProjectOptionsInterface) {
+
+    const wecoConfig = getWecoConfig();
+    if (!wecoConfig) return;
+
     const { port, mode } = options;
     const config = generateWebpackConfig(options.mode, 'dist');
 

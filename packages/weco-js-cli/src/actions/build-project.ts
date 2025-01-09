@@ -5,6 +5,7 @@ import fs from 'fs';
 import { getFileNameWithoutExtension } from '../utils/get-filename-without-extension';
 import { toPascalCase } from '../utils/to-pascal-case';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { getWecoConfig } from '../utils/get-weco-config';
 
 export interface BuildProjectOptionsInterface {
     mode: Webpack.Configuration['mode'];
@@ -13,11 +14,15 @@ export interface BuildProjectOptionsInterface {
 }
 
 export async function buildProject(options: BuildProjectOptionsInterface) {
+
+    const wecoConfig = getWecoConfig();
+    if (!wecoConfig) return;
+
     const { mode, output, standalone } = options;
 
     console.log('Building project...');
     if (standalone) {
-        const standaloneDir = path.join(process.cwd(), 'src/standalone');
+        const standaloneDir = path.join(process.cwd(), wecoConfig.standaloneDir);
         fs.readdir(standaloneDir, (err, files) => {
             if (err) {
                 return console.error('Unable to read standalone directory');
@@ -28,7 +33,7 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
             files.forEach((filePath) => {
                 const filename = getFileNameWithoutExtension(filePath);
                 const className = toPascalCase(filename);
-                config.entry = './src/standalone/' + filePath;
+                config.entry = `./${wecoConfig.standaloneDir}/${filePath}`;
                 config.output!.library = {
                     export: 'default',
                     name: className,
