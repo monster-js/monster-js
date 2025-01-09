@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { getWecoConfig } from '../utils/get-weco-config';
+import chalk from 'chalk';
 
 export function generateEnvironment(name: string) {
 
@@ -16,7 +17,8 @@ export function generateEnvironment(name: string) {
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
-        console.log(`The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
+        console.log('');
+        console.log(`[${chalk.red('Failed')}] The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
         return;
     }
 
@@ -33,7 +35,8 @@ export function generateEnvironment(name: string) {
     // Write the file to the target path
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
 
-    console.log(`Environment environment.${filename}.ts created at ${targetFilePath}`);
+    console.log('');
+    console.log(`[${chalk.green('SUCCESS')}] Environment environment.${filename}.ts created at ${targetFilePath}`);
 }
 
 

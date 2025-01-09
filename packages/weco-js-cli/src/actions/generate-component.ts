@@ -3,6 +3,7 @@ import * as path from 'path';
 import { filenameToPascalCase } from "../utils/filename-to-pascal-case";
 import { generateValidWebComponentSelector } from '../utils/generate-valid-web-component-selector';
 import { getWecoConfig } from '../utils/get-weco-config';
+import chalk from 'chalk';
 
 export function generateComponent(name: string) {
 
@@ -21,7 +22,8 @@ export function generateComponent(name: string) {
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
-        console.log(`The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
+        console.log('');
+        console.log(`[${chalk.red('Failed')}] The file ${targetFilePath} already exists. Aborting to avoid overwriting.`);
         return;
     }
 
@@ -47,5 +49,6 @@ component(${filenamePascalCase}, {
     // Write the file to the target path
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
 
-    console.log(`Component ${filenamePascalCase} created at ${targetFilePath}`);
+    console.log('');
+    console.log(`[${chalk.green('SUCCESS')}] Component ${filenamePascalCase} created at ${targetFilePath}`);
 }
