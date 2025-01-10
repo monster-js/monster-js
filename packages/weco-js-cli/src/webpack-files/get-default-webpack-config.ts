@@ -5,8 +5,10 @@ import TerserPlugin from 'terser-webpack-plugin';
 declare const global: any;
 
 export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.Configuration => {
+
     global['__GLOBAL_WECO_ELEMENT_ID_COUNTER'] = 0;
     global['__GLOBAL_WECO_ELEMENT_IDS'] = {};
+
     return {
         entry: './src/main.ts',
         output: {
@@ -27,6 +29,7 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                     use: [
                         require.resolve('style-loader'), // Injects styles into the DOM
                         require.resolve('css-loader'),   // Resolves CSS imports
+                        require.resolve('./css-transformer.js'),
                         require.resolve('sass-loader'),  // Compiles SCSS to CSS
                     ],
                 },

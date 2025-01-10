@@ -1,3 +1,5 @@
+const _path = require('path');
+
 const FN_NAMES = {
   CREATE_ELEMENT: "createElement",
   CREATE_COMPONENT: "createComponent",
@@ -36,15 +38,16 @@ module.exports = function (babel) {
       Program(path, state) {
         programPathGetter = () => path;
 
-        const filename = state.file.opts.filename || '';
+        const filePath = state.file.opts.filename || '';
         const rootDir = state.file.opts.root || '';
-        fileId = filename.replace(rootDir, '');
+        const filename = filePath.replace(rootDir, '');
+        fileId = _path.basename(filename, _path.extname(filename));
 
-        if (global && !global.__GLOBAL_WECO_ELEMENT_IDS) {
-          global.__GLOBAL_WECO_ELEMENT_IDS = {};
+        if (!global.__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
+          global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_WECO_ELEMENT_ID_COUNTER;
+          global.__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
         }
-        global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global['__GLOBAL_WECO_ELEMENT_ID_COUNTER'];
-        global['__GLOBAL_WECO_ELEMENT_ID_COUNTER']++;
+
       },
       JSXText(path) {
         const { node } = path;
