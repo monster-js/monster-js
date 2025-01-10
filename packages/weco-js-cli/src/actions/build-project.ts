@@ -21,6 +21,8 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
 
     const { mode, output, standalone } = options;
 
+    console.log('I am here');
+
     info('Building project...');
     if (standalone) {
         const standaloneDir = path.join(process.cwd(), wecoConfig.standaloneDir);

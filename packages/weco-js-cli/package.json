@@ -1,6 +1,6 @@
 {
   "name": "weco-js-cli",
-  "version": "0.0.122",
+  "version": "0.0.131",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -r ./dist && tsc && cp -r ./project-scaffold ./dist",
@@ -21,6 +21,10 @@
     "chalk": "^4.1.2",
     "commander": "^13.0.0",
     "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.2",
+    "sass": "^1.83.1",
+    "sass-loader": "^16.0.4",
+    "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
     "webpack": "^5.96.1",

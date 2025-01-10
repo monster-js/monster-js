@@ -18,6 +18,14 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
     module: {
         rules: [
             {
+                test: /\.s[ac]ss$/i, // Match SCSS files
+                use: [
+                    require.resolve('style-loader'), // Injects styles into the DOM
+                    require.resolve('css-loader'),   // Resolves CSS imports
+                    require.resolve('sass-loader'),  // Compiles SCSS to CSS
+                ],
+            },
+            {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
