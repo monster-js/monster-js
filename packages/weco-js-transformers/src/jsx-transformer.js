@@ -13,6 +13,16 @@ const FN_NAMES = {
   ROUTER_OUTLET: "routerOutlet"
 };
 
+function generateShortUniqueId() {
+  return Math.random().toString(36).substr(2, 8); // Convert to base-36 and take 8 characters
+}
+
+let fileId;
+
+function uniqueId() {
+  return global.__GLOBAL_WECO_ELEMENT_IDS[fileId];
+}
+
 const CORE_PACKAGE_NAME = "weco-js";
 
 let programPathGetter;
@@ -23,8 +33,18 @@ module.exports = function (babel) {
   return {
     name: "ast-transform", // not required
     visitor: {
-      Program(path) {
+      Program(path, state) {
         programPathGetter = () => path;
+
+        const filename = state.file.opts.filename || '';
+        const rootDir = state.file.opts.root || '';
+        fileId = filename.replace(rootDir, '');
+
+        if (global && !global.__GLOBAL_WECO_ELEMENT_IDS) {
+          global.__GLOBAL_WECO_ELEMENT_IDS = {};
+        }
+        global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global['__GLOBAL_WECO_ELEMENT_ID_COUNTER'];
+        global['__GLOBAL_WECO_ELEMENT_ID_COUNTER']++;
       },
       JSXText(path) {
         const { node } = path;
@@ -47,9 +67,10 @@ module.exports = function (babel) {
         const isComponent = tagName[0] === tagName[0].toUpperCase();
         const staticAttributes = node.openingElement.attributes.filter(
           (attribute) =>
-            attribute.value &&
+            (attribute.value &&
             attribute.value.type === "StringLiteral" &&
-            attribute.name.type === "JSXIdentifier"
+            attribute.name.type === "JSXIdentifier") || (attribute.value === null &&
+            attribute.name.type === "JSXIdentifier")
         );
         const bindAttributes = node.openingElement.attributes.filter(
           (attribute) =>
@@ -103,6 +124,14 @@ module.exports = function (babel) {
           	attribute.name.namespace.name !== "prop"
         );
         const children = node.children;
+
+        // add the element unique id
+        staticAttributes.push({
+          type: 'JSXAttribute',
+          name: { type: 'JSXIdentifier', name: uniqueId() },
+          value: { type: 'StringLiteral', value: '' }
+        });
+        
 		if (node.openingElement.name.name === "router-outlet") {
           applyRouterOutlet(path);
           return;
@@ -375,7 +404,13 @@ function applyForCondition(forLoop, forLoopItem, forLoopIndex, forLoopTrackBy, p
 
 function applyStaticAttributes(staticAttributes, node) {
   if (staticAttributes.length > 0) {
-    node.arguments.push(jsxAttributesToObject(staticAttributes));
+    node.arguments.push(jsxAttributesToObject(staticAttributes.map(attribute => {
+    	if (attribute.value) return attribute;
+      return {
+      	...attribute,
+        value: { type: 'StringLiteral', value: '' }
+      }
+    })));
   }
 }
 
