@@ -56,6 +56,14 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
         }
 
         public connectedCallback() {
+
+            const fnComponent: FnComponentInterface = renderFunction as any;
+            if (fnComponent.__styleMeta) {
+                const styles = document.createElement('style');
+                styles.textContent = fnComponent.__styleMeta;
+                this.appendChild(styles);
+            }
+
             if (this.element) {
                 this.appendChild(this.element);
             }

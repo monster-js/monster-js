@@ -43,7 +43,9 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                                 require.resolve('@babel/preset-env'),
                                 require.resolve('@babel/preset-typescript')
                             ],
-                            plugins: [require.resolve('weco-js-transformers')],
+                            plugins: [
+                                require.resolve('weco-js-transformers')
+                            ],
                             compact: false,
                         },
                     },

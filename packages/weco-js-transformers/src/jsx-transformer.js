@@ -1,4 +1,6 @@
+const fs = require('fs');
 const _path = require('path');
+const sass = require('sass');
 
 const FN_NAMES = {
   CREATE_ELEMENT: "createElement",
@@ -47,6 +49,45 @@ module.exports = function (babel) {
           global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_WECO_ELEMENT_ID_COUNTER;
           global.__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
         }
+
+      	path.node.body.forEach((node) => {
+          if(
+            node.type === 'ExpressionStatement'
+            && node.expression.type === 'CallExpression'
+            && node.expression.callee.type === 'Identifier'
+            && node.expression.callee.name === 'component'
+          ) {
+            const componentConfig = node.expression.arguments[1];
+            let isShadowDom = false;
+            if (t.isObjectExpression(componentConfig)) {
+              componentConfig.properties.forEach((prop) => {
+              	if (
+                  prop.key.type === 'Identifier'
+                  && prop.key.name === 'shadowDom'
+                  && prop.value.type === 'BooleanLiteral'
+                  && prop.value.value === true
+                ) {
+                  isShadowDom = true;
+                }
+              });
+            }
+
+            if (isShadowDom) {
+              const cssFilePath = _path.join(_path.dirname(filePath), `${fileId}.scss`);
+
+              if (fs.existsSync(cssFilePath)) {
+                const scssContent = fs.readFileSync(cssFilePath, 'utf8');
+                const result = sass.compileString(scssContent || '', {
+                  loadPaths: [rootDir]
+                });
+                node.expression.arguments[3] = {
+                  type: 'StringLiteral',
+                  value: result.css
+                };
+              }
+            }
+          }
+        });
 
       },
       JSXText(path) {
