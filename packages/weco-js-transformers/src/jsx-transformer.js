@@ -63,9 +63,9 @@ module.exports = function (babel) {
               componentConfig.properties.forEach((prop) => {
               	if (
                   prop.key.type === 'Identifier'
-                  && prop.key.name === 'shadowDom'
-                  && prop.value.type === 'BooleanLiteral'
-                  && prop.value.value === true
+                  && prop.key.name === 'shadowMode'
+                  && prop.value.type === 'StringLiteral'
+                  && (prop.value.value === 'open' || prop.value.value === 'closed')
                 ) {
                   isShadowDom = true;
                 }
@@ -78,7 +78,8 @@ module.exports = function (babel) {
               if (fs.existsSync(cssFilePath)) {
                 const scssContent = fs.readFileSync(cssFilePath, 'utf8');
                 const result = sass.compileString(scssContent || '', {
-                  loadPaths: [rootDir]
+                  loadPaths: ['./'],
+                  url: process.cwd()
                 });
                 node.expression.arguments[3] = {
                   type: 'StringLiteral',

@@ -2,8 +2,15 @@ import { LifecycleHooksEnum } from "../enums/lifecycle-hooks.enum";
 import { FnComponentInterface } from "../interfaces/fn-component.interface";
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
+import { defineStyles, removeDefinedStyles } from "../utils/define-styles";
 
-export function createWebComponent(renderFunction: () => Element, parentClass = HTMLElement): any {
+export function createWebComponent(renderFunction: () => Element): any {
+    const fnComponent: FnComponentInterface = renderFunction as any;
+    let parentClass = HTMLElement;
+    if (fnComponent.__meta.extends) {
+        parentClass = fnComponent.__meta.extends[0];
+    }
+
     return class extends parentClass implements WebComponentInterface {
 
         private watchers: WatcherInterface[] = [];
@@ -16,16 +23,25 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
 
         private triggerAfterConnected: ((...args: any[]) => any)[] = [];
 
+        private elementHolder: Element | ShadowRoot = this;
+
         constructor() {
             super();
 
-            const fnComponent: FnComponentInterface = renderFunction as any;
             (fnComponent.__meta?.directives || []).forEach((directiveFn) => {
                 this.directives[directiveFn.namespace] = directiveFn;
             });
 
             if (typeof renderFunction === 'function') {
                 this.element = renderFunction.bind(this)();
+            }
+
+            this.setElementHolder();
+        }
+
+        private setElementHolder() {
+            if (this.isShadowDom()) {
+                this.elementHolder = this.attachShadow({ mode: fnComponent.__meta.shadowMode });
             }
         }
 
@@ -55,18 +71,37 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
             return ((renderFunction as any) as FnComponentInterface)?.__meta?.observedAttributes || [];
         }
 
-        public connectedCallback() {
-
-            const fnComponent: FnComponentInterface = renderFunction as any;
-            if (fnComponent.__styleMeta) {
+        private applyStyling() {
+            if (fnComponent.__styleMeta && this.isShadowDom()) {
                 const styles = document.createElement('style');
                 styles.textContent = fnComponent.__styleMeta;
-                this.appendChild(styles);
+                this.elementHolder.appendChild(styles);
+            } else if (fnComponent.__styleMeta) {
+                defineStyles([fnComponent.__styleMeta]);
             }
+        }
 
-            if (this.element) {
-                this.appendChild(this.element);
+        private removeStyling() {
+            if (fnComponent.__styleMeta && !this.isShadowDom()) {
+                removeDefinedStyles([fnComponent.__styleMeta]);
             }
+        }
+
+        private isShadowDom() {
+            const shadowMode = fnComponent.__meta.shadowMode;
+            return ['open', 'closed'].includes(shadowMode);
+        }
+
+        private appendElement() {
+            this.elementHolder.appendChild(this.element);
+        }
+
+        public connectedCallback() {
+
+            this.applyStyling();
+
+            this.appendElement();
+
             this.triggerHooks(LifecycleHooksEnum.connected);
             this.triggerAfterConnected.forEach((callback) => callback());
             this.detectChanges();
@@ -74,6 +109,7 @@ export function createWebComponent(renderFunction: () => Element, parentClass = 
         }
 
         public disconnectedCallback() {
+            this.removeStyling();
             this.triggerHooks(LifecycleHooksEnum.disconnected);
         }
 

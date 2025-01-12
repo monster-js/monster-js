@@ -1,9 +1,9 @@
 export interface FnComponentInterface {
-    __styleMeta?: string;
+    __styleMeta?: any;
     __meta: {
-        shadowDom?: boolean;
         selector: string;
-        parentClass?: CustomElementConstructor;
+        shadowMode?: 'open' | 'closed';
+        extends?: [CustomElementConstructor, string];
         directives?: ({ namespace: string } & any)[];
         observedAttributes?: string[];
     }

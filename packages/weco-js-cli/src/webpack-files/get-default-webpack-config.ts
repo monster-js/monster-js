@@ -27,7 +27,7 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                 {
                     test: /\.s[ac]ss$/i, // Match SCSS files
                     use: [
-                        require.resolve('style-loader'), // Injects styles into the DOM
+                        // require.resolve('style-loader'), // Injects styles into the DOM
                         require.resolve('css-loader'),   // Resolves CSS imports
                         require.resolve('./css-transformer.js'),
                         require.resolve('sass-loader'),  // Compiles SCSS to CSS

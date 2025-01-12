@@ -64,3 +64,6 @@ export { routeQueryParamChange } from './router/route-query-param-change';
 // store
 export { createSelector } from './store/create-selector';
 export { createStore } from './store/create-store';
+
+// styles
+export { defineStyles } from './utils/define-styles';
