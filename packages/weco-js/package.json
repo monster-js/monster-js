@@ -1,6 +1,6 @@
 {
   "name": "weco-js",
-  "version": "0.0.186",
+  "version": "0.0.202",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

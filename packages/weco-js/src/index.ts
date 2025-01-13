@@ -23,6 +23,7 @@ export { defineComponent } from './component/define-component';
 // template engine
 export { createElement } from './template-engine/create-element';
 export { createComponent } from './template-engine/create-component';
+export { createIsComponent } from './template-engine/create-is-component';
 export { addEventListener } from './template-engine/add-event-listener';
 export { appendChildren } from './template-engine/append-children';
 export { createTextNode } from './template-engine/create-text-node';

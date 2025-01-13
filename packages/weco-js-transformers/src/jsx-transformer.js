@@ -5,6 +5,7 @@ const sass = require('sass');
 const FN_NAMES = {
   CREATE_ELEMENT: "createElement",
   CREATE_COMPONENT: "createComponent",
+  CREATE_IS_COMPONENT: "createIsComponent",
   ADD_EVENT_LISTENER: "addEventListener",
   APPEND_CHILDREN: "appendChildren",
   CREATE_TEXT_NODE: "createTextNode",
@@ -107,9 +108,17 @@ module.exports = function (babel) {
         ];
       },
       JSXElement(path) {
+        path.traverse({
+          JSXExpressionContainer(path2) {
+            // Check if the container contains only a comment (JSXEmptyExpression)
+            if (path2.node.expression.type === "JSXEmptyExpression") {
+                path2.remove(); // Safely remove the entire JSXExpressionContainer
+            }
+          },
+        });
         const { node } = path;
         const tagName = node.openingElement.name.name;
-        const isComponent = tagName[0] === tagName[0].toUpperCase();
+        let isComponent = tagName[0] === tagName[0].toUpperCase();
         const staticAttributes = node.openingElement.attributes.filter(
           (attribute) =>
             (attribute.value &&
@@ -176,8 +185,16 @@ module.exports = function (babel) {
           name: { type: 'JSXIdentifier', name: uniqueId() },
           value: { type: 'StringLiteral', value: '' }
         });
+
+        if (!isComponent) {
+          staticAttributes.forEach((attr) => {
+            if (attr.name.name === 'is' && attr.value.type === 'StringLiteral') {
+              isComponent = true;
+            }
+          });
+        }
         
-		if (node.openingElement.name.name === "router-outlet") {
+        if (node.openingElement.name.name === "router-outlet") {
           applyRouterOutlet(path);
           return;
         } else if (node.openingElement.name.name === "element-outlet") {
@@ -185,12 +202,13 @@ module.exports = function (babel) {
           return;
         } else if (isComponent) {
           applyCreateComponent(node);
+          applyStaticAttributes(staticAttributes, node);
           applyProps(node, props);
         } else {
           applyCreateElement(node);
+          applyStaticAttributes(staticAttributes, node);
         }
 
-        applyStaticAttributes(staticAttributes, node);
         applyEvents(events, node);
         applyChildren(children, node);
         applyBindAttributes(bindAttributes, node);
@@ -329,18 +347,28 @@ function applyProps(node, props) {
 }
 
 function applyCreateComponent(node) {
-  addImport(FN_NAMES.CREATE_COMPONENT);
-  node.type = "CallExpression";
-  node.callee = {
-    type: "Identifier",
-    name: FN_NAMES.CREATE_COMPONENT
-  };
-  node.arguments = [
-    {
+  const tagName = node.openingElement.name.name;
+  if (tagName[0] === tagName[0].toUpperCase()) {
+    addImport(FN_NAMES.CREATE_COMPONENT);
+    node.type = "CallExpression";
+    node.callee = {
       type: "Identifier",
-      name: node.openingElement.name.name
-    }
-  ];
+      name: FN_NAMES.CREATE_COMPONENT
+    };
+    node.arguments = [
+      { type:"Identifier", name: tagName }
+    ];
+  } else {
+    addImport(FN_NAMES.CREATE_IS_COMPONENT);
+    node.type = "CallExpression";
+    node.callee = {
+      type: "Identifier",
+      name: FN_NAMES.CREATE_IS_COMPONENT
+    };
+    node.arguments = [
+      { type:"StringLiteral", value: tagName }
+    ];
+  }
 }
 
 function applyCreateElement(node) {
