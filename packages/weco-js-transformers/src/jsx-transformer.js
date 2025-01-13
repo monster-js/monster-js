@@ -110,9 +110,8 @@ module.exports = function (babel) {
       JSXElement(path) {
         path.traverse({
           JSXExpressionContainer(path2) {
-            // Check if the container contains only a comment (JSXEmptyExpression)
             if (path2.node.expression.type === "JSXEmptyExpression") {
-                path2.remove(); // Safely remove the entire JSXExpressionContainer
+              path2.remove();
             }
           },
         });

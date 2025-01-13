@@ -41,7 +41,7 @@ The generated `main.ts` will look like this:
 import { defineComponent } from "weco-js";
 import { App } from "./app/app.component";
 
-defineComponent('app-root', App);
+defineComponent(App);
 ```
 
 The `App` component in app.component.tsx will look like this:

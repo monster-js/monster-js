@@ -15,7 +15,7 @@ import { App } from "./app/app.component";
 
 defineStyles([styles]);
 
-defineComponent('app-root', App);
+defineComponent(App);
 ```
 
 ### Adding Additional Global Styles

@@ -84,9 +84,9 @@ component(CardComponent, {
 ### Usage
 
 ```tsx
-<app-card>
+<CardComponent>
     <p>This content is projected into the Card component.</p>
-</app-card>
+</CardComponent>
 ```
 
 Output:
@@ -132,11 +132,11 @@ component(LayoutComponent, {
 ### Usage
 
 ```tsx
-<app-layout>
+<LayoutComponent>
     <h1 slot="header">Header Content</h1>
     <p slot="content">Main Content</p>
     <small slot="footer">Footer Content</small>
-</app-layout>
+</LayoutComponent>
 ```
 
 Output:
@@ -181,7 +181,7 @@ component(MessageComponent, {
 ### Usage
 
 ```tsx
-<app-message></app-message>
+<MessageComponent></MessageComponent>
 ```
 
 Output:

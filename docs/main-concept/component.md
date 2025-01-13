@@ -88,59 +88,6 @@ component(ParentComponent, {
 * The `ButtonComponent` is used directly within the `ParentComponent`’s template.
 * No additional steps are required to include it in the parent.
 
-## Using a Component with `<app-button />` Syntax
-
-To use a custom element with the `<app-button />` syntax, you must define it using the `defineComponent` function. This step registers the component with the browser’s `customElements` registry.
-
-### Defining the Component
-
-```tsx
-import { defineComponent } from 'weco-js';
-import { ButtonComponent } from './button.component';
-
-defineComponent('app-button', ButtonComponent);
-```
-
-### Example: Using `<app-button />`
-
-After defining the component, you can use it like this:
-
-```tsx
-<app-button></app-button>
-```
-
-## Best Practices for Defining Components
-
-* **Define in `main.ts`**: Define global components like `app-root` or reusable components in the `main.ts` file:
-
-```ts
-import { defineComponent } from "weco-js";
-import { App } from "./app/app.component";
-import { ButtonComponent } from './button.component';
-
-defineComponent('app-button', ButtonComponent);
-defineComponent('app-root', App);
-```
-
-* **Lazy-Loaded Modules**: For components specific to a lazy-loaded module, define them in the module’s root file.
-
-## Using a Component with `<ButtonComponent />` Syntax
-
-Unlike `<app-button />`, the `<ButtonComponent />` syntax does not require the component to be defined using `defineComponent`.
-
-### Example: Using `<ButtonComponent />`
-
-```tsx
-import { ButtonComponent } from './button.component';
-
-export function ParentComponent() {
-    return <div>
-        <h1>Parent Component</h1>
-        <ButtonComponent />
-    </div>;
-}
-```
-
 ## How Watchers Work
 
 Watchers are central to Weco JS’s reactivity. Here’s how they operate:
