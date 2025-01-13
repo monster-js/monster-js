@@ -34,7 +34,15 @@ export function generateComponent(name: string) {
     }
 
     // Ensure a valid selector for the web component
-    const validSelector = generateValidWebComponentSelector(filename, wecoConfig.componentSelectorPrefix);
+    const validSelector = generateValidWebComponentSelector(filename, wecoConfig.component.selectorPrefix);
+
+    const shadowMode = wecoConfig.component.shadowMode;
+    let shadowModeOpt = '';
+
+    if (shadowMode) {
+        shadowModeOpt = `
+    shadowMode: '${shadowMode}',`;
+    }
 
     // Generate the file content
     const fileContent = `import styles from './${filename}.component.scss';
@@ -45,7 +53,7 @@ export function ${filenamePascalCase}() {
 }
 
 component(${filenamePascalCase}, {
-    selector: '${validSelector}'
+    selector: '${validSelector}',${shadowModeOpt}
 }, styles);
 `;
 

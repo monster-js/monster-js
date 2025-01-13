@@ -1,6 +1,9 @@
 {
     "appRoot": "src/app",
-    "componentSelectorPrefix": "app",
+    "component": {
+        "selectorPrefix": "app",
+        "shadowMode": null
+    },
     "environmentsPath": "src/environments",
     "standaloneDir": "src/standalone"
 }

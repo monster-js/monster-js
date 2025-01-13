@@ -1,6 +1,9 @@
 export interface WecoConfigInterface {
     appRoot: string;
-    componentSelectorPrefix: string;
+    component: {
+        selectorPrefix: string;
+        shadowMode: 'open' | 'closed' | null;
+    };
     environmentsPath: string;
     standaloneDir: string;
 }
