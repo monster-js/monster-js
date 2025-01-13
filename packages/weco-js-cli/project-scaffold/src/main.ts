@@ -1,5 +1,7 @@
-import './styles.scss';
-import { defineComponent } from "weco-js";
+import styles from './styles.scss';
+import { defineComponent, defineStyles } from "weco-js";
 import { App } from "./app/app.component";
 
-defineComponent('app-root', App);
+defineStyles([styles]);
+
+defineComponent(App);
