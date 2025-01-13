@@ -5,7 +5,7 @@ import { generateValidWebComponentSelector } from '../utils/generate-valid-web-c
 import { getWecoConfig } from '../utils/get-weco-config';
 import { failed, success } from '../utils/logger';
 
-export function generateComponent(name: string) {
+export function generateComponent(name: string, option: { shadowMode: 'open' | 'closed' }) {
 
     const wecoConfig = getWecoConfig();
     if (!wecoConfig) return;
@@ -36,8 +36,12 @@ export function generateComponent(name: string) {
     // Ensure a valid selector for the web component
     const validSelector = generateValidWebComponentSelector(filename, wecoConfig.component.selectorPrefix);
 
-    const shadowMode = wecoConfig.component.shadowMode;
+    let shadowMode = wecoConfig.component.shadowMode;
     let shadowModeOpt = '';
+
+    if (option.shadowMode === 'open' || option.shadowMode === 'closed') {
+        shadowMode = option.shadowMode;
+    }
 
     if (shadowMode) {
         shadowModeOpt = `

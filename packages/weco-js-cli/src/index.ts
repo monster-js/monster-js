@@ -50,6 +50,7 @@ const generate = program
 
     generate.command('component <name>')
     .description('Generate a new component file with the specified name and path.')
+    .option('--shadow-mode <mode>', 'Specify the shadow DOM mode (open or closed)', '')
     .action(generateComponent);
 
     generate.command('interface <name>')
