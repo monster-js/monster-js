@@ -1,6 +1,6 @@
 # Defining Routes
 
-Defining routes in Weco JS Router is straightforward and intuitive. Routes are declared using the `<router-outlet />` component, which specifies the path and the component to render when the path is matched. This document explains the various ways to define routes in your Weco JS application.
+Defining routes in Monster JS Router is straightforward and intuitive. Routes are declared using the `<router-outlet />` component, which specifies the path and the component to render when the path is matched. This document explains the various ways to define routes in your Monster JS application.
 
 ## Basic Routes
 
@@ -51,4 +51,4 @@ For example:
 ```
 In this case, `/user/123` will render the `UserDetailsComponent`, while `/user` will render the `UserListComponent`.
 
-By following these guidelines, you can effectively define routes in your Weco JS application to ensure smooth navigation and optimal performance.
+By following these guidelines, you can effectively define routes in your Monster JS application to ensure smooth navigation and optimal performance.

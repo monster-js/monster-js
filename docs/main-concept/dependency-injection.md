@@ -1,6 +1,6 @@
 # Dependency Injection
 
-Dependency Injection (DI) in **Weco JS** allows you to share dependencies across components and services seamlessly. Weco JS's DI system is flexible, supporting both singleton and transient instances, and it significantly improves code modularity, maintainability, and testability.
+Dependency Injection (DI) in **Monster JS** allows you to share dependencies across components and services seamlessly. Monster JS's DI system is flexible, supporting both singleton and transient instances, and it significantly improves code modularity, maintainability, and testability.
 
 ## Using the Default DI Container
 
@@ -9,7 +9,7 @@ The default DI container is ready for use as soon as you import it. This contain
 ### Example: Simplest Usage of the Default DI Container
 
 ```tsx
-import { inject } from 'weco-js';
+import { inject } from 'monster-js';
 
 function App() {
     const messageService = inject(MessageService); // Retrieve MessageService from the default container
@@ -30,7 +30,7 @@ To create a custom DI container, use the `createDIContainer()` function. This al
 
 ```tsx
 // custom-container.di.ts
-import { createDIContainer } from 'weco-js';
+import { createDIContainer } from 'monster-js';
 
 // Create a new DI container
 export const [customInject] = createDIContainer();
@@ -54,7 +54,7 @@ The `createDIContainer()` function accepts an optional array of initial configur
 
 ```tsx
 // custom-container.di.ts
-import { createDIContainer } from 'weco-js';
+import { createDIContainer } from 'monster-js';
 
 // Create a custom DI container with an initial configuration
 export const [customInject] = createDIContainer([
@@ -81,7 +81,7 @@ The `overrideProvider` function (for the default container) and `customSetConfig
 ### Example: Overriding the Default DI Container Configuration
 
 ```tsx
-import { inject, overrideProvider } from 'weco-js';
+import { inject, overrideProvider } from 'monster-js';
 
 // Override MessageService in the default container
 overrideProvider([
@@ -102,7 +102,7 @@ function App() {
 
 ```tsx
 // custom-container.di.ts
-import { createDIContainer } from 'weco-js';
+import { createDIContainer } from 'monster-js';
 
 // Create a custom DI container
 export const [customInject, customSetConfig] = createDIContainer();
@@ -134,11 +134,11 @@ In both cases:
 | `useClass` | Specifies the class to instantiate when the dependency is injected. | `constructor` |
 | `singleton` | Determines if the dependency should be a singleton (shared instance) or transient (new). | `boolean` |
 
-## Key Features of Weco JS DI
+## Key Features of Monster JS DI
 1. **Default DI Container**: Convenient and ready to use without extra setup.
 2. **Custom DI Containers**: Flexible and configurable, avoiding naming conflicts.
 3. **Initial Configurations**: Define behaviors (e.g., singleton or transient) during container creation.
 4. **Runtime Overrides**: Dynamically change dependency behavior using `overrideProvider` or `customSetConfig`.
 5. **Testability**: Easily mock dependencies for unit tests using the DI system.
 
-With Weco JS’s DI, you can streamline your application's dependency management while maintaining flexibility and clarity.
+With Monster JS’s DI, you can streamline your application's dependency management while maintaining flexibility and clarity.

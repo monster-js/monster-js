@@ -1,6 +1,6 @@
 # Styling
 
-This document describes the styling conventions and mechanisms used in Weco JS applications. Weco JS provides flexibility with both global and component-based styles, ensuring maintainability and modularity in your projects.
+This document describes the styling conventions and mechanisms used in Monster JS applications. Monster JS provides flexibility with both global and component-based styles, ensuring maintainability and modularity in your projects.
 
 ## Global Styles
 
@@ -10,7 +10,7 @@ Global styles are defined in the `src/styles.scss` file and are imported into th
 
 ```ts
 import styles from './styles.scss';
-import { defineComponent, defineStyles } from "weco-js";
+import { defineComponent, defineStyles } from "monster-js";
 import { App } from "./app/app.component";
 
 defineStyles([styles]);
@@ -33,7 +33,7 @@ Lazy-loaded components can define their own global styles, which are appended to
 
 ```ts
 import customGlobalStyles from './custom-global-styles.scss';
-import { component, defineStyles } from 'weco-js';
+import { component, defineStyles } from 'monster-js';
 
 defineStyles([customGlobalStyles]);
 
@@ -69,7 +69,7 @@ Component styles are imported and passed as the third parameter to the `componen
 
 ```tsx
 import styles from './button.component.scss';
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ButtonComponent() {
     return <h1>ButtonComponent</h1>;
@@ -90,4 +90,4 @@ Component styles apply only to the component in which they are defined. Other co
 * **Lazy-Loaded Global Styles**: Appended to the `<head>` only when the corresponding component is loaded.
 * **Component-Based Styles**: Scoped to the component and do not affect other components. Follow the naming convention and pass styles explicitly in the `component` function.
 
-Weco JS ensures a balance between global consistency and component modularity, allowing you to build scalable and maintainable applications.
+Monster JS ensures a balance between global consistency and component modularity, allowing you to build scalable and maintainable applications.

@@ -1,13 +1,13 @@
 # Custom Element
 
-The Weco JS framework allows you to create custom elements by extending built-in HTML elements, making it simple to integrate reusable and customizable components into your application.
+The Monster JS framework allows you to create custom elements by extending built-in HTML elements, making it simple to integrate reusable and customizable components into your application.
 
 ## Creating a Custom Element Component
 
 To create a custom element component, you need to add the `extends` property in the component configuration.
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ButtonComponent() {
     return <span>ButtonComponent</span>;
@@ -41,9 +41,9 @@ It will create an element like this
 
 ## Summary
 
-To create and use a custom element in Weco JS:
+To create and use a custom element in Monster JS:
 
 1. Define the component with the `extends` property to specify the built-in element.
 2. Use the custom element in your HTML directly as a JSX component.
 
-By following these steps, you can seamlessly integrate custom elements into your Weco JS application while maintaining clean and reusable code.
+By following these steps, you can seamlessly integrate custom elements into your Monster JS application while maintaining clean and reusable code.

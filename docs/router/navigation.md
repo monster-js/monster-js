@@ -1,10 +1,10 @@
 # Navigation
 
-This page covers the methods of navigation in Weco JS, including how to create links that navigate to different routes and how to programmatically navigate based on user interactions or other conditions.
+This page covers the methods of navigation in Monster JS, including how to create links that navigate to different routes and how to programmatically navigate based on user interactions or other conditions.
 
 ## 1. Creating Links for Navigation
 
-In Weco JS, you can use the `router:link` directive to create links that navigate between routes. This works similarly to the standard HTML anchor (`<a>`) tag but is integrated with Weco JS’s routing system.
+In Monster JS, you can use the `router:link` directive to create links that navigate between routes. This works similarly to the standard HTML anchor (`<a>`) tag but is integrated with Monster JS’s routing system.
 
 ### Example: Basic Link Creation
 
@@ -27,11 +27,11 @@ component(HomeComponent, {
 ### Key Notes:
 
 * Any element can act as a link by using the `router:link` directive.
-* The navigation is handled by Weco JS's internal routing system, ensuring smooth transitions between pages without reloading the page.
+* The navigation is handled by Monster JS's internal routing system, ensuring smooth transitions between pages without reloading the page.
 
 ## 2. Navigating Programmatically
 
-Sometimes you may want to trigger navigation programmatically based on user actions or other dynamic conditions. Weco JS offers a `navigate()` function to perform programmatic navigation.
+Sometimes you may want to trigger navigation programmatically based on user actions or other dynamic conditions. Monster JS offers a `navigate()` function to perform programmatic navigation.
 
 ### Example: Button Click Navigation
 
@@ -61,6 +61,6 @@ export function HomeComponent() {
 | `router:link` | Creates a link to a route. | `<a router:link="/path/to/route">Link</a>` |
 | `routerNavigate()` | Programmatically navigates to a route. | `routerNavigate('/path/to/route')` |
 
-Both methods provide flexible ways to navigate between routes in your Weco JS application, whether through user interaction with links or through programmatic control over navigation.
+Both methods provide flexible ways to navigate between routes in your Monster JS application, whether through user interaction with links or through programmatic control over navigation.
 
-This documentation covers the core techniques for managing navigation in Weco JS. With these tools, you can create both static and dynamic navigation experiences in your application.
+This documentation covers the core techniques for managing navigation in Monster JS. With these tools, you can create both static and dynamic navigation experiences in your application.

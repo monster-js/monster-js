@@ -1,15 +1,15 @@
 # Data Binding
 
-Data binding in **Weco JS** enables dynamic updates between the user interface and application data, allowing UI elements to reflect the latest state and respond to user interactions.
-Weco JS supports **two-way data binding** through a combination of states and event handlers, making it easy to create responsive web components.
+Data binding in **Monster JS** enables dynamic updates between the user interface and application data, allowing UI elements to reflect the latest state and respond to user interactions.
+Monster JS supports **two-way data binding** through a combination of states and event handlers, making it easy to create responsive web components.
 
 ## Basic Usage of Data Binding
 
-In Weco JS, data binding is achieved by creating a state variable that tracks the data's value and provides a method to update it. This allows components to automatically update the UI whenever the state changes.
+In Monster JS, data binding is achieved by creating a state variable that tracks the data's value and provides a method to update it. This allows components to automatically update the UI whenever the state changes.
 
 ### Example: Simple Data Binding with a Counter
 
-The following example demonstrates a simple counter component with two-way data binding in Weco JS:
+The following example demonstrates a simple counter component with two-way data binding in Monster JS:
 
 ```tsx
 function ButtonDataBinding() {
@@ -31,7 +31,7 @@ function ButtonDataBinding() {
 
 ## Data Binding with Input Elements
 
-Weco JS also supports data binding with input elements, allowing two-way binding where user input updates the component's state, which then reflects in the UI.
+Monster JS also supports data binding with input elements, allowing two-way binding where user input updates the component's state, which then reflects in the UI.
 
 ```tsx
 function NameInput() {
@@ -56,7 +56,7 @@ In this example:
 
 ## Summary
 
-Weco JS data binding offers:
+Monster JS data binding offers:
 * **Reactive State**: Created with `createState()`, allowing components to automatically reflect data changes.
 * **Two-Way Binding**: Achieved through state setters and event listeners, letting user interactions update the state.
 * **Automatic UI Updates**: Ensures that UI components reflect the latest state, keeping your application dynamic and responsive.

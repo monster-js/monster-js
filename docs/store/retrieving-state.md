@@ -1,10 +1,10 @@
 # Retrieving State
 
-In this section, we will explore how to retrieve the state from the Weco JS Store. Retrieving the state is a fundamental operation that allows you to access your application’s data for use in your components or services.
+In this section, we will explore how to retrieve the state from the Monster JS Store. Retrieving the state is a fundamental operation that allows you to access your application’s data for use in your components or services.
 
 ## 1. Understanding State Retrieval
 
-The Weco JS Store provides a simple and efficient way to retrieve state values. You can access the state directly using the `get` method. The `get` method fetches the specified portion of the state, allowing you to use it within your application logic or UI components.
+The Monster JS Store provides a simple and efficient way to retrieve state values. You can access the state directly using the `get` method. The `get` method fetches the specified portion of the state, allowing you to use it within your application logic or UI components.
 
 ## 2. Retrieving a State Value
 
@@ -39,9 +39,9 @@ export function HomeComponent() {
 * **Type Definitions**: Always define and use interfaces for your state to maintain clarity and ensure type safety.
 
 ## Recap
-Retrieving state in the Weco JS Store is an essential operation for accessing your application’s data. By using the `get` method, you can:
+Retrieving state in the Monster JS Store is an essential operation for accessing your application’s data. By using the `get` method, you can:
 * Access specific slices of your application’s state.
 * Ensure type safety and consistency by adhering to defined state structures.
 * Use the retrieved state values to dynamically update your UI components.
 
-In the next sections, you can learn more about managing and manipulating state in your Weco JS applications. Happy coding!
+In the next sections, you can learn more about managing and manipulating state in your Monster JS applications. Happy coding!

@@ -1,8 +1,8 @@
 # Event Emitter
 
-The Event Emitter in **Weco JS** is a utility for creating and handling custom events, facilitating communication between components. It is particularly useful for managing interactions between parent and child components or for global application-level events.
+The Event Emitter in **Monster JS** is a utility for creating and handling custom events, facilitating communication between components. It is particularly useful for managing interactions between parent and child components or for global application-level events.
 
-This documentation explains how to create and use both standard and feature-specific event emitters in Weco JS.
+This documentation explains how to create and use both standard and feature-specific event emitters in Monster JS.
 
 ## Creating an Event Emitter
 
@@ -11,7 +11,7 @@ You can create a standard event emitter using the `createEventEmitter` function.
 ### Example
 
 ```ts
-import { createEventEmitter } from "weco-js";
+import { createEventEmitter } from "monster-js";
 
 export const myEmitter = createEventEmitter();
 ```
@@ -66,7 +66,7 @@ function App() {
 
 ## Feature-Specific Event Emitters
 
-Weco JS allows you to create **feature event emitters** using the `createFeatureEventEmitter` function. These emitters are designed to handle events related to specific features, simplifying event management for focused functionality.
+Monster JS allows you to create **feature event emitters** using the `createFeatureEventEmitter` function. These emitters are designed to handle events related to specific features, simplifying event management for focused functionality.
 
 ## Creating a Feature Event Emitter
 
@@ -165,7 +165,7 @@ function ThemeDisplay() {
 
 ## Summary
 
-Event emitters in Weco JS offer a powerful way to manage custom events, whether globally or feature-specifically.
+Event emitters in Monster JS offer a powerful way to manage custom events, whether globally or feature-specifically.
 
 ### Key Methods:
 

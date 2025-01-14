@@ -1,12 +1,12 @@
 # Route Guards
 
-Route guards in Weco JS allow you to control navigation by adding checks before a route is activated or deactivated. They are useful for tasks such as authentication, authorization, or preventing users from navigating away from a page that hasn't been saved.
+Route guards in Monster JS allow you to control navigation by adding checks before a route is activated or deactivated. They are useful for tasks such as authentication, authorization, or preventing users from navigating away from a page that hasn't been saved.
 
 This section covers how to define and apply route guards to protect routes and ensure that certain conditions are met before navigation occurs.
 
 ## 1. Introduction to Route Guards
 
-Weco JS provides two types of guards:
+Monster JS provides two types of guards:
 
 * `canActivate`: A guard that determines whether a route can be activated.
 * `canDeactivate`: A guard that determines whether a route can be deactivated.
@@ -118,4 +118,4 @@ export function canActivateGuard(routeData: any) {
 * Keep your guards simple and focused on their specific task to maintain clear and manageable code.
 * When using the `canDeactivate` guard, be mindful of user experience. Asking for confirmation (e.g., "Are you sure you want to leave?") should only be done for critical actions that could result in data loss or unwanted side effects.
 
-This documentation provides an overview of how to define and apply route guards in Weco JS, allowing you to control navigation based on conditions such as authentication, authorization, or user confirmation.
+This documentation provides an overview of how to define and apply route guards in Monster JS, allowing you to control navigation based on conditions such as authentication, authorization, or user confirmation.

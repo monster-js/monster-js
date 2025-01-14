@@ -1,6 +1,6 @@
 # Props
 
-In Weco JS, **props** are a way to pass any data type from a parent component to a child component. This allows for flexible and reusable components, enabling the parent to customize the behavior and display of its children based on dynamic data. However, it is important to note that props can only be used if both the parent and child components are within the same Weco JS project.
+In Monster JS, **props** are a way to pass any data type from a parent component to a child component. This allows for flexible and reusable components, enabling the parent to customize the behavior and display of its children based on dynamic data. However, it is important to note that props can only be used if both the parent and child components are within the same Monster JS project.
 
 ## Passing Props from Parent to Child
 
@@ -14,7 +14,7 @@ In this example, `count()` is a reactive state variable defined in the parent co
 
 ### Example: Using Props
 
-Here’s a complete example demonstrating how to use props in Weco JS.
+Here’s a complete example demonstrating how to use props in Monster JS.
 
 #### Step 1: Parent Component
 
@@ -94,7 +94,7 @@ function Counter() {
 * **Accessing Props**:
     * Use `createProps(this)` to retrieve all props as an object.
     * Use `createProp(this, 'prop-name')` to access a specific prop directly.
-* **Reactive Updates**: If the parent’s state changes, the child component will automatically reflect those changes in the displayed props due to Weco JS’s reactive nature.
+* **Reactive Updates**: If the parent’s state changes, the child component will automatically reflect those changes in the displayed props due to Monster JS’s reactive nature.
 
 ## Benefits of Using Props
 
@@ -102,4 +102,4 @@ function Counter() {
 * **Dynamic Behavior**: You can easily customize child components by passing different props from the parent, enabling dynamic user interfaces.
 * **Maintainability**: Using props simplifies the flow of data through your components, making your code more maintainable and easier to understand.
 
-By leveraging props in Weco JS, you can create flexible and reusable components that can easily share data, leading to a more dynamic and interactive application.
+By leveraging props in Monster JS, you can create flexible and reusable components that can easily share data, leading to a more dynamic and interactive application.

@@ -1,10 +1,10 @@
 # Defining a State
 
-In this section, we will focus on how to define the state in the Weco JS Store. The state is where all your application's data is stored, and properly defining it is essential for managing and accessing that data efficiently.
+In this section, we will focus on how to define the state in the Monster JS Store. The state is where all your application's data is stored, and properly defining it is essential for managing and accessing that data efficiently.
 
 ## 1. Defining the State Structure
 
-To define the state in Weco JS, you start by creating an interface that outlines the structure of the state. This interface will act as a blueprint for how your store’s data is organized.
+To define the state in Monster JS, you start by creating an interface that outlines the structure of the state. This interface will act as a blueprint for how your store’s data is organized.
 
 Here’s an example of how to define a `StoreState` with a `counter` object containing a `count` value:
 ```ts

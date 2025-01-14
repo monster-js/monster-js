@@ -1,6 +1,6 @@
 # Directives
 
-Directives in **Weco JS** enable you to encapsulate reusable logic that can dynamically modify or enhance the behavior of elements in your components. They provide a clean and modular way to apply specific functionality or styling to elements by defining, registering, and applying directive functions.
+Directives in **Monster JS** enable you to encapsulate reusable logic that can dynamically modify or enhance the behavior of elements in your components. They provide a clean and modular way to apply specific functionality or styling to elements by defining, registering, and applying directive functions.
 
 ## Overview
 
@@ -11,7 +11,7 @@ This documentation covers:
 
 ## Defining a Directive
 
-To create a directive, use the `directive` function from `weco-js`. The function requires two parameters:
+To create a directive, use the `directive` function from `monster-js`. The function requires two parameters:
 1. **Logic function**: A function that defines how the directive modifies an element.
 2. **Namespace**: A unique identifier used to apply the directive to elements.
 
@@ -20,7 +20,7 @@ To create a directive, use the `directive` function from `weco-js`. The function
 The following `highlight` directive changes an element's background color:
 
 ```tsx
-import { directive, DirectiveDataType } from 'weco-js';
+import { directive, DirectiveDataType } from 'monster-js';
 
 function highlight(element: Element, data: DirectiveDataType, originalElement: Element) {
     const color = Object.keys(data)[0];
@@ -46,7 +46,7 @@ export default directive(highlight, 'highlight');
 To use the `highlight` directive in a component:
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 import highlight from './highlight.directive';
 
 export default function App() {
@@ -67,7 +67,7 @@ component(App, {
 Directives can also adapt their behavior based on dynamic values. Below is an example:
 
 ```tsx
-import { directive, DirectiveDataType } from 'weco-js';
+import { directive, DirectiveDataType } from 'monster-js';
 
 function highlight(element: Element, data: DirectiveDataType) {
     return (
@@ -89,7 +89,7 @@ export default directive(highlight, 'highlight');
 Here's how to integrate a dynamic directive into a component:
 
 ```tsx
-import { component, createState } from 'weco-js';
+import { component, createState } from 'monster-js';
 import highlight from './highlight.directive';
 
 export function App() {
@@ -120,10 +120,10 @@ component(App, {
 
 ## Summary
 
-Directives in **Weco JS** offer:
+Directives in **Monster JS** offer:
 
 * **Flexibility**: Encapsulate reusable logic for element-specific behavior.
 * **Dynamic Behavior**: Adapt to reactive state values for greater interactivity.
 * **Ease of Use**: Simple registration and application in components.
 
-By leveraging static and dynamic directives, you can create powerful, reusable, and maintainable UI enhancements in your **Weco JS** projects.
+By leveraging static and dynamic directives, you can create powerful, reusable, and maintainable UI enhancements in your **Monster JS** projects.

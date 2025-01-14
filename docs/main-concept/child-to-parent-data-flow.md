@@ -1,12 +1,12 @@
 # Child to parent (data flow)
 
-In Weco JS, the "child to parent" data flow allows a child component to send data back to its parent component. This is achieved by passing a callback function from the parent to the child as a prop. When the child component calls this function, it can pass data as a parameter, enabling the parent to receive and handle the data.
+In Monster JS, the "child to parent" data flow allows a child component to send data back to its parent component. This is achieved by passing a callback function from the parent to the child as a prop. When the child component calls this function, it can pass data as a parameter, enabling the parent to receive and handle the data.
 
 This approach is useful for scenarios where child components need to communicate events, updates, or values back to the parent.
 
 ## Example: Passing Data from Child to Parent
 
-Here's how you can set up a child-to-parent data flow in Weco JS using a callback function.
+Here's how you can set up a child-to-parent data flow in Monster JS using a callback function.
 
 ### Parent Component
 
@@ -56,7 +56,7 @@ In this example:
 
 ## Summary
 
-In Weco JS, passing data from a child component to a parent component can be easily achieved by:
+In Monster JS, passing data from a child component to a parent component can be easily achieved by:
 
 * Defining a callback function in the parent component to handle data.
 * Passing the callback function to the child component as a prop.

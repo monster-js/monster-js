@@ -1,6 +1,6 @@
 # Introduction
 
-The **Weco JS CLI** is a command-line interface tool designed to simplify and enhance your development experience with Weco JS projects. With a focus on efficiency and ease of use, the Weco JS CLI provides a suite of commands to:
+The **Monster JS CLI** is a command-line interface tool designed to simplify and enhance your development experience with Monster JS projects. With a focus on efficiency and ease of use, the Monster JS CLI provides a suite of commands to:
 
 * **Create new projects** with pre-configured setups.
 * **Run development servers** for real-time testing and debugging.
@@ -12,7 +12,7 @@ This tool eliminates the manual setup and management overhead, allowing develope
 
 ### 1. Streamlined Project Setup
 
-The CLI helps you create new Weco JS projects effortlessly, complete with an option to automatically install dependencies.
+The CLI helps you create new Monster JS projects effortlessly, complete with an option to automatically install dependencies.
 
 ### 2. Flexible Development Server
 
@@ -22,7 +22,7 @@ Start a local development server with customizable configurations such as port a
 
 Generate optimized builds for production or export components as web components with just a single command.
 
-## Why Use Weco JS CLI?
+## Why Use Monster JS CLI?
 
 * **Simplicity**: Simplifies routine tasks like project setup, serving, and building.
 * **Speed**: Saves time by automating repetitive tasks.
@@ -33,10 +33,10 @@ Generate optimized builds for production or export components as web components 
 
 ### Installation
 
-To install the Weco JS CLI globally on your system, run:
+To install the Monster JS CLI globally on your system, run:
 
 ```bash
-npm install -g weco-js-cli
+npm install -g monster-js-cli
 ```
 
 ### Verify Installation
@@ -44,8 +44,8 @@ npm install -g weco-js-cli
 Once installed, you can verify the CLI by checking its version:
 
 ```bash
-weco --version
+mn --version
 ```
 
-This will display the installed version of the Weco JS CLI.
+This will display the installed version of the Monster JS CLI.
 

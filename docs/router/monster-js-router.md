@@ -1,6 +1,6 @@
-# Weco JS Router
+# Monster JS Router
 
-The Weco JS Router is a powerful and flexible routing solution designed to simplify navigation and route management in your applications. It provides a declarative syntax for defining routes, managing route parameters, handling redirects, and guarding access to specific routes. With support for lazy loading, programmatic navigation, and a subscription model for route changes, Weco JS Router ensures seamless and efficient navigation for your users.
+The Monster JS Router is a powerful and flexible routing solution designed to simplify navigation and route management in your applications. It provides a declarative syntax for defining routes, managing route parameters, handling redirects, and guarding access to specific routes. With support for lazy loading, programmatic navigation, and a subscription model for route changes, Monster JS Router ensures seamless and efficient navigation for your users.
 
 ## Key Features
 
@@ -49,11 +49,11 @@ routerChange(this, (routeParams, queryParams) => {
 });
 ```
 
-## Why Use Weco JS Router?
+## Why Use Monster JS Router?
 1. **Simplicity**: Define, manage, and navigate routes with minimal code.
 2. **Performance**: Leverage lazy loading and optimized navigation techniques.
 3. **Flexibility**: Handle complex routing scenarios with guards, parameters, and redirects.
-4. **Extensibility**: Easily integrate with other Weco JS features and third-party libraries.
+4. **Extensibility**: Easily integrate with other Monster JS features and third-party libraries.
 5. **Ease of Debugging**: Subscriptions and guards provide clear insights into route changes and access control.
 
-The Weco JS Router is designed to work seamlessly in modern JavaScript frameworks, making it an ideal choice for building robust, scalable, and user-friendly applications.
+The Monster JS Router is designed to work seamlessly in modern JavaScript frameworks, making it an ideal choice for building robust, scalable, and user-friendly applications.

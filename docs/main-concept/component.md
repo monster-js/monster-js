@@ -1,16 +1,16 @@
 # Component
 
-In **Weco JS**, components are the core building blocks of the user interface. Unlike traditional frameworks that rely on a virtual DOM, Weco JS employs **watchers** to efficiently track and update data bindings. This ensures that only the affected parts of the view are updated, reducing the need for complete re-renders and delivering high performance.
+In **Monster JS**, components are the core building blocks of the user interface. Unlike traditional frameworks that rely on a virtual DOM, Monster JS employs **watchers** to efficiently track and update data bindings. This ensures that only the affected parts of the view are updated, reducing the need for complete re-renders and delivering high performance.
 
 ## What is a Component?
 
-A **component** in Weco JS is a self-contained unit of the UI. It manages its own state and renders its view reactively. When the component's state changes, its view is automatically updated using Weco JS’s built-in change detection system.
+A **component** in Monster JS is a self-contained unit of the UI. It manages its own state and renders its view reactively. When the component's state changes, its view is automatically updated using Monster JS’s built-in change detection system.
 
-## Key Features of Weco JS Components
+## Key Features of Monster JS Components
 
 ### 1. No Virtual DOM
 
-Weco JS does not rely on a virtual DOM for updates. Instead:
+Monster JS does not rely on a virtual DOM for updates. Instead:
 
 * **Watchers** track changes in state or data bindings.
 * Only the necessary parts of the UI are updated when changes are detected, making updates faster and more direct.
@@ -20,15 +20,15 @@ Weco JS does not rely on a virtual DOM for updates. Instead:
 * If a change is detected, only the affected UI elements are updated, ensuring efficient updates.
 
 ### 3. Automatic Change Detection
-* When the component's state changes, Weco JS automatically triggers its change detection system.
+* When the component's state changes, Monster JS automatically triggers its change detection system.
 * The system evaluates watchers and updates the UI precisely where needed.
 
 ### 4. Declarative Syntax
-* Weco JS components return a JSX-like template that defines the structure of the UI.
+* Monster JS components return a JSX-like template that defines the structure of the UI.
 * This syntax is intuitive and similar to other modern frameworks like React.
 
 ### 5. Lifecycle Hooks
-Weco JS components provide lifecycle hooks to manage their behavior at different stages:
+Monster JS components provide lifecycle hooks to manage their behavior at different stages:
 
 * `connected`: Triggered when the component is added to the DOM.
 * `afterViewInit`: Triggered after the component’s view has been fully initialized and connected to the DOM.
@@ -40,7 +40,7 @@ These hooks give developers precise control over a component's behavior and can 
 
 ## Creating a Component
 
-To define a component in Weco JS:
+To define a component in Monster JS:
 
 1. Use a JavaScript function that returns a JSX-like template.
 2. Manage state using `createState` (for component-specific state) or `createSharedState` (for shared state across components).
@@ -48,7 +48,7 @@ To define a component in Weco JS:
 ### Example: Creating a Button Component
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ButtonComponent() {
     const [count, setCount] = createState(this, 0);
@@ -70,7 +70,7 @@ You can use a component within another component by simply including it in the p
 ### Example: Parent Component
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 import { ButtonComponent } from './button.component';
 
 export function ParentComponent() {
@@ -90,7 +90,7 @@ component(ParentComponent, {
 
 ## How Watchers Work
 
-Watchers are central to Weco JS’s reactivity. Here’s how they operate:
+Watchers are central to Monster JS’s reactivity. Here’s how they operate:
 
 1. **Tracking Bindings**:
     * When a binding is created (e.g., count()), a watcher is set up to monitor it.
@@ -103,7 +103,7 @@ Watchers are central to Weco JS’s reactivity. Here’s how they operate:
 ## Example: Watchers in Action
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function CounterComponent() {
     const [count, setCount] = createState(this, 0);
@@ -119,12 +119,12 @@ component(CounterComponent, {
 });
 ```
 
-## Best Practices for Weco JS Components
+## Best Practices for Monster JS Components
 
 1. **Utilize Watchers Effectively**:
     * Use state functions like `count()` to ensure changes are automatically tracked and reflected in the UI.
 2. **Avoid Direct DOM Manipulation**:
-    * Let Weco JS handle DOM updates. Manual DOM manipulation can lead to inconsistencies.
+    * Let Monster JS handle DOM updates. Manual DOM manipulation can lead to inconsistencies.
 3. **Keep State Minimal**:
     * Define state specific to the component’s needs. For shared state, use `createSharedState`.
 4. **Leverage Lifecycle Hooks**:
@@ -132,10 +132,10 @@ component(CounterComponent, {
 
 ## Summary
 
-Weco JS components combine the simplicity of declarative syntax with the efficiency of watcher-driven updates. By focusing on reactivity without a virtual DOM, Weco JS offers a modern, high-performance framework for building responsive user interfaces.
+Monster JS components combine the simplicity of declarative syntax with the efficiency of watcher-driven updates. By focusing on reactivity without a virtual DOM, Monster JS offers a modern, high-performance framework for building responsive user interfaces.
 
 * **Efficient Updates**: Watchers ensure that only necessary parts of the UI are updated.
 * **Reactive State**: State changes automatically trigger precise UI updates.
 * **Declarative Syntax**: JSX-like templates make component creation straightforward.
 
-Start building with Weco JS today to create fast and reactive applications!
+Start building with Monster JS today to create fast and reactive applications!

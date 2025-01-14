@@ -1,6 +1,6 @@
 # Event Handling
 
-In Weco JS, event handling is simple and intuitive, allowing you to define event listeners directly within your component's JSX. You can attach events, capture event data, reference the clicked element, and perform actions—all directly in the event handler.
+In Monster JS, event handling is simple and intuitive, allowing you to define event listeners directly within your component's JSX. You can attach events, capture event data, reference the clicked element, and perform actions—all directly in the event handler.
 
 ## Basic Event Handling
 
@@ -48,7 +48,7 @@ In this example:
 
 ## Direct Operations in Event Handlers
 
-Weco JS also allows you to perform direct operations or state updates directly in the event handler without a separate function.
+Monster JS also allows you to perform direct operations or state updates directly in the event handler without a separate function.
 
 ### Example
 
@@ -67,10 +67,10 @@ In this example:
 
 ## Summary
 
-Weco JS's event handling system provides flexible options:
+Monster JS's event handling system provides flexible options:
 
 * **Define separate event handler functions** and assign them to events.
 * **Capture event and element information** using `$event` and `$element` for more control.
 * **Directly perform operations** within the event attribute for concise and inline updates.
 
-With these methods, Weco JS makes it straightforward to add interactivity to your components.
+With these methods, Monster JS makes it straightforward to add interactivity to your components.

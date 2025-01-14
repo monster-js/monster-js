@@ -1,11 +1,11 @@
 # List Rendering
 
-In Weco JS, list rendering allows you to easily iterate over an array and render each item in the array within a specified template.
+In Monster JS, list rendering allows you to easily iterate over an array and render each item in the array within a specified template.
 This is achieved using the `v:for` directive, which provides automatic handling of the array items and their indices.
 
 ## Basic Usage of List Rendering
 
-To render a list in Weco JS, use the `v:for` directive to iterate over an array and bind each item and its index to specific template variables.
+To render a list in Monster JS, use the `v:for` directive to iterate over an array and bind each item and its index to specific template variables.
 By default, the `v:for` directive provides two variables: `$item` for the current item and `$index` for the current index.
 
 ### Example
@@ -46,7 +46,7 @@ In this example:
 
 ## Adding Track By Functionality
 
-The `v:for-track-by` attribute allows you to optimize rendering by specifying a unique property of each item in the array. This ensures efficient DOM updates when the array changes. If no `v:for-track-by` is provided, Weco JS defaults to tracking items by their `index`.
+The `v:for-track-by` attribute allows you to optimize rendering by specifying a unique property of each item in the array. This ensures efficient DOM updates when the array changes. If no `v:for-track-by` is provided, Monster JS defaults to tracking items by their `index`.
 
 ### Example with `v:for-track-by`
 
@@ -68,7 +68,7 @@ function ListComponent() {
 
 In this example:
 * `v:for-track-by="id"` uses the id property of each item to uniquely identify it.
-* The DOM updates efficiently when the array changes because Weco JS tracks items by their `id`.
+* The DOM updates efficiently when the array changes because Monster JS tracks items by their `id`.
 
 If no `v:for-track-by` is provided, the framework will default to tracking items by their index, which may be sufficient for simple arrays without unique properties.
 
@@ -110,9 +110,9 @@ function ListComponent() {
 
 ## Summary
 
-* Use `v:for` to iterate over arrays in Weco JS, where `$item` represents the current item and `$index` represents the index.
+* Use `v:for` to iterate over arrays in Monster JS, where `$item` represents the current item and `$index` represents the index.
 * Customize item and index variable names with `v:for-item` and `v:for-index`.
 * Optimize rendering using `v:for-track-by` to track items by a unique property. If `v:for-track-by` is not provided, items are tracked by their index.
 * Declare `$item`, `$index`, or custom variables at the top of the function if you encounter undefined variable errors.
 
-List rendering in Weco JS provides a powerful way to dynamically generate elements based on arrays, offering flexibility with custom variable names and explicit declarations when needed.
+List rendering in Monster JS provides a powerful way to dynamically generate elements based on arrays, offering flexibility with custom variable names and explicit declarations when needed.

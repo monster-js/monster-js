@@ -1,11 +1,11 @@
 # Building a Project
 
-The `build` command in the Weco JS CLI allows you to prepare your project for production or generate standalone web components. This guide explains how to use the `build` command effectively.
+The `build` command in the Monster JS CLI allows you to prepare your project for production or generate standalone web components. This guide explains how to use the `build` command effectively.
 
 ## Syntax
 
 ```bash
-weco build [options]
+mn build [options]
 ```
 
 ### Options:
@@ -21,10 +21,10 @@ weco build [options]
 
 ### 1. Run the Command
 
-Navigate to the root directory of your Weco JS project and execute the following command:
+Navigate to the root directory of your Monster JS project and execute the following command:
 
 ```bash
-weco build
+mn build
 ```
 
 This creates a build of your project in the `dist` directory, optimized for `development` mode by default.
@@ -34,7 +34,7 @@ This creates a build of your project in the `dist` directory, optimized for `dev
 Use the `--mode` option to set the desired build mode:
 
 ```bash
-weco build --mode production
+mn build --mode production
 ```
 
 This generates a production-ready build with optimizations such as minification and tree-shaking.
@@ -44,7 +44,7 @@ This generates a production-ready build with optimizations such as minification 
 If you want to build a single component as a standalone web component, use the `--standalone` option:
 
 ```bash
-weco build --standalone
+mn build --standalone
 ```
 
 This outputs a standalone web component files that can be used independently in any web project.
@@ -56,7 +56,7 @@ Form more information about the standalone components follow this [link](/main-c
 Change the default output directory using the `--output` option. For example:
 
 ```bash
-weco build --output build-output
+mn build --output build-output
 ```
 
 This places the build files in the `build-output` directory.
@@ -66,18 +66,12 @@ This places the build files in the `build-output` directory.
 To build a project in production mode and output it to a custom directory:
 
 ```bash
-weco build --mode production --output production-build
-```
-
-To build a standalone component and save it as `custom-component.js`:
-
-```bash
-weco build --standalone --output custom-component.js
+mn build --mode production --output production-build
 ```
 
 ## What Happens Behind the Scenes
 
-When you run the `build` command, the Weco JS CLI:
+When you run the `build` command, the Monster JS CLI:
 
 1. Compiles your project files.
 2. Optimizes the output based on the selected mode.
@@ -88,9 +82,9 @@ When you run the `build` command, the Weco JS CLI:
 For detailed information about the `build` command and its options, run:
 
 ```bash
-weco build --help
+mn build --help
 ```
 
 This will display the available options and their descriptions.
 
-Build your Weco JS project with ease and confidence using the Weco JS CLI!
+Build your Monster JS project with ease and confidence using the Monster JS CLI!

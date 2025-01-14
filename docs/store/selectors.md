@@ -1,6 +1,6 @@
 # Selectors
 
-In this section, we will explore how to create and use selectors in the Weco JS Framework Store. Selectors are functions that allow you to retrieve specific slices of state in an efficient and reusable manner.
+In this section, we will explore how to create and use selectors in the Monster JS Framework Store. Selectors are functions that allow you to retrieve specific slices of state in an efficient and reusable manner.
 
 ## 1. What is a Selector?
 
@@ -19,7 +19,7 @@ export const counterSelector = createSelector<StoreState>('counter', (counter) =
 * `createSelector`: The `createSelector` utility helps in defining selectors by specifying the part of the state to select (`'counter'` in this case) and a function that maps the state slice to the desired value (`counter.count`).
 * `counterSelector`: This selector returns the `count` from the `counter` state. It can be reused in components to efficiently access the `count` value.
 
-## 3. Using Selectors in Weco JS Components
+## 3. Using Selectors in Monster JS Components
 
 Once you have defined a selector, you can use it in your components to access the relevant part of the state.
 
@@ -44,7 +44,7 @@ export function CountComponent() {
 
 ## Conclusion
 
-Selectors are an essential part of the Weco JS Framework Store, allowing you to efficiently access and derive state values. By using selectors, you can:
+Selectors are an essential part of the Monster JS Framework Store, allowing you to efficiently access and derive state values. By using selectors, you can:
 1. **Create reusable functions** to extract state slices.
 2. **Optimize performance** by avoiding unnecessary computations.
 3. **Improve code maintainability** by keeping state access logic centralized.

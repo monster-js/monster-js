@@ -1,15 +1,15 @@
-# Generating Files with Weco JS CLI
+# Generating Files with Monster JS CLI
 
-The Weco JS CLI provides powerful commands to quickly generate various types of files to streamline development. This guide explains the available commands and their usage.
+The Monster JS CLI provides powerful commands to quickly generate various types of files to streamline development. This guide explains the available commands and their usage.
 
 ## General Syntax
 
 ```bash
-weco generate <type> <path>
+mn generate <type> <path>
 ```
 or
 ```bash
-weco g <short-type> <path>
+mn g <short-type> <path>
 ```
 
 ## Supported File Types
@@ -30,11 +30,11 @@ weco g <short-type> <path>
 ### Command:
 
 ```bash
-weco generate component path/to/button
+mn generate component path/to/button
 ```
 or
 ```bash
-weco g c path/to/button
+mn g c path/to/button
 ```
 
 ### Output:
@@ -42,7 +42,7 @@ weco g c path/to/button
 Creates `path/to/button.component.tsx` with:
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ButtonComponent() {
     return <h1>ButtonComponent</h1>;
@@ -58,11 +58,11 @@ component(ButtonComponent, {
 ### Command:
 
 ```bash
-weco generate interface path/to/user
+mn generate interface path/to/user
 ```
 or
 ```bash
-weco g i path/to/user
+mn g i path/to/user
 ```
 
 ### Output:
@@ -79,11 +79,11 @@ export interface UserInterface {
 ### Command:
 
 ```bash
-weco generate enum path/to/user-role
+mn generate enum path/to/user-role
 ```
 or
 ```bash
-weco g i path/to/user
+mn g i path/to/user
 ```
 
 ### Output:
@@ -100,13 +100,13 @@ export enum UserRoleEnum {
 ### Command:
 
 ```bash
-weco generate type path/to/response-status
+mn generate type path/to/response-status
 ```
 
 or
 
 ```bash
-weco g t path/to/response-status
+mn g t path/to/response-status
 ```
 
 ### Output:
@@ -122,13 +122,13 @@ export type ResponseStatusType = null;
 ### Command:
 
 ```bash
-weco generate service path/to/message
+mn generate service path/to/message
 ```
 
 or
 
 ```bash
-weco g s path/to/message
+mn g s path/to/message
 ```
 
 ### Output:
@@ -145,13 +145,13 @@ export class MessageService {
 ### Command:
 
 ```bash
-weco generate directive path/to/highlight
+mn generate directive path/to/highlight
 ```
 
 or
 
 ```bash
-weco g d path/to/highlight
+mn g d path/to/highlight
 ```
 
 ### Output:
@@ -159,7 +159,7 @@ weco g d path/to/highlight
 Creates `path/to/highlight.directive.ts` with:
 
 ```ts
-import { directive, DirectiveDataType } from 'weco-js';
+import { directive, DirectiveDataType } from 'monster-js';
 
 function highlight(element: Element, data: DirectiveDataType) {
     return <element-outlet element={element} />;
@@ -173,13 +173,13 @@ export default directive(highlight, 'highlight');
 ### Command:
 
 ```bash
-weco generate event-emitter path/to/toggle-sidebar
+mn generate event-emitter path/to/toggle-sidebar
 ```
 
 or
 
 ```bash
-weco g ee path/to/toggle-sidebar
+mn g ee path/to/toggle-sidebar
 ```
 
 ### Output:
@@ -187,7 +187,7 @@ weco g ee path/to/toggle-sidebar
 Creates `path/to/toggle-sidebar.event.ts` with:
 
 ```ts
-import { createEventEmitter } from 'weco-js';
+import { createEventEmitter } from 'monster-js';
 
 export const toggleSidebarEvent = createEventEmitter();
 ```
@@ -197,13 +197,13 @@ export const toggleSidebarEvent = createEventEmitter();
 ### Command:
 
 ```bash
-weco generate shared-state path/to/user-list
+mn generate shared-state path/to/user-list
 ```
 
 or
 
 ```bash
-weco g ss path/to/user-list
+mn g ss path/to/user-list
 ```
 
 ### Output:
@@ -219,13 +219,13 @@ export const userListState = createSharedState(null);
 ### Command:
 
 ```bash
-weco generate di-container path/to/user-module
+mn generate di-container path/to/user-module
 ```
 
 or
 
 ```bash
-weco g dc path/to/user-module
+mn g dc path/to/user-module
 ```
 
 ### Output:
@@ -233,7 +233,7 @@ weco g dc path/to/user-module
 Creates `path/to/user-module.container.ts` with:
 
 ```ts
-import { createDIContainer } from 'weco-js';
+import { createDIContainer } from 'monster-js';
 
 export const [userModuleDI, userModuleDIOverride] = createDIContainer();
 ```
@@ -243,7 +243,7 @@ export const [userModuleDI, userModuleDIOverride] = createDIContainer();
 ### Default Environments:
 
 ```bash
-weco generate environments
+mn generate environments
 ```
 
 ### Output:
@@ -275,13 +275,13 @@ export const environment = {
 ### Custom Environment:
 
 ```bash
-weco generate environment staging
+mn generate environment staging
 ```
 
 or
 
 ```bash
-weco g env staging
+mn g env staging
 ```
 
 ### Output:
@@ -299,6 +299,6 @@ export const environment = {
 For additional details on the `generate` command, run:
 
 ```bash
-weco generate --help
+mn generate --help
 ```
 

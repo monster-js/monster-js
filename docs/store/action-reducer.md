@@ -1,6 +1,6 @@
 # Action Reducers
 
-In this section, we will explain how to define, dispatch, and manage action reducers within the Weco JS Framework Store. Action reducers are functions that modify the state of the store in response to dispatched actions.
+In this section, we will explain how to define, dispatch, and manage action reducers within the Monster JS Framework Store. Action reducers are functions that modify the state of the store in response to dispatched actions.
 
 ## 1. Defining an Action Reducer
 
@@ -59,7 +59,7 @@ export function IncrementComponent() {
 
 ## Conclusion
 
-In summary, action reducers in the Weco JS Framework Store allow you to define how your state should change in response to specific actions. By following these steps, you can:
+In summary, action reducers in the Monster JS Framework Store allow you to define how your state should change in response to specific actions. By following these steps, you can:
 1. **Define action reducers**: Create functions that modify state based on actions.
 2. **Add action reducers to the store**: Group them under state keys.
 3. **Dispatch actions**: Use the `dispatch` method to invoke action reducers and update the state.

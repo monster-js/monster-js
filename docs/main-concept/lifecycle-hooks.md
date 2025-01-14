@@ -1,6 +1,6 @@
 # Lifecycle Hooks
 
-In Weco JS, lifecycle hooks let you execute specific logic at different stages of a component's lifecycle, such as when it’s connected to, disconnected from, or moved between documents, or when an attribute changes. These hooks are useful for managing setup, cleanup, and attribute changes within your components.
+In Monster JS, lifecycle hooks let you execute specific logic at different stages of a component's lifecycle, such as when it’s connected to, disconnected from, or moved between documents, or when an attribute changes. These hooks are useful for managing setup, cleanup, and attribute changes within your components.
 
 ## Available Lifecycle Hooks
 
@@ -113,7 +113,7 @@ component(Component, {
 
 ### Using Transformers with `namedAttrChanged`
 
-Weco JS provides several transformers for `namedAttrChanged` to handle common data types:
+Monster JS provides several transformers for `namedAttrChanged` to handle common data types:
 
 * `toNumber`: Converts the attribute value to a number.
 * `toBoolean`: Converts the attribute value to a boolean.
@@ -175,7 +175,7 @@ In this example:
 
 ## Summary
 
-Weco JS lifecycle hooks allow you to tap into various stages of a component's lifecycle:
+Monster JS lifecycle hooks allow you to tap into various stages of a component's lifecycle:
 
 * `connected`: Triggered when the component is connected to the DOM.
 * `disconnected`: Triggered when the component is disconnected from the DOM.

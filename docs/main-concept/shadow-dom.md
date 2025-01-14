@@ -1,15 +1,15 @@
 # Shadow DOM
 
-Shadow DOM is a web standard that enables encapsulation of a component's structure, styles, and behavior. Weco JS supports creating Shadow DOM components easily with its `component` function. This documentation explains how to use Shadow DOM in Weco JS, style components, and handle content projection with slots.
+Shadow DOM is a web standard that enables encapsulation of a component's structure, styles, and behavior. Monster JS supports creating Shadow DOM components easily with its `component` function. This documentation explains how to use Shadow DOM in Monster JS, style components, and handle content projection with slots.
 
 ## Creating a Shadow DOM Component
 
-To create a Shadow DOM component in Weco JS, use the `component` function. The `shadowMode` option specifies whether the Shadow DOM is open or closed.
+To create a Shadow DOM component in Monster JS, use the `component` function. The `shadowMode` option specifies whether the Shadow DOM is open or closed.
 
 ### Example
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ButtonComponent() {
     return <h1>ButtonComponent</h1>;
@@ -30,13 +30,13 @@ When the component is rendered, its structure and behavior are encapsulated insi
 
 ## Styling a Shadow DOM Component
 
-To style a Shadow DOM component, import styles and pass them as the third argument to the `component` function. Weco JS will automatically create a `<style>` element within the Shadow DOM.
+To style a Shadow DOM component, import styles and pass them as the third argument to the `component` function. Monster JS will automatically create a `<style>` element within the Shadow DOM.
 
 ### Example
 
 ```tsx
 import styles from './button.component.scss';
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ButtonComponent() {
     return <h1>ButtonComponent</h1>;
@@ -64,7 +64,7 @@ You can use a `<slot>` element to project content from the light DOM into the Sh
 ### Example
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function CardComponent() {
     return (
@@ -105,7 +105,7 @@ Named slots allow you to project specific content into designated areas within t
 ### Example
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function LayoutComponent() {
     return (
@@ -162,7 +162,7 @@ If no content is provided for a slot, you can define fallback content within the
 ### Example
 
 ```tsx
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function MessageComponent() {
     return (
@@ -199,4 +199,4 @@ Output:
 3. **Provide Default Content**: Always include fallback content for slots to ensure usability.
 4. **Leverage Scoped Styles**: Encapsulate styles within the Shadow DOM to avoid global style clashes.
 
-By using Weco JS's Shadow DOM features, you can create robust, encapsulated, and reusable components with seamless content projection and styling.
+By using Monster JS's Shadow DOM features, you can create robust, encapsulated, and reusable components with seamless content projection and styling.

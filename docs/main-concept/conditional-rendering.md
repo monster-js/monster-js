@@ -1,12 +1,12 @@
 # Conditional Rendering
 
-In the Weco JS framework, conditional rendering allows you to dynamically show or hide elements in your component's UI based on the evaluation of a condition. This is particularly useful for building interactive user interfaces where certain elements are shown or hidden based on user actions or the state of the application.
+In the Monster JS framework, conditional rendering allows you to dynamically show or hide elements in your component's UI based on the evaluation of a condition. This is particularly useful for building interactive user interfaces where certain elements are shown or hidden based on user actions or the state of the application.
 
-This guide will explain how to implement conditional rendering using Weco JS's `v:if` directive and state management via the `createState` function.
+This guide will explain how to implement conditional rendering using Monster JS's `v:if` directive and state management via the `createState` function.
 
 ## Syntax for Conditional Rendering
 
-Weco JS provides a `v:if` directive that allows you to conditionally render HTML elements. The directive works by evaluating an expression or state value. If the expression evaluates to `true`, the element is rendered; if it evaluates to `false`, the element is not rendered or removed.
+Monster JS provides a `v:if` directive that allows you to conditionally render HTML elements. The directive works by evaluating an expression or state value. If the expression evaluates to `true`, the element is rendered; if it evaluates to `false`, the element is not rendered or removed.
 
 ### Example:
 
@@ -34,7 +34,7 @@ function Button() {
 
 ### Detailed Steps:
 
-1. **Create a State**: To manage the conditional rendering, you first need a state variable. Weco JS uses the createState function to manage reactive state variables in components.
+1. **Create a State**: To manage the conditional rendering, you first need a state variable. Monster JS uses the createState function to manage reactive state variables in components.
 
 ```ts
 const [state, setState] = createState(this, initialValue);

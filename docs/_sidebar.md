@@ -1,5 +1,5 @@
 - Getting started
-    - [What is Weco JS?](/?id=what-is-weco-js)
+    - [What is Monster JS?](/?id=what-is-monster-js)
     - [Quick start](getting-started/quick-start.md)
     - [Installation](getting-started/installation.md)
 - Main concept
@@ -25,21 +25,21 @@
     - [Child to parent (data flow)](main-concept/child-to-parent-data-flow.md)
     - [Services](main-concept/services.md)
 - Store
-    - [Weco JS Store](store/weco-js-store.md)
+    - [Monster JS Store](store/monster-js-store.md)
     - [Defining a State](store/defining-a-state.md)
     - [Action Reducer](store/action-reducer.md)
     - [Selector](store/selectors.md)
     - [Retrieving State](store/retrieving-state.md)
     - [Subscriptions](store/subscriptions.md)
 - Router
-    - [Weco JS Router](router/weco-js-router.md)
+    - [Monster JS Router](router/monster-js-router.md)
     - [Defining Routes](router/defining-routes.md)
     - [Route Parameters](router/route-parameters.md)
     - [Navigation](router/navigation.md)
     - [Route Changes Subscription](router/route-changes-subscription.md)
     - [Route Guards](router/route-guard.md)
 - Command line interface
-    - [What is Weco JS CLI?](cli/what-is-weco-js-cli.md)
+    - [What is Monster JS CLI?](cli/what-is-monster-js-cli.md)
     - [Create a project](cli/create-a-project.md)
     - [Local development server](cli/local-development-server.md)
     - [Build a project](cli/build-a-project.md)

@@ -1,10 +1,10 @@
 # Attribute Binding
 
-Attribute binding in **Weco JS** allows you to dynamically set HTML attributes based on the component’s state, enabling the UI to reflect changes in the data. By binding attributes to state variables, attributes like `id`, `class`, and `style` can automatically update as the state changes, creating more interactive and responsive components.
+Attribute binding in **Monster JS** allows you to dynamically set HTML attributes based on the component’s state, enabling the UI to reflect changes in the data. By binding attributes to state variables, attributes like `id`, `class`, and `style` can automatically update as the state changes, creating more interactive and responsive components.
 
 ## Basic Usage of Attribute Binding
 
-In Weco JS, attribute binding is achieved by embedding expressions within attribute values. When the state changes, the attribute automatically updates, reflecting the latest value in the HTML element.
+In Monster JS, attribute binding is achieved by embedding expressions within attribute values. When the state changes, the attribute automatically updates, reflecting the latest value in the HTML element.
 
 ### Example: Dynamic `id` Attribute Binding
 
@@ -56,7 +56,7 @@ Attribute binding is useful in scenarios where:
 
 ## Summary
 
-Attribute binding in Weco JS enables components to:
+Attribute binding in Monster JS enables components to:
 
 * **Reactively Update Attributes**: HTML attributes automatically reflect changes in state.
 * **Increase UI Interactivity**: Elements respond dynamically to user actions or data changes.

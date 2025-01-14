@@ -1,6 +1,6 @@
 # Route Parameters
 
-Route parameters allow you to define dynamic segments in your application paths. These segments can capture variable parts of the URL and pass them to the corresponding component. In Weco JS Router, route parameters are defined using curly braces `{}` in the path.
+Route parameters allow you to define dynamic segments in your application paths. These segments can capture variable parts of the URL and pass them to the corresponding component. In Monster JS Router, route parameters are defined using curly braces `{}` in the path.
 
 ## Defining Route Parameters
 
@@ -63,7 +63,7 @@ Here, `{query}` is optional. Navigating to `/search` or `/search/keyword` will b
 
 ## Query Parameters
 
-Weco JS Router also supports query parameters, which are appended to the URL after a `?`:
+Monster JS Router also supports query parameters, which are appended to the URL after a `?`:
 
 For example, `/user/123?active=true` includes a query parameter `active` with the value `true`.
 
@@ -103,4 +103,4 @@ export function DetailsComponent() {
 }
 ```
 
-By leveraging route parameters, you can create dynamic and flexible routes in your Weco JS application. These parameters make it easy to build applications that adapt to variable inputs from the URL.
+By leveraging route parameters, you can create dynamic and flexible routes in your Monster JS application. These parameters make it easy to build applications that adapt to variable inputs from the URL.

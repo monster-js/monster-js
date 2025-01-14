@@ -1,6 +1,6 @@
 # Observed Attributes
 
-In Weco JS, observed attributes allow you to track specific attribute changes on a component. When an observed attribute's value changes, the `attributeChanged` or `namedAttrChanged` hooks can respond to that change, enabling dynamic updates to the component based on attribute values. These hooks are part of Weco JS's lifecycle system, providing fine-grained control over how attribute changes are handled.
+In Monster JS, observed attributes allow you to track specific attribute changes on a component. When an observed attribute's value changes, the `attributeChanged` or `namedAttrChanged` hooks can respond to that change, enabling dynamic updates to the component based on attribute values. These hooks are part of Monster JS's lifecycle system, providing fine-grained control over how attribute changes are handled.
 
 ## Defining Observed Attributes
 
@@ -92,7 +92,7 @@ In this example:
 
 ## Creating Transformers
 
-Transformers in Weco JS are simple functions that accept a value, process it, and return the transformed value. They can be chained in an array to apply multiple transformations to an attribute value before it reaches the handler function.
+Transformers in Monster JS are simple functions that accept a value, process it, and return the transformed value. They can be chained in an array to apply multiple transformations to an attribute value before it reaches the handler function.
 
 ### Defining a Transformer
 
@@ -184,6 +184,6 @@ In this example:
 * **Specifying Observed Attributes**: Define observed attributes in the `observedAttributes` array when registering a component.
 * **Reacting to Changes**: Use the `attributeChanged` hook to handle multiple attributes or `namedAttrChanged` for single attributes.
 * **Transforming Attribute Values**: Leverage transformers like `toBoolean`, `toNumber`, or `toJsonObject` with `namedAttrChanged` to process attribute values automatically.
-* **Lifecycle Hooks Integration**: The `attributeChanged` and `namedAttrChanged` hooks are part of Weco JS's robust lifecycle system, making it easy to manage dynamic component behavior efficiently.
+* **Lifecycle Hooks Integration**: The `attributeChanged` and `namedAttrChanged` hooks are part of Monster JS's robust lifecycle system, making it easy to manage dynamic component behavior efficiently.
 
-By leveraging Weco JS's observed attributes and lifecycle hooks, you can create components that dynamically respond to attribute changes, enabling powerful and reactive application designs.
+By leveraging Monster JS's observed attributes and lifecycle hooks, you can create components that dynamically respond to attribute changes, enabling powerful and reactive application designs.

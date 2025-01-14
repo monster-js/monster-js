@@ -1,10 +1,10 @@
 # Services
 
-In Weco JS, services are a core feature that enables encapsulation of reusable business logic, allowing components and other services to access shared functions and resources seamlessly. Weco JS supports both **class-based services** and **function-based services**, which can be injected into other services or components.
+In Monster JS, services are a core feature that enables encapsulation of reusable business logic, allowing components and other services to access shared functions and resources seamlessly. Monster JS supports both **class-based services** and **function-based services**, which can be injected into other services or components.
 
 ## Creating a Service
 
-In Weco JS, services can be created as either a class or a function. Both types of services can use dependency injection to utilize other services, promoting modular and maintainable code.
+In Monster JS, services can be created as either a class or a function. Both types of services can use dependency injection to utilize other services, promoting modular and maintainable code.
 
 ### 1. Class-based Services
 
@@ -13,7 +13,7 @@ Class-based services are structured as ES6 classes and often include methods and
 ```ts
 // Example of a class-based service
 
-import { inject } from 'weco-js';
+import { inject } from 'monster-js';
 
 class MessageService {
     private readonly httpService = inject(HttpService); // Injecting HttpService
@@ -36,7 +36,7 @@ Alternatively, you can create a service as a function. This is helpful for light
 ```ts
 // Example of a function-based service
 
-import { inject } from 'weco';
+import { inject } from 'monster-js';
 
 async function messageService() {
     const httpService = inject(HttpService); // Injecting HttpService
@@ -51,10 +51,10 @@ In this function-based service:
 
 ## Injecting Services into Components
 
-Weco JS makes it easy to inject services into components, whether they’re class-based or function-based. Here’s an example of how to inject and use `MessageService` in a component.
+Monster JS makes it easy to inject services into components, whether they’re class-based or function-based. Here’s an example of how to inject and use `MessageService` in a component.
 
 ```tsx
-import { inject, createState } from 'weco';
+import { inject, createState } from 'monster-js';
 
 function Component() {
     const [message, setMessage] = createState(this, ''); // State to hold the message
@@ -76,7 +76,7 @@ In this example:
 
 ## Injecting Services into Other Services
 
-Services in Weco JS can depend on other services, allowing for a layered architecture where services can be composed of smaller, reusable services.
+Services in Monster JS can depend on other services, allowing for a layered architecture where services can be composed of smaller, reusable services.
 
 ```ts
 // Example of a service that injects another service
@@ -106,7 +106,7 @@ In this example:
 
 ## Summary
 
-Services in Weco JS provide a powerful way to manage and share logic across components and other services. With both class-based and function-based options, you can choose the structure that best fits your needs.
+Services in Monster JS provide a powerful way to manage and share logic across components and other services. With both class-based and function-based options, you can choose the structure that best fits your needs.
 
 ## Key Features
 

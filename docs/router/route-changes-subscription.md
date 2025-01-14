@@ -1,10 +1,10 @@
 # Route Changes Subscription
 
-In Weco JS, you can subscribe to route changes to react to updates in the application's route. This enables you to track changes in route parameters, query parameters, or the route itself, allowing you to trigger specific actions or update the UI accordingly.
+In Monster JS, you can subscribe to route changes to react to updates in the application's route. This enables you to track changes in route parameters, query parameters, or the route itself, allowing you to trigger specific actions or update the UI accordingly.
 
 ## 1. Subscribing to Route Changes
 
-Weco JS provides an API to subscribe to route changes. This allows you to listen for any updates to the route and take action based on the new route, parameters, or query parameters.
+Monster JS provides an API to subscribe to route changes. This allows you to listen for any updates to the route and take action based on the new route, parameters, or query parameters.
 
 ### Example: Subscribing to Route Changes
 
@@ -51,7 +51,7 @@ export function HomeComponent() {
 
 ## 3. Subscribing to Query Parameter Changes
 
-In addition to route parameters, Weco JS allows you to subscribe to changes in query parameters using the `routeQueryParamChange()` method. This is useful when the query string in the URL is updated, but the route itself remains the same.
+In addition to route parameters, Monster JS allows you to subscribe to changes in query parameters using the `routeQueryParamChange()` method. This is useful when the query string in the URL is updated, but the route itself remains the same.
 
 ### Example: Subscribing to Query Parameter Changes
 
@@ -83,6 +83,6 @@ These methods allow you to track and react to different types of changes in your
 
 ## 5. Unsubscribing from Route Changes
 
-In Weco JS, unsubscribing from route change events is not necessary. The system automatically handles unsubscribing when the component is no longer connected to the DOM, preventing potential memory leaks.
+In Monster JS, unsubscribing from route change events is not necessary. The system automatically handles unsubscribing when the component is no longer connected to the DOM, preventing potential memory leaks.
 
-This documentation covers the subscription methods available in Weco JS for tracking route changes. By using these subscriptions, you can react to changes in route parameters, query parameters, or the route itself, and take appropriate actions in your application.
+This documentation covers the subscription methods available in Monster JS for tracking route changes. By using these subscriptions, you can react to changes in route parameters, query parameters, or the route itself, and take appropriate actions in your application.

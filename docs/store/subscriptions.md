@@ -1,10 +1,10 @@
 # Subscriptions
 
-In this section, we will explore how to subscribe to state and selector changes in the Weco JS Framework Store. Subscriptions allow you to listen for changes in the store and update your application’s UI or logic in response to those changes.
+In this section, we will explore how to subscribe to state and selector changes in the Monster JS Framework Store. Subscriptions allow you to listen for changes in the store and update your application’s UI or logic in response to those changes.
 
 ## 1. What is a Subscription?
 
-A subscription in the Weco JS Framework Store allows components or services to be notified when a specific part of the state or selector has changed. This is an essential concept for creating reactive applications, as it allows your UI to stay in sync with the store's state automatically.
+A subscription in the Monster JS Framework Store allows components or services to be notified when a specific part of the state or selector has changed. This is an essential concept for creating reactive applications, as it allows your UI to stay in sync with the store's state automatically.
 
 ## 2. Subscribing to State Changes
 
@@ -42,7 +42,7 @@ export function CountComponent() {
 ```
 * **store.select(this, counterSelector)**: This retrieves the value of the `counter` state using the `counterSelector`.
 * **.subscribe(callback)**: The `subscribe` method listens for changes in the value derived by the `counterSelector`. Every time the value changes, the callback function is invoked. In this example, it logs `'counter count changed'` to the console.
-* **Automatic Unsubscription**: Like state subscriptions, when the component is removed or disconnected, the subscription will automatically be cleaned up.
+* **Automatic Unsubscribe**: Like state subscriptions, when the component is removed or disconnected, the subscription will automatically be cleaned up.
 
 ## 4. Benefits of Subscriptions
 
@@ -52,10 +52,10 @@ export function CountComponent() {
 
 ## Conclusion
 
-Subscriptions in the Weco JS Framework Store are a powerful feature that enables reactivity and automatic updates to your components. By subscribing to state and selector changes, you can:
+Subscriptions in the Monster JS Framework Store are a powerful feature that enables reactivity and automatic updates to your components. By subscribing to state and selector changes, you can:
 
 1. **React to state changes**: Automatically trigger updates when the store’s state or selectors change.
 2. **Keep your UI in sync**: Ensure that your UI always reflects the latest state without manual intervention.
 3. **Improve performance**: Limit re-renders to only when the relevant data has changed.
 
-Subscriptions are an essential part of building dynamic, responsive applications with the Weco JS Framework Store.
+Subscriptions are an essential part of building dynamic, responsive applications with the Monster JS Framework Store.

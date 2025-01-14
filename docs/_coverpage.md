@@ -2,7 +2,7 @@
 
 ![logo](_media/icon.svg)
 
-# Weco JS <small>1.0</small>
+# Monster JS <small>1.0</small>
 
 > A Lightweight JavaScript Framework Powered by Web Components.
 
@@ -11,4 +11,4 @@
 - Familiar Syntax
 
 [GitHub](https://github.com/docsifyjs/docsify/)
-[Get Started](/?id=what-is-weco-js)
+[Get Started](/?id=what-is-monster-js)

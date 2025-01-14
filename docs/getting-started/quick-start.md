@@ -1,27 +1,27 @@
 # Quick Start Guide
 
-**Weco JS** is a modern web framework for building fast, reactive web components without relying on a virtual DOM. By using reactive state management with watchers, Weco JS ensures your UI components are responsive and efficient. This guide will help you get started with creating and managing components in Weco JS.
+**Monster JS** is a modern web framework for building fast, reactive web components without relying on a virtual DOM. By using reactive state management with watchers, Monster JS ensures your UI components are responsive and efficient. This guide will help you get started with creating and managing components in Monster JS.
 
 ## Installation
 
-First, you'll need to install the Weco JS CLI tool to generate and manage your projects.
+First, you'll need to install the Monster JS CLI tool to generate and manage your projects.
 
-### Step 1: Install Weco CLI
+### Step 1: Install Monster CLI
 
 ```bash
-npm install -g weco-js-cli
+npm install -g monster-js-cli
 ```
 
-This command will globally install the `weco-js-cli`, which you can use to create new projects and run local development servers.
+This command will globally install the `monster-js-cli`, which you can use to create new projects and run local development servers.
 
-## Creating Your First Weco JS Project
+## Creating Your First Monster JS Project
 
 ### Step 2: Generate a New Project
 
-Once you have the CLI installed, you can generate a new Weco JS project using the following command:
+Once you have the CLI installed, you can generate a new Monster JS project using the following command:
 
 ```bash
-weco new <project-name>
+mn new <project-name>
 ```
 
 This will create a new project with a default structure, including the following files:
@@ -38,7 +38,7 @@ This will create a new project with a default structure, including the following
 The generated `main.ts` will look like this:
 
 ```ts
-import { defineComponent } from "weco-js";
+import { defineComponent } from "monster-js";
 import { App } from "./app/app.component";
 
 defineComponent(App);
@@ -47,16 +47,16 @@ defineComponent(App);
 The `App` component in app.component.tsx will look like this:
 ```tsx
 export function App() {
-    return <h1>Weco JS App</h1>;
+    return <h1>Monster JS App</h1>;
 }
 ```
 
 ### Step 4: Run the Development Server
 
-To run the application locally, navigate to the root of the project and use the `weco serve` command. This starts a local development server and opens your app in the browser.
+To run the application locally, navigate to the root of the project and use the `mn serve` command. This starts a local development server and opens your app in the browser.
 
 ```bash
-weco serve
+mn serve
 ```
 
 ### Step 5: Build for Production
@@ -64,17 +64,17 @@ weco serve
 To build your project for production, run the following command. This optimizes your app for deployment.
 
 ```bash
-weco build --mode production
+mn build --mode production
 ```
 
 ## Creating and Using Components
 
 ### Step 6: Define a Component
 
-In Weco JS, components are functions that define the structure of your UI and manage state. Here’s how to define a simple **Counter** component with state:
+In Monster JS, components are functions that define the structure of your UI and manage state. Here’s how to define a simple **Counter** component with state:
 
 ```tsx
-import { createState } from 'weco-js';
+import { createState } from 'monster-js';
 
 export function Counter() {
     const [count, setCount] = createState(this, 0); // Define component state
@@ -90,16 +90,16 @@ In the above example, `createState` is used to create a reactive state for the `
 
 ### Step 7: Reactive Binding with Watchers
 
-Weco JS uses reactive state with automatic updates. The example above already shows how the `Counter` component updates when the state changes. The UI reacts immediately when `setCount` is called to update the state.
+Monster JS uses reactive state with automatic updates. The example above already shows how the `Counter` component updates when the state changes. The UI reacts immediately when `setCount` is called to update the state.
 
 ### Step 8: Lifecycle Hooks
 
-Components in Weco JS support lifecycle hooks, which let you run code when a component is mounted or unmounted.
+Components in Monster JS support lifecycle hooks, which let you run code when a component is mounted or unmounted.
 
 For example, you can use `connected` and `disconnected` hooks to manage side effects like timers:
 
 ```tsx
-import { createState, connected, disconnected } from 'weco-js';
+import { createState, connected, disconnected } from 'monster-js';
 
 export function Timer() {
     const [time, setTime] = createState(this, 0);
@@ -124,12 +124,12 @@ In this example, the `connected` hook starts the timer when the component mounts
 
 ### Step 9: Shared State Across Components
 
-Weco JS allows you to share state across multiple components using `createSharedState`. This is useful when you need to maintain shared data that updates in real-time across different parts of your application.
+Monster JS allows you to share state across multiple components using `createSharedState`. This is useful when you need to maintain shared data that updates in real-time across different parts of your application.
 
 #### shared-state.ts
 
 ```ts
-import { createSharedState } from 'weco-js';
+import { createSharedState } from 'monster-js';
 
 export const countSharedState = createSharedState(0);
 ```
@@ -187,6 +187,6 @@ export function App() {
 
 ## Conclusion
 
-This guide provides an overview of how to set up and create components with Weco JS. You learned how to define components, handle state and props, and use lifecycle hooks for managing side effects. For advanced topics, such as routing and testing, or for more configuration details, refer to the full documentation.
+This guide provides an overview of how to set up and create components with Monster JS. You learned how to define components, handle state and props, and use lifecycle hooks for managing side effects. For advanced topics, such as routing and testing, or for more configuration details, refer to the full documentation.
 
-Now that you have the foundation, you can build powerful, reactive applications with Weco JS! Happy coding!
+Now that you have the foundation, you can build powerful, reactive applications with Monster JS! Happy coding!
