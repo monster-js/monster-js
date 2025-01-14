@@ -65,4 +65,4 @@ We’re committed to making Monster JS a powerful, open-source solution for web 
 
 Monster JS is open-source and distributed under the **MIT License**, allowing you to use, modify, and distribute it freely in your projects.
 
-For full details, please review the [MIT License file](/) in our GitHub repository.
+For full details, please review the [MIT License file](license.md) in our GitHub repository.

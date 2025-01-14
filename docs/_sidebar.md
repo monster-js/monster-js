@@ -56,4 +56,4 @@
         - [Environment](/cli/generate-files?id=generate-environment-files)
             - [Custom environment](/cli/generate-files?id=custom-environment)
 - License
-    - [License](license/license.md)
+    - [License](license.md)
