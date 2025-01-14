@@ -6,8 +6,8 @@ import { failed, success } from '../utils/logger';
 
 export function generateDirective(name: string) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -20,7 +20,7 @@ export function generateDirective(name: string) {
     let filenameCamelCase = filenamePascalCase.charAt(0).toLowerCase() + filenamePascalCase.slice(1);
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, `${name}.directive.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.directive.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
@@ -30,7 +30,7 @@ export function generateDirective(name: string) {
     }
 
     // Generate the file content
-    const fileContent = `import { directive, DirectiveDataType } from 'weco-js';
+    const fileContent = `import { directive, DirectiveDataType } from 'monster-js';
     
 function ${filenameCamelCase}(element: Element, data: DirectiveDataType) {
     return element;

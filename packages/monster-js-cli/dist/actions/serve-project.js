@@ -22,8 +22,8 @@ const devServerConfig = {
     hot: true,
 };
 async function serveProject(options) {
-    const wecoConfig = (0, get_monster_config_1.getMonsterConfig)();
-    if (!wecoConfig)
+    const monsterConfig = (0, get_monster_config_1.getMonsterConfig)();
+    if (!monsterConfig)
         return;
     const { port, mode } = options;
     const config = (0, generate_webpack_config_1.generateWebpackConfig)(options.mode, 'dist');

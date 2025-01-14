@@ -28,15 +28,15 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const logger_1 = require("./logger");
 function getMonsterConfig() {
-    // Ensure the command is run at the root of a weco.js project
-    const wecoJsonPath = path.join(process.cwd(), 'weco.json');
-    if (!fs.existsSync(wecoJsonPath)) {
+    // Ensure the command is run at the root of a monster.js project
+    const monsterJsonPath = path.join(process.cwd(), 'monster.json');
+    if (!fs.existsSync(monsterJsonPath)) {
         console.log('');
-        (0, logger_1.error)('This command should run at the root of a weco js project.');
+        (0, logger_1.error)('This command should run at the root of a monster js project.');
         return;
     }
-    // Load the weco.json file
-    const monsterConfig = JSON.parse(fs.readFileSync(wecoJsonPath, 'utf8'));
+    // Load the monster.json file
+    const monsterConfig = JSON.parse(fs.readFileSync(monsterJsonPath, 'utf8'));
     return monsterConfig;
 }
 //# sourceMappingURL=get-monster-config.js.map

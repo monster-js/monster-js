@@ -36,14 +36,14 @@ export default function (this: any, source: any) {
   const filename = filePath.replace(rootDirectory, '');
   const fileId = path.basename(filename, path.extname(filename));
 
-  if (!global.__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
-    global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_WECO_ELEMENT_ID_COUNTER;
-    global.__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
+  if (!global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId]) {
+    global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER;
+    global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER++;
   }
 
   const componentFilePath = path.join(path.dirname(filePath), `${fileId}.tsx`);
   if (fs.existsSync(componentFilePath)) {
-    result = processCss(source, global.__GLOBAL_WECO_ELEMENT_IDS[fileId]);
+    result = processCss(source, global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId]);
   }
 
   return result;

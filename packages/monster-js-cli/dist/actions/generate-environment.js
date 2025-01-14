@@ -29,14 +29,14 @@ const path = __importStar(require("path"));
 const get_monster_config_1 = require("../utils/get-monster-config");
 const logger_1 = require("../utils/logger");
 function generateEnvironment(name) {
-    const wecoConfig = (0, get_monster_config_1.getMonsterConfig)();
-    if (!wecoConfig)
+    const monsterConfig = (0, get_monster_config_1.getMonsterConfig)();
+    if (!monsterConfig)
         return;
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
     const filename = nameArr[nameArr.length - 1].toLowerCase();
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.environmentsPath, `environment.${filename}.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.environmentsPath, `environment.${filename}.ts`);
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
         console.log('');

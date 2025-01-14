@@ -1,0 +1,18 @@
+import { styleSymbol } from "./define-styles";
+export function removeDefinedStyles(styles) {
+    const _window = window;
+    const decrementStyleCount = (id) => {
+        if (_window[styleSymbol][id].count) {
+            _window[styleSymbol][id].count--;
+        }
+    };
+    styles.forEach((style) => {
+        const id = style[0][0];
+        decrementStyleCount(id);
+        if (_window[styleSymbol][id].count === 0) {
+            _window[styleSymbol][id].element.remove();
+            _window[styleSymbol][id] = null;
+        }
+    });
+}
+//# sourceMappingURL=remove-defined-styles.js.map

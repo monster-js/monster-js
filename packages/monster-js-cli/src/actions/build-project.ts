@@ -16,14 +16,14 @@ export interface BuildProjectOptionsInterface {
 
 export async function buildProject(options: BuildProjectOptionsInterface) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     const { mode, output, standalone } = options;
 
     info('Building project...');
     if (standalone) {
-        const standaloneDir = path.join(process.cwd(), wecoConfig.standaloneDir);
+        const standaloneDir = path.join(process.cwd(), monsterConfig.standaloneDir);
         fs.readdir(standaloneDir, (err, files) => {
             if (err) {
                 return error('Unable to read standalone directory');
@@ -34,7 +34,7 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
             files.forEach((filePath) => {
                 const filename = getFileNameWithoutExtension(filePath);
                 const className = toPascalCase(filename);
-                config.entry = `./${wecoConfig.standaloneDir}/${filePath}`;
+                config.entry = `./${monsterConfig.standaloneDir}/${filePath}`;
                 config.output!.library = {
                     export: 'default',
                     name: className,

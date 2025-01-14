@@ -5,16 +5,16 @@ import { failed, success } from '../utils/logger';
 
 export function generateEnvironments() {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Convert the filename to PascalCase and append "Component"
     const devFilename = `environment.dev.ts`;
     const prodFilename = `environment.prod.ts`;
 
     // Generate the target file path by appending the .component.tsx extension
-    const devTargetFilePath = path.join(process.cwd(), wecoConfig.environmentsPath, devFilename);
-    const prodTargetFilePath = path.join(process.cwd(), wecoConfig.environmentsPath, prodFilename);
+    const devTargetFilePath = path.join(process.cwd(), monsterConfig.environmentsPath, devFilename);
+    const prodTargetFilePath = path.join(process.cwd(), monsterConfig.environmentsPath, prodFilename);
 
     // Check if the target file already exists
     if (fs.existsSync(devTargetFilePath)) {

@@ -7,8 +7,8 @@ import { failed, success } from '../utils/logger';
 
 export function generateComponent(name: string, option: { shadowMode: 'open' | 'closed' }) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -18,8 +18,8 @@ export function generateComponent(name: string, option: { shadowMode: 'open' | '
     const filenamePascalCase = filenameToPascalCase(filename) + 'Component';
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, name, `${filename}.component.tsx`);
-    const targetStyleFilePath = path.join(process.cwd(), wecoConfig.appRoot, name, `${filename}.component.scss`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, name, `${filename}.component.tsx`);
+    const targetStyleFilePath = path.join(process.cwd(), monsterConfig.appRoot, name, `${filename}.component.scss`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
@@ -34,9 +34,9 @@ export function generateComponent(name: string, option: { shadowMode: 'open' | '
     }
 
     // Ensure a valid selector for the web component
-    const validSelector = generateValidWebComponentSelector(filename, wecoConfig.component.selectorPrefix);
+    const validSelector = generateValidWebComponentSelector(filename, monsterConfig.component.selectorPrefix);
 
-    let shadowMode = wecoConfig.component.shadowMode;
+    let shadowMode = monsterConfig.component.shadowMode;
     let shadowModeOpt = '';
 
     if (option.shadowMode === 'open' || option.shadowMode === 'closed') {
@@ -50,7 +50,7 @@ export function generateComponent(name: string, option: { shadowMode: 'open' | '
 
     // Generate the file content
     const fileContent = `import styles from './${filename}.component.scss';
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ${filenamePascalCase}() {
     return <h1>${filenamePascalCase}</h1>;

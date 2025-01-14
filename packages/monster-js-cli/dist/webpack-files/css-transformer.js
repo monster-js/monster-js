@@ -35,13 +35,13 @@ function default_1(source) {
     };
     const filename = filePath.replace(rootDirectory, '');
     const fileId = path_1.default.basename(filename, path_1.default.extname(filename));
-    if (!global.__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
-        global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_WECO_ELEMENT_ID_COUNTER;
-        global.__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
+    if (!global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId]) {
+        global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER;
+        global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER++;
     }
     const componentFilePath = path_1.default.join(path_1.default.dirname(filePath), `${fileId}.tsx`);
     if (fs_1.default.existsSync(componentFilePath)) {
-        result = processCss(source, global.__GLOBAL_WECO_ELEMENT_IDS[fileId]);
+        result = processCss(source, global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId]);
     }
     return result;
 }

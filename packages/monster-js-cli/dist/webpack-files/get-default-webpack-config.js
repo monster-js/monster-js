@@ -7,8 +7,8 @@ exports.getDefaultWebpackConfig = void 0;
 const path_1 = __importDefault(require("path"));
 const terser_webpack_plugin_1 = __importDefault(require("terser-webpack-plugin"));
 const getDefaultWebpackConfig = (additionalConfig = []) => {
-    global['__GLOBAL_WECO_ELEMENT_ID_COUNTER'] = 0;
-    global['__GLOBAL_WECO_ELEMENT_IDS'] = {};
+    global['__GLOBAL_MONSTER_ELEMENT_ID_COUNTER'] = 0;
+    global['__GLOBAL_MONSTER_ELEMENT_IDS'] = {};
     return {
         entry: './src/main.ts',
         output: {
@@ -44,7 +44,8 @@ const getDefaultWebpackConfig = (additionalConfig = []) => {
                                 require.resolve('@babel/preset-typescript')
                             ],
                             plugins: [
-                                require.resolve('weco-js-transformers')
+                                path_1.default.join(__dirname, './jsx-transformer.js'),
+                                // require.resolve('./jsx-transformer.ts')
                             ],
                             compact: false,
                         },

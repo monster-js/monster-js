@@ -6,8 +6,8 @@ declare const global: any;
 
 export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.Configuration => {
 
-    global['__GLOBAL_WECO_ELEMENT_ID_COUNTER'] = 0;
-    global['__GLOBAL_WECO_ELEMENT_IDS'] = {};
+    global['__GLOBAL_MONSTER_ELEMENT_ID_COUNTER'] = 0;
+    global['__GLOBAL_MONSTER_ELEMENT_IDS'] = {};
 
     return {
         entry: './src/main.ts',
@@ -44,7 +44,8 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                                 require.resolve('@babel/preset-typescript')
                             ],
                             plugins: [
-                                require.resolve('weco-js-transformers')
+                                path.join(__dirname, './jsx-transformer.js'),
+                                // require.resolve('./jsx-transformer.ts')
                             ],
                             compact: false,
                         },

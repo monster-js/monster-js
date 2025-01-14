@@ -6,8 +6,8 @@ import { failed, success } from '../utils/logger';
 
 export function generateEventEmitter(name: string) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -17,7 +17,7 @@ export function generateEventEmitter(name: string) {
     const filenameCamelCase = filenameToCamelCase(filename) + 'Event';
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, `${name}.event.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.event.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
@@ -27,7 +27,7 @@ export function generateEventEmitter(name: string) {
     }
 
     // Generate the file content
-    const fileContent = `import { createEventEmitter } from 'weco-js';
+    const fileContent = `import { createEventEmitter } from 'monster-js';
 
 export const ${filenameCamelCase} = createEventEmitter();
 `;

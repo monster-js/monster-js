@@ -1,0 +1,1 @@
+{"version":3,"file":"adopted.js","sourceRoot":"","sources":["../../src/lifecycle-hooks/adopted.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,+BAA+B,CAAC;AAGnE,MAAM,UAAU,OAAO,CAAC,cAAmB,EAAE,QAAkC;IAC1E,cAAwC,CAAC,OAAO,CAAC,kBAAkB,CAAC,OAAO,EAAE,QAAQ,CAAC,CAAC;AAC5F,CAAC"}

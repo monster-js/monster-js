@@ -30,8 +30,8 @@ const get_monster_config_1 = require("../utils/get-monster-config");
 const filename_to_camel_case_1 = require("../utils/filename-to-camel-case");
 const logger_1 = require("../utils/logger");
 function generateDiContainer(name) {
-    const wecoConfig = (0, get_monster_config_1.getMonsterConfig)();
-    if (!wecoConfig)
+    const monsterConfig = (0, get_monster_config_1.getMonsterConfig)();
+    if (!monsterConfig)
         return;
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -39,7 +39,7 @@ function generateDiContainer(name) {
     // Convert the filename to PascalCase and append "Component"
     const filenameCamelCase = (0, filename_to_camel_case_1.filenameToCamelCase)(filename) + 'Container';
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, `${name}.container.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.container.ts`);
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
         console.log('');
@@ -47,7 +47,7 @@ function generateDiContainer(name) {
         return;
     }
     // Generate the file content
-    const fileContent = `import { createDIContainer } from 'weco-js';
+    const fileContent = `import { createDIContainer } from 'monster-js';
 
 export const [${filenameCamelCase}, ${filenameCamelCase}Override] = createDIContainer();
 `;

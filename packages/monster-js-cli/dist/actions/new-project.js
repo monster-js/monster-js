@@ -38,7 +38,7 @@ function newProject(projectName, options) {
         }
         const { shadowMode } = options;
         if (shadowMode === 'open' || shadowMode === 'closed') {
-            const configPath = path_1.default.join(projectPath, 'weco.json');
+            const configPath = path_1.default.join(projectPath, 'monster.json');
             (0, update_json_file_1.updateJsonFile)(configPath, (config) => {
                 config.component.shadowMode = shadowMode;
                 return config;

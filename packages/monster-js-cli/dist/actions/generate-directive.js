@@ -30,8 +30,8 @@ const filename_to_pascal_case_1 = require("../utils/filename-to-pascal-case");
 const get_monster_config_1 = require("../utils/get-monster-config");
 const logger_1 = require("../utils/logger");
 function generateDirective(name) {
-    const wecoConfig = (0, get_monster_config_1.getMonsterConfig)();
-    if (!wecoConfig)
+    const monsterConfig = (0, get_monster_config_1.getMonsterConfig)();
+    if (!monsterConfig)
         return;
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -42,7 +42,7 @@ function generateDirective(name) {
     const directiveName = realPascalCaseFilename.charAt(0).toLowerCase() + realPascalCaseFilename.slice(1);
     let filenameCamelCase = filenamePascalCase.charAt(0).toLowerCase() + filenamePascalCase.slice(1);
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, `${name}.directive.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.directive.ts`);
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
         console.log('');
@@ -50,7 +50,7 @@ function generateDirective(name) {
         return;
     }
     // Generate the file content
-    const fileContent = `import { directive, DirectiveDataType } from 'weco-js';
+    const fileContent = `import { directive, DirectiveDataType } from 'monster-js';
     
 function ${filenameCamelCase}(element: Element, data: DirectiveDataType) {
     return element;

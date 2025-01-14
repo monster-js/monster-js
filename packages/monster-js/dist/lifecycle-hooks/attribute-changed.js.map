@@ -1,0 +1,1 @@
+{"version":3,"file":"attribute-changed.js","sourceRoot":"","sources":["../../src/lifecycle-hooks/attribute-changed.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,+BAA+B,CAAC;AAGnE,MAAM,UAAU,gBAAgB,CAAC,cAAmB,EAAE,QAAkC;IACnF,cAAwC,CAAC,OAAO,CAAC,kBAAkB,CAAC,gBAAgB,EAAE,QAAQ,CAAC,CAAC;AACrG,CAAC"}

@@ -5,15 +5,15 @@ import { failed, success } from '../utils/logger';
 
 export function generateEnvironment(name: string) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
     const filename = nameArr[nameArr.length - 1].toLowerCase();
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.environmentsPath, `environment.${filename}.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.environmentsPath, `environment.${filename}.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {

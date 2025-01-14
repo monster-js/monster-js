@@ -6,8 +6,8 @@ import { failed, success } from '../utils/logger';
 
 export function generateSharedState(name: string) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -17,7 +17,7 @@ export function generateSharedState(name: string) {
     const filenameCamelCase = filenameToCamelCase(filename) + 'State';
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, `${name}.state.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.state.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
@@ -27,7 +27,7 @@ export function generateSharedState(name: string) {
     }
 
     // Generate the file content
-    const fileContent = `import { createSharedState } from 'weco-js';
+    const fileContent = `import { createSharedState } from 'monster-js';
 
 export const ${filenameCamelCase} = createSharedState(null);
 `;

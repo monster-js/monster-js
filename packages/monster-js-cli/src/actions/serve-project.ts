@@ -25,8 +25,8 @@ const devServerConfig: WebpackDevServer.Configuration = {
 
 export async function serveProject(options: ServeProjectOptionsInterface) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     const { port, mode } = options;
     const config = generateWebpackConfig(options.mode, 'dist');

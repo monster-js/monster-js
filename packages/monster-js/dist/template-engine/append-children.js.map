@@ -1,0 +1,1 @@
+{"version":3,"file":"append-children.js","sourceRoot":"","sources":["../../src/template-engine/append-children.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,cAAc,CAAC,MAAe,EAAE,QAA4B;IACxE,QAAQ,CAAC,OAAO,CAAC,CAAC,KAAK,EAAE,EAAE;QACvB,MAAM,CAAC,WAAW,CAAC,KAAK,CAAC,CAAC;IAC9B,CAAC,CAAC,CAAC;IACH,OAAO,MAAM,CAAC;AAClB,CAAC"}

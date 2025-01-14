@@ -6,8 +6,8 @@ import { failed, success } from '../utils/logger';
 
 export function generateInterface(name: string) {
 
-    const wecoConfig = getMonsterConfig();
-    if (!wecoConfig) return;
+    const monsterConfig = getMonsterConfig();
+    if (!monsterConfig) return;
 
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -17,7 +17,7 @@ export function generateInterface(name: string) {
     const filenamePascalCase = filenameToPascalCase(filename) + 'Interface';
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, `${name}.interface.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.interface.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {

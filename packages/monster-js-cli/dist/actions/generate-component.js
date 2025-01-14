@@ -31,8 +31,8 @@ const generate_valid_web_component_selector_1 = require("../utils/generate-valid
 const get_monster_config_1 = require("../utils/get-monster-config");
 const logger_1 = require("../utils/logger");
 function generateComponent(name, option) {
-    const wecoConfig = (0, get_monster_config_1.getMonsterConfig)();
-    if (!wecoConfig)
+    const monsterConfig = (0, get_monster_config_1.getMonsterConfig)();
+    if (!monsterConfig)
         return;
     // Split the input name to get the last segment as the file name
     const nameArr = name.split('/');
@@ -40,8 +40,8 @@ function generateComponent(name, option) {
     // Convert the filename to PascalCase and append "Component"
     const filenamePascalCase = (0, filename_to_pascal_case_1.filenameToPascalCase)(filename) + 'Component';
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), wecoConfig.appRoot, name, `${filename}.component.tsx`);
-    const targetStyleFilePath = path.join(process.cwd(), wecoConfig.appRoot, name, `${filename}.component.scss`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, name, `${filename}.component.tsx`);
+    const targetStyleFilePath = path.join(process.cwd(), monsterConfig.appRoot, name, `${filename}.component.scss`);
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
         console.log('');
@@ -54,8 +54,8 @@ function generateComponent(name, option) {
         return;
     }
     // Ensure a valid selector for the web component
-    const validSelector = (0, generate_valid_web_component_selector_1.generateValidWebComponentSelector)(filename, wecoConfig.component.selectorPrefix);
-    let shadowMode = wecoConfig.component.shadowMode;
+    const validSelector = (0, generate_valid_web_component_selector_1.generateValidWebComponentSelector)(filename, monsterConfig.component.selectorPrefix);
+    let shadowMode = monsterConfig.component.shadowMode;
     let shadowModeOpt = '';
     if (option.shadowMode === 'open' || option.shadowMode === 'closed') {
         shadowMode = option.shadowMode;
@@ -66,7 +66,7 @@ function generateComponent(name, option) {
     }
     // Generate the file content
     const fileContent = `import styles from './${filename}.component.scss';
-import { component } from 'weco-js';
+import { component } from 'monster-js';
 
 export function ${filenamePascalCase}() {
     return <h1>${filenamePascalCase}</h1>;
