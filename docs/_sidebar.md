@@ -55,5 +55,4 @@
         - [Dependency Injection (DI) Container](/cli/generate-files?id=generate-a-di-container)
         - [Environment](/cli/generate-files?id=generate-environment-files)
             - [Custom environment](/cli/generate-files?id=custom-environment)
-- License
-    - [License](license.md)
+- [License](license.md)

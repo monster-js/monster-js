@@ -6,9 +6,11 @@
 
 > A Lightweight JavaScript Framework Powered by Web Components.
 
-- Simple and lightweight
-- Web Component-Based
-- Familiar Syntax
+- Focused on simplicity and performance.
+- Easy-to-understand and familiar for developers.
+- Leverage the power of reusable, encapsulated components.
 
-[GitHub](https://github.com/docsifyjs/docsify/)
+- [❤️ Support Us](/?id=support-us)
+
+[GitHub](https://github.com/monster-js/monster-js)
 [Get Started](/?id=what-is-monster-js)
