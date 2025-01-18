@@ -43,27 +43,27 @@ Each `.component.ts` file should contain an `export default` definition, like th
 
 ```ts
 import { createComponent } from "monster-js";
-import { Button } from "../app/button.component";
+import { ButtonComponent } from "../app/button.component";
 
-export default createComponent(Button);
+export default createComponent(ButtonComponent);
 ```
 
-The imported `Button` from `../app/button.component` is the actual button component.
+The imported `ButtonComponent` from `../app/button.component` is the actual button component.
 
 `src/standalone/app-message.component.ts`
 
 ```ts
 import { createComponent } from "monster-js";
-import { Message } from "../app/message.component";
+import { MessageComponent } from "../app/message.component";
 
-export default createComponent(Message);
+export default createComponent(MessageComponent);
 ```
 
-The imported `Message` from `../app/message.component` is the actual message component.
+The imported `MessageComponent` from `../app/message.component` is the actual message component.
 
 ## Using the Standalone Components
 
-To use the generated standalone components, include the output files in your HTML and define the web components:
+To use the generated standalone components, include the output files in your HTML and you can now use the selectors in your document body:
 
 ### Example HTML Usage
 

@@ -9,16 +9,16 @@ The `createSharedState` function enables the creation of a shared state that can
 ### Syntax
 
 ```ts
-const sharedState = createSharedState(initialValue);
+const sharedState = createSharedState(<initial value>);
 ```
 
-* `initialValue`: The initial value of the shared state.
+* `<initial value>`: The initial value of the shared state.
 
 ### Parameters
 
-* initialValue
+* `<initial value>`
     * The starting value for the shared state.
-    * Can be of any type (number, string, object, array, etc.).
+    * Can be of any type (`number`, `string`, `object`, `array`, etc.).
 
 ### Return Value
 
@@ -41,7 +41,7 @@ export const countSharedState = createSharedState(0);
 
 ```tsx
 // button.component.ts
-function Button() {
+function ButtonComponent() {
     const [count, setCount] = countSharedState(this);
 
     return <button on:click={setCount(count() + 1)}>
@@ -55,7 +55,7 @@ function Button() {
 * <strong>Shared State Initialization</strong>:
     * The `createSharedState` function initializes a shared state variable, `countSharedState`, with a starting value of `0`.
 * <strong>Component Access</strong>:
-    * In the `Button` component, the shared state is accessed by calling `countSharedState(this)`, which returns the current value of `count` and a setter function `setCount`.
+    * In the `ButtonComponent` component, the shared state is accessed by calling `countSharedState(this)`, which returns the current value of `count` and a setter function `setCount`.
 * <strong>Updating the Shared State</strong>:
     * When the button is clicked, the `on:click` handler calls `setCount(count() + 1)`, which updates the shared state.
     * This triggers change detection across all components that use `countSharedState`, ensuring that the UI remains in sync.

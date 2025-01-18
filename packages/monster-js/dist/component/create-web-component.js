@@ -14,7 +14,7 @@ export function createWebComponent(renderFunction) {
             this._conditionWatchers = [];
             this._hooks = {};
             this._directives = {};
-            this._triggerAfterConnected = [];
+            this._triggerAfterConnectedInternalCallbacks = [];
             this._elementHolder = this;
             (fnComponent.__meta?.directives || []).forEach((directiveFn) => {
                 this._directives[directiveFn.namespace] = directiveFn;
@@ -30,10 +30,10 @@ export function createWebComponent(renderFunction) {
             }
         }
         addTriggerAfterConnected(callback) {
-            this._triggerAfterConnected.push(callback);
+            this._triggerAfterConnectedInternalCallbacks.push(callback);
         }
         removeTriggerAfterConnected(callback) {
-            this._triggerAfterConnected = this._triggerAfterConnected.filter((item) => item === callback);
+            this._triggerAfterConnectedInternalCallbacks = this._triggerAfterConnectedInternalCallbacks.filter((item) => item === callback);
         }
         getDirective(namespace) {
             return this._directives[namespace];
@@ -76,7 +76,7 @@ export function createWebComponent(renderFunction) {
             this._applyStyling();
             this._appendElement();
             this._triggerHooks(LifecycleHooksEnum.connected);
-            this._triggerAfterConnected.forEach((callback) => callback());
+            this._triggerAfterConnectedInternalCallbacks.forEach((callback) => callback());
             this.detectChanges();
             this._triggerHooks(LifecycleHooksEnum.afterViewInit);
         }

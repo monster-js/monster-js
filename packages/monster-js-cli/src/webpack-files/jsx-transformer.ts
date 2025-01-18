@@ -18,17 +18,28 @@ const FN_NAMES = {
   ROUTER_OUTLET: "routerOutlet"
 };
 
+function kebabToCamelCase(str: string) {
+    return str
+        .split('-') // Split the string into an array of words
+        .map((word, index) =>
+            index === 0
+                ? word.toLowerCase() // Keep the first word lowercase
+                : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize the rest
+        )
+        .join(''); // Join the array back into a string
+}
+
 function generateShortUniqueId() {
   return Math.random().toString(36).substr(2, 8); // Convert to base-36 and take 8 characters
 }
 
-let fileId: any;
+let fileId: string;
 
 function uniqueId() {
-  return (global as any).__GLOBAL_MONSTER_ELEMENT_IDS[fileId];
+  return (global as any).__GLOBAL_WECO_ELEMENT_IDS[fileId];
 }
 
-const CORE_PACKAGE_NAME = "monster-js";
+const CORE_PACKAGE_NAME = "weco-js";
 
 let programPathGetter: () => any;
 
@@ -46,9 +57,9 @@ export default function (babel: any) {
         const filename = filePath.replace(rootDir, '');
         fileId = _path.basename(filename, _path.extname(filename));
 
-        if (!(global as any).__GLOBAL_MONSTER_ELEMENT_IDS[fileId]) {
-          (global as any).__GLOBAL_MONSTER_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + (global as any).__GLOBAL_MONSTER_ELEMENT_ID_COUNTER;
-          (global as any).__GLOBAL_MONSTER_ELEMENT_ID_COUNTER++;
+        if (!(global as any).__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
+          (global as any).__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + (global as any).__GLOBAL_WECO_ELEMENT_ID_COUNTER;
+          (global as any).__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
         }
 
       	path.node.body.forEach((node: any) => {
@@ -126,51 +137,51 @@ export default function (babel: any) {
             attribute.name.type === "JSXIdentifier")
         );
         const bindAttributes = node.openingElement.attributes.filter(
-          (attribute: any) =>
+          (attribute: { value: { type: string; }; name: { type: string; }; }) =>
             attribute.value &&
             attribute.value.type === "JSXExpressionContainer" &&
             attribute.name.type === "JSXIdentifier"
         );
         const props = node.openingElement.attributes.filter(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "prop"
         );
         const events = node.openingElement.attributes.filter(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "on"
         );
         const ifCondition = node.openingElement.attributes.find(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "if"
         );
         const forLoop = node.openingElement.attributes.find(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "for"
         );
         const forLoopItem = node.openingElement.attributes.find(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "for-item"
         );
         const forLoopIndex = node.openingElement.attributes.find(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "for-index"
         );
         const forLoopTrackBy = node.openingElement.attributes.find(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name === "v" &&
             attribute.name.name.name === "for-track-by"
         );
         const directives = node.openingElement.attributes.filter(
-          (attribute: any) =>
+          (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name !== "on" &&
             attribute.name.namespace.name !== "v" &&
@@ -186,7 +197,7 @@ export default function (babel: any) {
         });
 
         if (!isComponent) {
-          staticAttributes.forEach((attr: any) => {
+          staticAttributes.forEach((attr: { name: { name: string; }; value: { type: string; }; }) => {
             if (attr.name.name === 'is' && attr.value.type === 'StringLiteral') {
               isComponent = true;
             }
@@ -219,14 +230,14 @@ export default function (babel: any) {
   };
 };
 
-function applyRouterOutlet(path: any) {
-  const component = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "component");
-  const routerPath = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "path");
-  const redirectTo = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "redirect-to");
-  const pathMatch = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "path-match");
-  const canActivate = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "can-activate");
-  const canDeactivate = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "can-deactivate");
-  const routeData = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "route-data");
+function applyRouterOutlet(path: { node: { openingElement: { attributes: any[]; }; type: string; callee: { type: string; name: string; }; arguments: any[]; }; }) {
+  const component = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "component");
+  const routerPath = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "path");
+  const redirectTo = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "redirect-to");
+  const pathMatch = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "path-match");
+  const canActivate = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "can-activate");
+  const canDeactivate = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "can-deactivate");
+  const routeData = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "route-data");
 
   addImport(FN_NAMES.ROUTER_OUTLET);
   path.node.type = 'CallExpression';
@@ -245,8 +256,8 @@ function applyRouterOutlet(path: any) {
   ];
 }
 
-function applyElementOutlet(path: any) {
-  const element = path.node.openingElement.attributes.find((attribute: any) => attribute.name.name === "element");
+function applyElementOutlet(path: { node: { [x: string]: any; openingElement: { attributes: any[]; }; }; }) {
+  const element = path.node.openingElement.attributes.find((attribute: { name: { name: string; }; }) => attribute.name.name === "element");
   Object.keys(element.value.expression).forEach((key) => {
     const except = ["end", "innerComments", "leadingComments", "loc", "start", "trailingComments"];
     if (except.includes(key)) return;
@@ -254,7 +265,7 @@ function applyElementOutlet(path: any) {
   });
 }
 
-function applyDirectives(node: any, directives: any) {
+function applyDirectives(node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }, directives: any[]) {
   if (directives.length > 0) {
     addImport(FN_NAMES.APPLY_DIRECTIVES);
     const originalNode = { ...node };
@@ -270,7 +281,7 @@ function applyDirectives(node: any, directives: any) {
       originalNode,
       {
         type: "ArrayExpression",
-        elements: directives.map((directive: any) => {
+        elements: directives.map((directive: { name: { namespace: { name: any; }; name: { name: any; }; }; value: { type: string; expression: any; }; }) => {
           const elements = [];
           elements.push({
             type: "StringLiteral",
@@ -305,7 +316,7 @@ function applyDirectives(node: any, directives: any) {
   }
 }
 
-function applyProps(node: any, props: any) {
+function applyProps(node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }, props: any[]) {
   if (props.length === 0) return;
   addImport(FN_NAMES.APPLY_PROPS);
   const originalNode = { ...node };
@@ -321,19 +332,13 @@ function applyProps(node: any, props: any) {
     originalNode,
     {
       type: "ObjectExpression",
-      properties: props.map((prop: any) => {
+      properties: props.map((prop: { name: { name: { name: string; }; }; value: { expression: any; }; }) => {
         return {
           type: "ObjectProperty",
-          key:
-            prop.name.name.name.indexOf("-") > -1
-              ? {
-                  type: "StringLiteral",
-                  value: prop.name.name.name
-                }
-              : {
-                  type: "Identifier",
-                  name: prop.name.name.name
-                },
+          key: {
+            type: "Identifier",
+            name: kebabToCamelCase(prop.name.name.name)
+          },
           value: {
             type: "ArrowFunctionExpression",
             params: [],
@@ -345,7 +350,7 @@ function applyProps(node: any, props: any) {
   ];
 }
 
-function applyCreateComponent(node: any) {
+function applyCreateComponent(node: { openingElement: { name: { name: any; }; }; type: string; callee: { type: string; name: string; }; arguments: { type: string; name: any; }[] | { type: string; value: any; }[]; }) {
   const tagName = node.openingElement.name.name;
   if (tagName[0] === tagName[0].toUpperCase()) {
     addImport(FN_NAMES.CREATE_COMPONENT);
@@ -370,7 +375,7 @@ function applyCreateComponent(node: any) {
   }
 }
 
-function applyCreateElement(node: any) {
+function applyCreateElement(node: { type: string; callee: { type: string; name: string; }; arguments: { type: string; value: any; }[]; openingElement: { name: { name: any; }; }; }) {
   addImport(FN_NAMES.CREATE_ELEMENT);
   node.type = "CallExpression";
   node.callee = {
@@ -385,7 +390,7 @@ function applyCreateElement(node: any) {
   ];
 }
 
-function applyForCondition(forLoop: any, forLoopItem: any, forLoopIndex: any, forLoopTrackBy: any, path: any) {
+function applyForCondition(forLoop: { value: { expression: any; }; }, forLoopItem: { value: { value: string; }; }, forLoopIndex: { value: { value: string; }; }, forLoopTrackBy: { value: { expression: any; }; }, path: { traverse?: any; node?: any; }) {
   if (forLoop) {
     addImport(FN_NAMES.FOR_LOOP);
     const { node } = path;
@@ -456,9 +461,9 @@ function applyForCondition(forLoop: any, forLoopItem: any, forLoopIndex: any, fo
     }
 
     path.traverse({
-      VariableDeclaration(path2: any) {
+      VariableDeclaration(path2: { scope: { bindings: { [x: string]: { referencePaths: any[]; }; }; }; remove: () => void; }) {
         if (path2.scope.bindings[forLoopItemValue]) {
-          path2.scope.bindings[forLoopItemValue].referencePaths.forEach((item: any) => {
+          path2.scope.bindings[forLoopItemValue].referencePaths.forEach((item: { node: { type: string; object: any; computed: boolean; property: { type: string; name: string; }; }; }) => {
             item.node.type = "MemberExpression";
             item.node.object = forLoop.value.expression;
             item.node.computed = true;
@@ -474,9 +479,9 @@ function applyForCondition(forLoop: any, forLoopItem: any, forLoopIndex: any, fo
   }
 }
 
-function applyStaticAttributes(staticAttributes: any, node: any) {
+function applyStaticAttributes(staticAttributes: any[], node: { arguments: { type: string; properties: any; }[]; }) {
   if (staticAttributes.length > 0) {
-    node.arguments.push(jsxAttributesToObject(staticAttributes.map((attribute: any) => {
+    node.arguments.push(jsxAttributesToObject(staticAttributes.map((attribute: { value: any; }) => {
     	if (attribute.value) return attribute;
       return {
       	...attribute,
@@ -486,7 +491,7 @@ function applyStaticAttributes(staticAttributes: any, node: any) {
   }
 }
 
-function applyEvents(events: any, node: any) {
+function applyEvents(events: any[], node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }) {
   if (events.length > 0) {
     addImport(FN_NAMES.ADD_EVENT_LISTENER);
     const originalNode = { ...node };
@@ -499,7 +504,7 @@ function applyEvents(events: any, node: any) {
       originalNode,
       {
         type: "ObjectExpression",
-        properties: events.map((event: any) => {
+        properties: events.map((event: { name: { name: { name: any; }; }; value: { expression: any; }; }) => {
           return {
             type: "ObjectProperty",
             key: {
@@ -527,7 +532,7 @@ function applyEvents(events: any, node: any) {
   }
 }
 
-function applyChildren(children: any, node: any) {
+function applyChildren(children: any[], node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }) {
   if (children.length > 0) {
     addImport(FN_NAMES.APPEND_CHILDREN);
     const originalNode = { ...node };
@@ -540,7 +545,7 @@ function applyChildren(children: any, node: any) {
       originalNode,
       {
         type: "ArrayExpression",
-        elements: children.map((child: any) => {
+        elements: children.map((child: { type: string; expression: any; }) => {
           if (child.type === "JSXExpressionContainer") {
             addImport(FN_NAMES.CREATE_TEXT_NODE);
             addImport(FN_NAMES.BIND_TEXT_NODE);
@@ -582,7 +587,7 @@ function applyChildren(children: any, node: any) {
   }
 }
 
-function applyBindAttributes(bindAttributes: any, node: any) {
+function applyBindAttributes(bindAttributes: any[], node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }) {
   if (bindAttributes.length > 0) {
     addImport(FN_NAMES.BIND_ATTRIBUTES);
     const originalNode = { ...node };
@@ -598,7 +603,7 @@ function applyBindAttributes(bindAttributes: any, node: any) {
       originalNode,
       {
         type: "ObjectExpression",
-        properties: bindAttributes.map((attribute: any) => {
+        properties: bindAttributes.map((attribute: { name: { name: any; }; value: { expression: any; }; }) => {
           return {
             type: "ObjectProperty",
             key: {
@@ -617,7 +622,7 @@ function applyBindAttributes(bindAttributes: any, node: any) {
   }
 }
 
-function applyIfCondition(ifCondition: any, node: any) {
+function applyIfCondition(ifCondition: { value: { expression: any; }; }, node: { type: string; callee: { type: string; name: string; }; arguments: ({ type: string; params?: undefined; body?: undefined; } | { type: string; params: never[]; body: any; })[]; }) {
   if (ifCondition) {
     addImport(FN_NAMES.IF_CONDITION);
     const originalNode = { ...node };
@@ -644,10 +649,10 @@ function applyIfCondition(ifCondition: any, node: any) {
   }
 }
 
-function jsxAttributesToObject(attributes: any) {
+function jsxAttributesToObject(attributes: any[]) {
   return {
     type: "ObjectExpression",
-    properties: attributes.map((attribute: any) => {
+    properties: attributes.map((attribute: { name: { name: any; }; value: { type: any; value: any; }; }) => {
       return {
         type: "ObjectProperty",
         key: {
@@ -663,9 +668,9 @@ function jsxAttributesToObject(attributes: any) {
   };
 }
 
-function addImport(name: any) {
+function addImport(name: string) {
   let coreImports: any[] = [];
-  programPathGetter().node.body.forEach((item: any) => {
+  programPathGetter().node.body.forEach((item: { type: string; source: { value: string; }; }) => {
     if (item.type === "ImportDeclaration" && item.source.value === CORE_PACKAGE_NAME) {
       coreImports.push(item);
     }
@@ -673,7 +678,7 @@ function addImport(name: any) {
 
   let hasImport = false;
   coreImports.forEach((item) => {
-    item.specifiers.forEach((item2: any) => {
+    item.specifiers.forEach((item2: { imported: { name: any; }; }) => {
       if (item2.imported.name === name) {
         hasImport = true;
       }

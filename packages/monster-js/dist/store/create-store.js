@@ -1,4 +1,4 @@
-export function createStore(initialState, actionReducers, connectDevTools = false) {
+export function createStore(initialState, actionReducers) {
     let state = Object.freeze(initialState);
     let changeDetections = [];
     let subscribers = [];
@@ -19,7 +19,7 @@ export function createStore(initialState, actionReducers, connectDevTools = fals
         });
         subscribers = subscribers.filter((subscriber) => subscriber.isConnected());
     };
-    const modifyState = (newState, stateKey, actionName) => {
+    const modifyState = (newState, stateKey) => {
         state = Object.freeze({
             ...state,
             [stateKey]: newState
@@ -31,10 +31,6 @@ export function createStore(initialState, actionReducers, connectDevTools = fals
         });
         changeDetections = changeDetections.filter((changeDetection) => changeDetection.isConnected);
         runSubscribers(stateKey);
-        // Notify DevTools of state changes
-        if (connectDevTools && devtools) {
-            devtools.send({ type: `[${String(stateKey)}] ${actionName}` }, state);
-        }
     };
     const actionReducersStateKeyMap = new WeakMap();
     const actionReducersNameMap = new WeakMap();
@@ -45,18 +41,10 @@ export function createStore(initialState, actionReducers, connectDevTools = fals
             actionReducersNameMap.set(fn, key2);
         });
     });
-    // Redux DevTools setup
-    const devtools = connectDevTools && window.__REDUX_DEVTOOLS_EXTENSION__
-        ? window.__REDUX_DEVTOOLS_EXTENSION__.connect()
-        : null;
-    if (devtools) {
-        devtools.init(initialState);
-    }
     return {
         dispatch: (action, payload = null) => {
             const stateKey = actionReducersStateKeyMap.get(action);
-            const actionName = actionReducersNameMap.get(action);
-            modifyState(action(state[stateKey], payload), stateKey, actionName);
+            modifyState(action(state[stateKey], payload), stateKey);
         },
         select: (fnComponent, selector) => {
             addComponent(fnComponent);

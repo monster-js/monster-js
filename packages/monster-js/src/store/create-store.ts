@@ -4,13 +4,7 @@ import { ActionPayloadType } from "../types/action-payload.type";
 import { ActionReducerType } from "../types/action-reducer.type";
 import { ActionReducersType } from "../types/action-reducers.type";
 
-declare global {
-    interface Window {
-        __REDUX_DEVTOOLS_EXTENSION__: any;
-    }
-}
-
-export function createStore<T>(initialState: T, actionReducers: ActionReducersType<T>, connectDevTools: boolean = false) {
+export function createStore<T>(initialState: T, actionReducers: ActionReducersType<T>) {
 
     let state: T = Object.freeze(initialState);
     let changeDetections: WebComponentInterface[] = [];
@@ -42,7 +36,7 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         subscribers = subscribers.filter((subscriber) => subscriber.isConnected());
     }
 
-    const modifyState = (newState: T[keyof T], stateKey: keyof T, actionName: string) => {
+    const modifyState = (newState: T[keyof T], stateKey: keyof T) => {
         state = Object.freeze({
             ...state,
             [stateKey]: newState
@@ -55,11 +49,6 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         });
         changeDetections = changeDetections.filter((changeDetection) => changeDetection.isConnected);
         runSubscribers(stateKey);
-
-        // Notify DevTools of state changes
-        if (connectDevTools && devtools) {
-            devtools.send({ type: `[${String(stateKey)}] ${actionName}` }, state);
-        }
     }
 
     const actionReducersStateKeyMap = new WeakMap<any, keyof T>();
@@ -73,21 +62,10 @@ export function createStore<T>(initialState: T, actionReducers: ActionReducersTy
         });
     });
 
-    // Redux DevTools setup
-    const devtools =
-        connectDevTools && (window as any).__REDUX_DEVTOOLS_EXTENSION__
-            ? (window as any).__REDUX_DEVTOOLS_EXTENSION__.connect()
-            : null;
-
-    if (devtools) {
-        devtools.init(initialState);
-    }
-
     return {
         dispatch: <A extends ActionReducerType<any, any>>(action: A, payload: ActionPayloadType<A> = null) => {
             const stateKey = actionReducersStateKeyMap.get(action);
-            const actionName = actionReducersNameMap.get(action);
-            modifyState(action(state[stateKey], payload), stateKey, actionName);
+            modifyState(action(state[stateKey], payload), stateKey);
         },
         select: <TT>(fnComponent: any, selector: SelectorObjectInterface) => {
             addComponent(fnComponent);

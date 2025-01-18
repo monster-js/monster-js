@@ -11,11 +11,11 @@ Global styles are defined in the `src/styles.scss` file and are imported into th
 ```ts
 import styles from './styles.scss';
 import { defineComponent, defineStyles } from "monster-js";
-import { App } from "./app/app.component";
+import { AppComponent } from "./app/app.component";
 
 defineStyles([styles]);
 
-defineComponent(App);
+defineComponent(AppComponent);
 ```
 
 ### Adding Additional Global Styles

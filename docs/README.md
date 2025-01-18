@@ -51,7 +51,7 @@ Monster JS is designed to empower developers by combining the versatility of Web
 If you have questions, feedback, or need assistance with Monster JS, feel free to reach out to our team. We’re here to support you in your development journey with Monster JS.
 
 * **Email**: [mfpjayb@gmail.com](mailto:mfpjayb@gmail.com)
-* **Community Forum**: [Monster JS Forum](/)
+* **Community Forum**: [Discord](https://discord.gg/CY28Qq5yWE), [Stack Overflow](https://stackoverflow.com/questions/tagged/monster-js)
 * **Twitter**: [@MonsterJS](/)
 
 ## ❤️ Support Us

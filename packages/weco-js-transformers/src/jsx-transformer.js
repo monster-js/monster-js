@@ -18,6 +18,17 @@ const FN_NAMES = {
   ROUTER_OUTLET: "routerOutlet"
 };
 
+function kebabToCamelCase(str) {
+    return str
+        .split('-') // Split the string into an array of words
+        .map((word, index) =>
+            index === 0
+                ? word.toLowerCase() // Keep the first word lowercase
+                : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize the rest
+        )
+        .join(''); // Join the array back into a string
+}
+
 function generateShortUniqueId() {
   return Math.random().toString(36).substr(2, 8); // Convert to base-36 and take 8 characters
 }
@@ -25,10 +36,10 @@ function generateShortUniqueId() {
 let fileId;
 
 function uniqueId() {
-  return global.__GLOBAL_WECO_ELEMENT_IDS[fileId];
+  return global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId];
 }
 
-const CORE_PACKAGE_NAME = "weco-js";
+const CORE_PACKAGE_NAME = "monster-js";
 
 let programPathGetter;
 
@@ -46,9 +57,9 @@ module.exports = function (babel) {
         const filename = filePath.replace(rootDir, '');
         fileId = _path.basename(filename, _path.extname(filename));
 
-        if (!global.__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
-          global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_WECO_ELEMENT_ID_COUNTER;
-          global.__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
+        if (!global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId]) {
+          global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER;
+          global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER++;
         }
 
       	path.node.body.forEach((node) => {
@@ -324,16 +335,10 @@ function applyProps(node, props) {
       properties: props.map((prop) => {
         return {
           type: "ObjectProperty",
-          key:
-            prop.name.name.name.indexOf("-") > -1
-              ? {
-                  type: "StringLiteral",
-                  value: prop.name.name.name
-                }
-              : {
-                  type: "Identifier",
-                  name: prop.name.name.name
-                },
+          key: {
+            type: "Identifier",
+            name: kebabToCamelCase(prop.name.name.name)
+          },
           value: {
             type: "ArrowFunctionExpression",
             params: [],

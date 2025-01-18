@@ -9,18 +9,18 @@ The `createState` function is used to manage the state within a component. It en
 ## Syntax
 
 ```ts
-const [state, setState] = createState(componentContext, initialValue);
+const [state, setState] = createState(<context>, <initial value>);
 ```
 
-* `componentContext`: The context of the component (typically `this`).
-* `initialValue`: The initial value of the component state.
+* `<context>`: The context of the component (typically `this`).
+* `<initial value>`: The initial value of the component state.
 
 ## Parameters
 
-1. `componentContext`
+1. `<context>`
     * A reference to the component (`this`) where the state is being defined.
     * This allows the state to be bound to the lifecycle and context of the specific component.
-2. `initialValue`
+2. `<initial value>`
     * The starting value for the component state variable.
     * Can be of any type (number, string, object, array, etc.).
 

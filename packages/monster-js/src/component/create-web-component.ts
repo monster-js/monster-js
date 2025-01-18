@@ -22,7 +22,7 @@ export function createWebComponent(renderFunction: () => Element): any {
 
         private _directives: Record<string, any> = {};
 
-        private _triggerAfterConnected: ((...args: any[]) => any)[] = [];
+        private _triggerAfterConnectedInternalCallbacks: ((...args: any[]) => any)[] = [];
 
         private _elementHolder: Element | ShadowRoot = this;
 
@@ -47,11 +47,11 @@ export function createWebComponent(renderFunction: () => Element): any {
         }
 
         public addTriggerAfterConnected(callback: (...args: any[]) => any) {
-            this._triggerAfterConnected.push(callback);
+            this._triggerAfterConnectedInternalCallbacks.push(callback);
         }
 
         public removeTriggerAfterConnected(callback: (...args: any[]) => any) {
-            this._triggerAfterConnected = this._triggerAfterConnected.filter((item) => item === callback);
+            this._triggerAfterConnectedInternalCallbacks = this._triggerAfterConnectedInternalCallbacks.filter((item) => item === callback);
         }
 
         public getDirective(namespace: string) {
@@ -104,7 +104,7 @@ export function createWebComponent(renderFunction: () => Element): any {
             this._appendElement();
 
             this._triggerHooks(LifecycleHooksEnum.connected);
-            this._triggerAfterConnected.forEach((callback) => callback());
+            this._triggerAfterConnectedInternalCallbacks.forEach((callback) => callback());
             this.detectChanges();
             this._triggerHooks(LifecycleHooksEnum.afterViewInit);
         }

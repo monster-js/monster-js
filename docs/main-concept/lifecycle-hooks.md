@@ -24,6 +24,25 @@ In this example:
 
 * The `connected` hook logs "connectedCallback" to the console when the component is attached to the DOM.
 
+### `afterViewInit`
+
+The `afterViewInit` hook runs after the connected hook and after the initial change detection has completed. It is useful for executing logic that depends on the complete rendering of the component's view.
+
+#### Usage
+
+```tsx
+function Component() {
+    afterViewInit(this, () => {
+        console.log('afterViewInit - View is fully initialized');
+    });
+
+    return <h1>Hello world!</h1>;
+}
+```
+
+In this example:
+* The `afterViewInit` hook logs "afterViewInit - View is fully initialized" to the console after the component is attached to the DOM and its view has been rendered and initialized.
+
 ### `disconnected`
 
 The `disconnected` hook runs when the component is removed from the DOM. It functions similarly to the `disconnectedCallback` in native Web Components and is useful for cleanup tasks like removing event listeners or canceling subscriptions.
@@ -145,6 +164,10 @@ function Component() {
         console.log('connectedCallback');
     });
 
+    afterViewInit(this, () => {
+        console.log('afterViewInit - View is fully initialized');
+    });
+
     disconnected(this, () => {
         console.log('disconnectedCallback');
     });
@@ -168,6 +191,7 @@ function Component() {
 In this example:
 
 * The `connected` hook runs when the component is added to the DOM.
+* The `afterViewInit`: hook runs after connected hook and initial change detection.
 * The `disconnected` hook runs when the component is removed from the DOM.
 * The `adopted` hook runs when the component is moved to a new document.
 * The `attributeChanged` hook runs whenever a specified attribute changes.
@@ -178,6 +202,7 @@ In this example:
 Monster JS lifecycle hooks allow you to tap into various stages of a component's lifecycle:
 
 * `connected`: Triggered when the component is connected to the DOM.
+* `afterViewInit`: Triggered after the view has been fully initialized and change detection has run.
 * `disconnected`: Triggered when the component is disconnected from the DOM.
 * `adopted`: Triggered when the component is moved to a different document.
 * `attributeChanged`: Triggered whenever an observed attribute on the component changes.

@@ -6,7 +6,7 @@
 
 Before installing Monster JS, make sure you have the following tools set up on your system:
 
-1. **Node.js**: Monster CLI requires Node.js. Download and install the latest LTS version of Node.js from the [official website](/). You can verify your Node.js installation with:
+1. **Node.js**: Monster CLI requires Node.js. Download and install the latest LTS version of Node.js from the [official website](https://nodejs.org). You can verify your Node.js installation with:
 
 ```bash
 node -v
@@ -30,7 +30,7 @@ Once you have these prerequisites installed, you’re ready to set up Monster JS
 
 ## Step 1: Install the Monster CLI
 
-The **Monster CLI** can be installed globally on your system via npm or yarn, allowing you to manage Monster projects efficiently.
+The **Monster CLI** can be installed globally on your system via npm or yarn, allowing you to manage Monster JS projects efficiently.
 
 ### Installation with npm
 
@@ -92,7 +92,7 @@ Now that you’re inside your project directory, you can start the development s
 mn serve
 ```
 
-This command will start a local development server, usually accessible at `http://localhost:3000`. You can view and interact with your Monster JS project in your browser, with automatic reloading on changes.
+This command will start a local development server, usually accessible at `http://localhost:4000`. You can view and interact with your Monster JS project in your browser, with automatic reloading on changes.
 
 ## Step 6: Building for Production
 
@@ -110,6 +110,6 @@ Congratulations! You’ve set up Monster JS and created your first project. Here
 
 * **Explore the Project Structure**: Familiarize yourself with the scaffolded files and directories.
 * **Create Components**: Start building components to see Monster JS’s reactive and efficient UI updating in action.
-* **Review the CLI Documentation**: Check out the full list of CLI commands and features in the [Monster CLI Documentation](/) to learn more.
+* **Review the CLI Documentation**: Check out the full list of CLI commands and features in the [Monster CLI Documentation](/cli/what-is-monster-js-cli) to learn more.
 
 With this setup, you’re ready to dive deeper into Monster JS and take advantage of its powerful, lightweight component system.

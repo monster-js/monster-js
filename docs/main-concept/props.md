@@ -7,10 +7,10 @@ In Monster JS, **props** are a way to pass any data type from a parent component
 To pass props to a child component, you can use the following syntax in the parent component’s JSX:
 
 ```tsx
-<Counter prop:count={count()} />
+<CounterComponent prop:count={count()} />
 ```
 
-In this example, `count()` is a reactive state variable defined in the parent component, and `prop:count` is the prop being passed to the `Counter` child component.
+In this example, `count()` is a reactive state variable defined in the parent component, and `prop:count` is the prop being passed to the `CounterComponent` child component.
 
 ### Example: Using Props
 
@@ -18,10 +18,10 @@ Here’s a complete example demonstrating how to use props in Monster JS.
 
 #### Step 1: Parent Component
 
-In the parent component, you manage a count state variable and pass it to the `Counter` child component.
+In the parent component, you manage a count state variable and pass it to the `CounterComponent` child component.
 
 ```tsx
-function App() {
+function AppComponent() {
     const [count, setCount] = createState(this, 0);
     const [status, setStatus] = createState(this, 'active');
 
@@ -37,7 +37,7 @@ function App() {
         <div>
             <button on:click={incrementCount()}>Increase Count</button>
             <button on:click={toggleStatus()}>Toggle Status</button>
-            <Counter prop:count={count()} prop:status={status()} />
+            <CounterComponent prop:count={count()} prop:status={status()} />
         </div>
     );
 }
@@ -47,7 +47,7 @@ In this setup(for count state):
 
 * `createState(this, 0)` initializes the count state variable in the parent component.
 * The `incrementCount` function increments the count when the button is clicked.
-* The `Counter` component receives the current count value as a prop using `prop:count={count()}`.
+* The `CounterComponent` component receives the current count value as a prop using `prop:count={count()}`.
 
 #### Step 2: Child Component
 
@@ -78,22 +78,20 @@ function Counter() {
     const count = createProp(this, 'count');
     const status = createProp(this, 'status');
 
-    return (
-        <div>
-            Count: {count()}
-            <br />
-            Status: {status()}
-        </div>
-    );
+    return <div>
+        Count: {count()}
+        <br />
+        Status: {status()}
+    </div>
 }
 ```
 
 ## Key Points
 
-* **Syntax**: Use the `prop:` prefix to pass props from the parent component to the child component.
+* **Syntax**: Use the `prop:` prefix to pass properties from the parent component to the child component.
 * **Accessing Props**:
     * Use `createProps(this)` to retrieve all props as an object.
-    * Use `createProp(this, 'prop-name')` to access a specific prop directly.
+    * Use `createProp(this, <property name>)` to access a specific property directly.
 * **Reactive Updates**: If the parent’s state changes, the child component will automatically reflect those changes in the displayed props due to Monster JS’s reactive nature.
 
 ## Benefits of Using Props

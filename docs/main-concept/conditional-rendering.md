@@ -11,7 +11,7 @@ Monster JS provides a `v:if` directive that allows you to conditionally render H
 ### Example:
 
 ```tsx
-function Button() {
+function ButtonComponent() {
     const [show, setShow] = createState(this, true); // Create a state variable 'show' initialized to true
 
     return <div>

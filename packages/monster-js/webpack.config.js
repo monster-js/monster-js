@@ -9,7 +9,7 @@ module.exports = {
     globalObject: 'this', // Fixes an issue for UMD in the browser
   },
   resolve: {
-    extensions: ['.ts'],
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [

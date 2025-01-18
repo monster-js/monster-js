@@ -1,6 +1,6 @@
 {
-  "name": "weco-js-transformers",
-  "version": "0.0.61",
+  "name": "monster-js-transformers",
+  "version": "0.0.2",
   "main": "src/jsx-transformer.js",
   "scripts": {
     "build": "",

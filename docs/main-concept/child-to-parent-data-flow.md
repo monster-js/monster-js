@@ -22,7 +22,7 @@ function ParentComponent() {
 
     return (
         <div>
-            <ChildComponent prop:onUpdateMessage={handleMessageUpdate} />
+            <ChildComponent prop:on-update-message={handleMessageUpdate} />
             <p>Message from child: {message()}</p>
         </div>
     );
@@ -31,7 +31,7 @@ function ParentComponent() {
 
 In this example:
 
-* `handleMessageUpdate` is the callback function passed to the child component via the `prop:onUpdateMessage` prop.
+* `handleMessageUpdate` is the callback function passed to the child component via the `prop:on-update-message` prop.
 * `setMessage` updates the parent’s state with data received from the child.
 
 ### Child Component
@@ -52,7 +52,7 @@ function ChildComponent() {
 
 In this example:
 
-* The child component uses `props().onUpdateMessage` to access the `onUpdateMessage` prop and calls it with `"Hello from Child!"` as the argument, passing data back to the parent.
+* The child component uses `props().onUpdateMessage` to access the `prop:on-update-message` prop and calls it with `"Hello from Child!"` as the argument, passing data back to the parent.
 
 ## Summary
 

@@ -30,25 +30,39 @@ This will create a new project with a default structure, including the following
 * `package.json`: Defines the dependencies and scripts for your project.
 * `index.html`: The HTML template for your application.
 * `.gitignore`: Git ignore file.
+* `monster.json`: Configuration file for the Monster JS application.
 * `src/main.ts`: The entry point for your app.
+* `src/styles.scss`: Global styles for your application.
+* `src/types.d.ts`: Type definitions for your project, allowing you to define custom types and interfaces.
 * `src/app/app.component.tsx`: The root component of your app.
+* `src/app/app.component.scss`: Styles specific to the root component of your app.
 
 ### Step 3: Project Structure Overview
 
 The generated `main.ts` will look like this:
 
 ```ts
-import { defineComponent } from "monster-js";
-import { App } from "./app/app.component";
+import styles from './styles.scss';
+import { defineComponent, defineStyles } from "monster-js";
+import { AppComponent } from "./app/app.component";
 
-defineComponent(App);
+defineStyles([styles]);
+
+defineComponent(AppComponent);
 ```
 
-The `App` component in app.component.tsx will look like this:
+The `AppComponent` component in app.component.tsx will look like this:
 ```tsx
-export function App() {
+import styles from './app.component.scss';
+import { component } from "monster-js";
+
+export function AppComponent() {
     return <h1>Monster JS App</h1>;
 }
+
+component(AppComponent, {
+    selector: 'app-root'
+}, styles);
 ```
 
 ### Step 4: Run the Development Server
@@ -71,12 +85,12 @@ mn build --mode production
 
 ### Step 6: Define a Component
 
-In Monster JS, components are functions that define the structure of your UI and manage state. Here’s how to define a simple **Counter** component with state:
+In Monster JS, components are functions that define the structure of your UI and manage state. Here’s how to define a simple **CounterComponent** component with state:
 
 ```tsx
-import { createState } from 'monster-js';
+import { createState, component } from 'monster-js';
 
-export function Counter() {
+export function CounterComponent() {
     const [count, setCount] = createState(this, 0); // Define component state
 
     return <div>
@@ -84,27 +98,31 @@ export function Counter() {
         <button on:click={setCount(count() + 1)}>Increase</button>
     </div>
 }
+
+component(CounterComponent, {
+    selector: 'app-counter'
+});
 ```
 
-In the above example, `createState` is used to create a reactive state for the `count`. Every time `count()` is updated, the UI will automatically re-render to reflect the new state.
+In the above example, `createState` is used to create a reactive state for the `count`. Every time `count()` is updated, watchers automatically detect the change and update the UI to reflect the new state
 
 ### Step 7: Reactive Binding with Watchers
 
-Monster JS uses reactive state with automatic updates. The example above already shows how the `Counter` component updates when the state changes. The UI reacts immediately when `setCount` is called to update the state.
+Monster JS uses reactive state with automatic updates. The example above already shows how the `CounterComponent` component updates when the state changes. The UI reacts immediately when `setCount` is called to update the state.
 
 ### Step 8: Lifecycle Hooks
 
-Components in Monster JS support lifecycle hooks, which let you run code when a component is mounted or unmounted.
+Components in Monster JS support lifecycle hooks, allowing you to execute code when a component is connected, disconnected, attributes are changed, and more.
 
 For example, you can use `connected` and `disconnected` hooks to manage side effects like timers:
 
 ```tsx
-import { createState, connected, disconnected } from 'monster-js';
+import { component, createState, connected, disconnected } from 'monster-js';
 
-export function Timer() {
-    const [time, setTime] = createState(this, 0);
+export function TimerComponent() {
 
     let interval;
+    const [time, setTime] = createState(this, 0);
 
     // Lifecycle hook to start timer when component mounts
     connected(this, () => {
@@ -118,50 +136,109 @@ export function Timer() {
 
     return <h1>Elapsed Time: {time()} seconds</h1>;
 }
+
+component(TimerComponent, {
+    selector: 'app-timer'
+});
 ```
 
 In this example, the `connected` hook starts the timer when the component mounts, and the `disconnected` hook clears the interval when the component unmounts.
+
+However, the `connected` hook is not required in this case because the interval can be set up directly when the component is initialized. The connected hook is only necessary if you need to run a function specifically when the component is already connected to the DOM.
+
+Here’s the same example without using the `connected` hook:
+
+```tsx
+import { component, createState, disconnected } from 'monster-js';
+
+export function TimerComponent() {
+
+    const [time, setTime] = createState(this, 0);
+
+    // Start the timer directly
+    const interval = setInterval(() => {
+        setTime(time() + 1);
+    }, 1000);
+
+    // Lifecycle hook to clean up when component unmounts
+    disconnected(this, () => clearInterval(interval));
+
+    return <h1>Elapsed Time: {time()} seconds</h1>;
+}
+
+component(TimerComponent, {
+    selector: 'app-timer'
+});
+```
+
+This approach works perfectly fine since the timer setup does not depend on the component being connected to the DOM. Use the `connected` hook only when specific logic must run after the component is connected.
 
 ### Step 9: Shared State Across Components
 
 Monster JS allows you to share state across multiple components using `createSharedState`. This is useful when you need to maintain shared data that updates in real-time across different parts of your application.
 
-#### shared-state.ts
+#### Example Implementation
 
+##### 1. Define the Shared State
+
+The shared state is defined in a separate file so it can be imported and used in multiple components.
+
+##### shared-state.ts
 ```ts
 import { createSharedState } from 'monster-js';
 
 export const countSharedState = createSharedState(0);
 ```
 
-#### display-count.component.tsx
+* **Explanation**: The `createSharedState` function initializes a reactive state with a value of `0` that can be shared across components.
+
+##### 2. Display the Shared State
+
+Create a component to display the current value of the shared state.
+
+##### display-count.component.tsx
 
 ```tsx
+import { component } from 'monster-js';
 import { countSharedState } from './shared-state';
 
-export function DisplayCount() {
+export function DisplayCountComponent() {
     const [count] = countSharedState(this);
-    return <h2>Shared Count: {count()}</h2>;
+
+    return <h2>Shared Count: {count()}</h2>
 }
+
+component(DisplayCountComponent, {
+    selector: 'app-display-count',
+});
 ```
 
-#### update-count-button.component.tsx
+##### 3. Update the Shared State
+
+Create another component with a button to update the shared state.
+
+##### update-count-button.component.tsx
 
 ```tsx
+import { component } from 'monster-js';
 import { countSharedState } from './shared-state';
 
 export function UpdateCountButton() {
     const [count, setCount] = countSharedState(this);
 
-    return <button on:click={setCount(count() + 1)>Increase Shared Count</button>;
+    return <button on:click={setCount(count() + 1)}>Increase Shared Count</button>
 }
+
+component(UpdateCountButton, {
+    selector: 'app-update-count',
+});
 ```
 
 ### Step 10: Using Props in Components
 
-You can pass props to your components as function parameters. This allows you to create reusable components with dynamic data.
+You can also pass props to your components. This allows you to create reusable components with dynamic data.
 
-#### greeting.component.tsx
+##### greeting.component.tsx
 
 ```tsx
 export function Greeting() {
@@ -171,12 +248,12 @@ export function Greeting() {
 }
 ```
 
-#### app.component.tsx
+##### app.component.tsx
 
 ```tsx
 import { Greeting } from './greeting.component';
 
-export function App() {
+export function AppComponent() {
     return (
         <div>
             <Greeting prop:name="John" />

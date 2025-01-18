@@ -25,6 +25,8 @@ component(ButtonComponent, {
 
 * `selector`: Defines the custom element name (e.g., `<app-button>`).
 * `shadowMode`: Determines the type of Shadow DOM. Set to `'open'` to allow external access to the shadow root.
+* If no `shadowMode` is provided, the component will not be a Shadow DOM component by default.
+
 
 When the component is rendered, its structure and behavior are encapsulated inside the Shadow DOM, ensuring isolation from the global DOM.
 
@@ -50,7 +52,7 @@ component(ButtonComponent, {
 
 ### Explanation
 
-* `styles`: Imported CSS or SCSS file.
+* `styles`: Imported SCSS file.
 * The provided styles are encapsulated in the Shadow DOM, ensuring they do not affect or get affected by the global styles.
 
 ## Content Projection
@@ -67,12 +69,10 @@ You can use a `<slot>` element to project content from the light DOM into the Sh
 import { component } from 'monster-js';
 
 export function CardComponent() {
-    return (
-        <div>
-            <h1>CardComponent</h1>
-            <slot></slot>
-        </div>
-    );
+    return <div>
+        <h1>CardComponent</h1>
+        <slot></slot>
+    </div>
 }
 
 component(CardComponent, {

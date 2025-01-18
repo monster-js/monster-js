@@ -18,6 +18,17 @@ const FN_NAMES = {
   ROUTER_OUTLET: "routerOutlet"
 };
 
+function kebabToCamelCase(str) {
+    return str
+        .split('-') // Split the string into an array of words
+        .map((word, index) =>
+            index === 0
+                ? word.toLowerCase() // Keep the first word lowercase
+                : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize the rest
+        )
+        .join(''); // Join the array back into a string
+}
+
 function generateShortUniqueId() {
   return Math.random().toString(36).substr(2, 8); // Convert to base-36 and take 8 characters
 }
@@ -324,16 +335,10 @@ function applyProps(node, props) {
       properties: props.map((prop) => {
         return {
           type: "ObjectProperty",
-          key:
-            prop.name.name.name.indexOf("-") > -1
-              ? {
-                  type: "StringLiteral",
-                  value: prop.name.name.name
-                }
-              : {
-                  type: "Identifier",
-                  name: prop.name.name.name
-                },
+          key: {
+            type: "Identifier",
+            name: kebabToCamelCase(prop.name.name.name)
+          },
           value: {
             type: "ArrowFunctionExpression",
             params: [],
