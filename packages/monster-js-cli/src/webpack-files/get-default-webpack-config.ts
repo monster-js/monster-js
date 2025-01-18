@@ -44,8 +44,8 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                                 require.resolve('@babel/preset-typescript')
                             ],
                             plugins: [
-                                // path.join(__dirname, './jsx-transformer.js'),
-                                require.resolve('monster-js-transformers')
+                                path.join(__dirname, './jsx-transformer.js'),
+                                // require.resolve('monster-js-transformers')
                             ],
                             compact: false,
                         },

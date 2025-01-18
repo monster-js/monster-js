@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = default_1;
 const fs = require('fs');
 const _path = require('path');
 const sass = require('sass');
@@ -33,11 +31,11 @@ function generateShortUniqueId() {
 }
 let fileId;
 function uniqueId() {
-    return global.__GLOBAL_WECO_ELEMENT_IDS[fileId];
+    return global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId];
 }
-const CORE_PACKAGE_NAME = "weco-js";
+const CORE_PACKAGE_NAME = "monster-js";
 let programPathGetter;
-function default_1(babel) {
+module.exports = function (babel) {
     const { types: t } = babel;
     return {
         name: "ast-transform", // not required
@@ -48,9 +46,9 @@ function default_1(babel) {
                 const rootDir = state.file.opts.root || '';
                 const filename = filePath.replace(rootDir, '');
                 fileId = _path.basename(filename, _path.extname(filename));
-                if (!global.__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
-                    global.__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_WECO_ELEMENT_ID_COUNTER;
-                    global.__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
+                if (!global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId]) {
+                    global.__GLOBAL_MONSTER_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER;
+                    global.__GLOBAL_MONSTER_ELEMENT_ID_COUNTER++;
                 }
                 path.node.body.forEach((node) => {
                     if (node.type === 'ExpressionStatement'
@@ -180,8 +178,7 @@ function default_1(babel) {
             }
         }
     };
-}
-;
+};
 function applyRouterOutlet(path) {
     const component = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "component");
     const routerPath = path.node.openingElement.attributes.find((attribute) => attribute.name.name === "path");

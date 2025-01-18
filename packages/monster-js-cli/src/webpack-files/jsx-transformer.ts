@@ -21,7 +21,7 @@ const FN_NAMES = {
 function kebabToCamelCase(str: string) {
     return str
         .split('-') // Split the string into an array of words
-        .map((word, index) =>
+        .map((word: string, index: number) =>
             index === 0
                 ? word.toLowerCase() // Keep the first word lowercase
                 : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize the rest
@@ -33,23 +33,23 @@ function generateShortUniqueId() {
   return Math.random().toString(36).substr(2, 8); // Convert to base-36 and take 8 characters
 }
 
-let fileId: string;
+let fileId: string | number;
 
 function uniqueId() {
-  return (global as any).__GLOBAL_WECO_ELEMENT_IDS[fileId];
+  return (global as any).__GLOBAL_MONSTER_ELEMENT_IDS[fileId];
 }
 
-const CORE_PACKAGE_NAME = "weco-js";
+const CORE_PACKAGE_NAME = "monster-js";
 
 let programPathGetter: () => any;
 
-export default function (babel: any) {
+module.exports = function (babel: { types: any; }) {
   const { types: t } = babel;
 
   return {
     name: "ast-transform", // not required
     visitor: {
-      Program(path: any, state: any) {
+      Program(path: { node: { body: any[]; }; }, state: { file: { opts: { filename: string; root: string; }; }; }) {
         programPathGetter = () => path;
 
         const filePath = state.file.opts.filename || '';
@@ -57,22 +57,22 @@ export default function (babel: any) {
         const filename = filePath.replace(rootDir, '');
         fileId = _path.basename(filename, _path.extname(filename));
 
-        if (!(global as any).__GLOBAL_WECO_ELEMENT_IDS[fileId]) {
-          (global as any).__GLOBAL_WECO_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + (global as any).__GLOBAL_WECO_ELEMENT_ID_COUNTER;
-          (global as any).__GLOBAL_WECO_ELEMENT_ID_COUNTER++;
+        if (!(global as any).__GLOBAL_MONSTER_ELEMENT_IDS[fileId]) {
+          (global as any).__GLOBAL_MONSTER_ELEMENT_IDS[fileId] = 'w' + generateShortUniqueId() + (global as any).__GLOBAL_MONSTER_ELEMENT_ID_COUNTER;
+          (global as any).__GLOBAL_MONSTER_ELEMENT_ID_COUNTER++;
         }
 
-      	path.node.body.forEach((node: any) => {
+      	path.node.body.forEach((node: { type: string; expression: { type: string; callee: { type: string; name: string; }; arguments: { type: string; value: any; }[]; }; }) => {
           if(
             node.type === 'ExpressionStatement'
             && node.expression.type === 'CallExpression'
             && node.expression.callee.type === 'Identifier'
             && node.expression.callee.name === 'component'
           ) {
-            const componentConfig = node.expression.arguments[1];
+            const componentConfig: any = node.expression.arguments[1];
             let isShadowDom = false;
             if (t.isObjectExpression(componentConfig)) {
-              componentConfig.properties.forEach((prop: any) => {
+              componentConfig.properties.forEach((prop: { key: { type: string; name: string; }; value: { type: string; value: string; }; }) => {
               	if (
                   prop.key.type === 'Identifier'
                   && prop.key.name === 'shadowMode'
@@ -103,7 +103,7 @@ export default function (babel: any) {
         });
 
       },
-      JSXText(path: any) {
+      JSXText(path: { node: any; }) {
         const { node } = path;
         addImport(FN_NAMES.CREATE_TEXT_NODE);
         node.type = "CallExpression";
@@ -118,9 +118,9 @@ export default function (babel: any) {
           }
         ];
       },
-      JSXElement(path: any) {
+      JSXElement(path: { traverse?: any; node?: any; }) {
         path.traverse({
-          JSXExpressionContainer(path2: any) {
+          JSXExpressionContainer(path2: { node: { expression: { type: string; }; }; remove: () => void; }) {
             if (path2.node.expression.type === "JSXEmptyExpression") {
               path2.remove();
             }
@@ -130,7 +130,7 @@ export default function (babel: any) {
         const tagName = node.openingElement.name.name;
         let isComponent = tagName[0] === tagName[0].toUpperCase();
         const staticAttributes = node.openingElement.attributes.filter(
-          (attribute: any) =>
+          (attribute: { value: { type: string; } | null; name: { type: string; }; }) =>
             (attribute.value &&
             attribute.value.type === "StringLiteral" &&
             attribute.name.type === "JSXIdentifier") || (attribute.value === null &&
@@ -205,10 +205,10 @@ export default function (babel: any) {
         }
         
         if (node.openingElement.name.name === "router-outlet") {
-          applyRouterOutlet(path);
+          applyRouterOutlet(path as any);
           return;
         } else if (node.openingElement.name.name === "element-outlet") {
-          applyElementOutlet(path);
+          applyElementOutlet(path as any);
           return;
         } else if (isComponent) {
           applyCreateComponent(node);
@@ -332,7 +332,7 @@ function applyProps(node: { type: string; callee: { type: string; name: string; 
     originalNode,
     {
       type: "ObjectExpression",
-      properties: props.map((prop: { name: { name: { name: string; }; }; value: { expression: any; }; }) => {
+      properties: props.map((prop: { name: { name: { name: any; }; }; value: { expression: any; }; }) => {
         return {
           type: "ObjectProperty",
           key: {

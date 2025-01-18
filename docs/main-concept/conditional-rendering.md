@@ -2,7 +2,7 @@
 
 In the Monster JS framework, conditional rendering allows you to dynamically show or hide elements in your component's UI based on the evaluation of a condition. This is particularly useful for building interactive user interfaces where certain elements are shown or hidden based on user actions or the state of the application.
 
-This guide will explain how to implement conditional rendering using Monster JS's `v:if` directive and state management via the `createState` function.
+This guide will explain how to implement conditional rendering using Monster JS's `v:if` directive.
 
 ## Syntax for Conditional Rendering
 
@@ -12,11 +12,11 @@ Monster JS provides a `v:if` directive that allows you to conditionally render H
 
 ```tsx
 function ButtonComponent() {
-    const [show, setShow] = createState(this, true); // Create a state variable 'show' initialized to true
+    const [show, setShow] = createState(this, true);
 
     return <div>
         <button on:click={setShow(!show())}>Show Message</button>
-        <p v:if={show()}>Hello world!</p> <!-- Conditionally render the paragraph based on 'show' -->
+        <p v:if={show()}>Hello world!</p>
     </div>
 }
 ```
@@ -27,9 +27,9 @@ function ButtonComponent() {
     * `setShow` is a function that updates the `show` state. In this case, it toggles the value of `show` when the button is clicked.
 2. **Button Click Event**:
     * `<button on:click={setShow(!show())}>` sets up an event listener for the button. When the button is clicked, it toggles the value of `show`. If `show` is `true`, it becomes `false`, and vice versa.
-3. **Conditional Rendering (v:if)**:
+3. **Conditional Rendering (`v:if`)**:
     * The `<p v:if={show()}>Hello world!</p>` element is conditionally rendered based on the value of `show`.
-    * When `show` is `true`, the paragraph with the text "Hello world!" is rendered in the DOM.
+    * When `show` is `true`, the paragraph with the text `"Hello world!"` is rendered in the DOM.
     * When `show` is `false`, the paragraph is not rendered, and it is removed from the DOM.
 
 ### Detailed Steps:
@@ -45,10 +45,10 @@ const [state, setState] = createState(this, initialValue);
 * `setState`: A function to update the state value.
 * `initialValue`: The initial value of the state (can be `true`, `false`, or any value that determines the rendering condition).
 
-2. **Use v:if Directive**: Use the `v:if` directive to conditionally display HTML elements in your component's return statement.
+2. **Use `v:if` Directive**: Use the `v:if` directive to conditionally display HTML elements in your component's return statement.
 
 ```tsx
-<element v:if={condition}>Content</element>
+<span v:if={condition}>Content</span>
 ```
 
 * `v:if`: The directive used for conditional rendering.
@@ -57,7 +57,7 @@ const [state, setState] = createState(this, initialValue);
 3. **Toggle Rendering**: The `setState` function is used to change the condition for rendering, often in response to user actions, such as clicking a button.
 
 ```tsx
-<button on:click={setShow(!show())}>Toggle Element</button>
+<button on:click={setState(!state())}>Toggle Element</button>
 ```
 
 ## Example of Conditional Rendering with Multiple Elements
