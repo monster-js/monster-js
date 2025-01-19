@@ -20,7 +20,7 @@ function ButtonAttrBinding() {
 
 * **State Initialization**: The `createState(this, 0)` function initializes the `count` state variable with a value of `0`.
 * **Dynamic Attribute Binding**: The `id` attribute of the `<button>` element is dynamically set to `'count-' + count()`. Each time the button is clicked, `count` increments, updating the `id` with the new value (e.g., `count-1`, `count-2`, etc.).
-* **Event Binding**: The `on:click` attribute is used to attach an event handler that triggers the `onClick` function. This function increments `count` and updates the `id` accordingly.
+* **Event Binding**: The `on:click` attribute is used to attach an event handler that triggers the `setCount(count() + 1)` function call. This function call increments `count` and updates the `id` accordingly.
 
 ## Binding Multiple Attributes
 
