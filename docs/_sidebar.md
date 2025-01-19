@@ -16,6 +16,7 @@
     - [Conditional rendering](main-concept/conditional-rendering.md)
     - [List rendering](main-concept/list-rendering.md)
     - [Data binding](main-concept/data-binding.md)
+    - [Model binding](main-concept/model-binding.md)
     - [Attribute binding](main-concept/attribute-binding.md)
 - Event Handling and Interaction
     - [Event handling](main-concept/event-handling.md)

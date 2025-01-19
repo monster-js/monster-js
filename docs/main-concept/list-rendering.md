@@ -13,7 +13,7 @@ By default, the `v:for` directive provides two variables: `$item` for the curren
 ```tsx
 function ListComponent() {
     return <ul>
-        <li v:for="[1,2,3]">Item value: {$item}, Item index: {$index}</li>
+        <li v:for={[1,2,3]}>Item value: {$item}, Item index: {$index}</li>
     </ul>
 }
 ```
@@ -24,16 +24,33 @@ In this example:
 * `$item` represents the current item in the array, and `$index` represents the current index.
 * Each `<li>` element displays the item and its index.
 
+## Handling Undefined Variables
+
+If you encounter an error related to undefined variables (e.g., `$item` or `$index` not being defined), you may need to explicitly declare these variables at the top of the component function using `declare`. This can happen due to TypeScript's type checking or if the variables are not recognized in certain contexts.
+
+### Declaring Default Item and Index Variables
+
+```tsx
+declare const $item: any;
+declare const $index: number;
+
+function ListComponent() {
+    return <ul>
+        <li v:for={[1,2,3]}>Item value: {$item}, Item index: {$index}</li>
+    </ul>
+}
+```
+
 ## Customizing Item and Index Variable Names
 
-You can customize the names of the `$item` and `$index` variables using `v:for-item` and `v:for-index` attributes. This allows you to define more descriptive variable names if needed.
+You can customize the names of the `$item` and `$index` variables using `v:for-item` and `v:for-index` directives. This allows you to define more descriptive variable names if needed.
 
 ### Example with Custom Variable Names
 
 ```tsx
 function ListComponent() {
     return <ul>
-        <li v:for="[1,2,3]" v:for-item="listItem" v:for-index="listIndex">Item value: {listItem}, Item index: {listIndex}</li>
+        <li v:for={[1,2,3]} v:for-item="listItem" v:for-index="listIndex">Item value: {listItem}, Item index: {listIndex}</li>
     </ul>
 }
 ```
@@ -43,6 +60,21 @@ In this example:
 * `v:for-item="listItem"` sets the current item to `listItem`.
 * `v:for-index="listIndex"` sets the current index to `listIndex`.
 * Each `<li>` displays the item and index using these custom variable names.
+
+### Declaring Custom Item and Index Variables
+
+If using custom names for the item and index, declare them as follows:
+
+```tsx
+declare const listItem: any;
+declare const listIndex: number;
+
+function ListComponent() {
+    return <ul>
+        <li v:for={[1,2,3]} v:for-item="listItem" v:for-index="listIndex">Item value: {listItem}, Item index: {listIndex}</li>
+    </ul>
+}
+```
 
 ## Adding Track By Functionality
 
@@ -75,38 +107,6 @@ If no `v:for-track-by` is provided, the framework will default to tracking items
 ### Benefits of Using `v:for-track-by`
 * Avoids unnecessary re-rendering of list items when their order or content changes.
 * Ensures better performance, especially for large lists.
-
-## Handling Undefined Variables
-
-If you encounter an error related to undefined variables (e.g., `$item` or `$index` not being defined), you may need to explicitly declare these variables at the top of the component function using `declare`. This can happen due to TypeScript's type checking or if the variables are not recognized in certain contexts.
-
-### Declaring Default Item and Index Variables
-
-```tsx
-declare const $item: any;
-declare const $index: number;
-
-function ListComponent() {
-    return <ul>
-        <li v:for="[1,2,3]">Item value: {$item}, Item index: {$index}</li>
-    </ul>
-}
-```
-
-### Declaring Custom Item and Index Variables
-
-If using custom names for the item and index, declare them as follows:
-
-```tsx
-declare const listItem: any;
-declare const listIndex: number;
-
-function ListComponent() {
-    return <ul>
-        <li v:for="[1,2,3]" v:for-item="listItem" v:for-index="listIndex">Item value: {listItem}, Item index: {listIndex}</li>
-    </ul>
-}
-```
 
 ## Summary
 
