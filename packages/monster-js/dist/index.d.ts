@@ -24,6 +24,7 @@ export { forLoop } from './template-engine/for-loop';
 export { applyProps } from './template-engine/apply-props';
 export { component } from './template-engine/component';
 export { applyDirectives } from './template-engine/apply-directives';
+export { bindModel } from './template-engine/bind-model';
 export { createProp } from './props/create-prop';
 export { createProps } from './props/create-props';
 export { directive } from './directives/directive';

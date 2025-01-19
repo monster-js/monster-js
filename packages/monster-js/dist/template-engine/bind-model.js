@@ -1,36 +1,33 @@
-import { WatcherInterface } from "../interfaces/watcher.interface";
-import { WebComponentInterface } from "../interfaces/web-component.interface";
 import { setAttribute } from "./set-attribute";
-
-export function bindModel(classComponent: any, model: [() => any, (value: any) => void], element: Element): Element {
-    const instance: WebComponentInterface = classComponent;
-
+export function bindModel(classComponent, model, element) {
+    const instance = classComponent;
     const [valueGetter, valueSetter] = model;
     const type = element.getAttribute('type') || 'text';
-
     if (element.localName === 'input' || element.localName === 'textarea') {
         const onInputTypes = ['text', 'password', 'email', 'search', 'tel', 'url', 'number', 'range', 'date', 'datetime-local', 'month', 'time', 'week', 'color', 'checkbox', 'radio', 'file'];
-
         if (onInputTypes.includes(type)) {
             element.addEventListener('input', (event) => {
                 if (type === 'checkbox') {
-                    valueSetter((event.target as any).checked);
-                } else {
-                    valueSetter((event.target as any).value);
+                    valueSetter(event.target.checked);
+                }
+                else {
+                    valueSetter(event.target.value);
                 }
             });
-        } else {
+        }
+        else {
             return element;
         }
-    } else if (element.localName === 'select') {
+    }
+    else if (element.localName === 'select') {
         element.addEventListener('input', (event) => {
-            valueSetter((event.target as any).value);
+            valueSetter(event.target.value);
         });
-    } else {
+    }
+    else {
         return element;
     }
-
-    const changeDetection: WatcherInterface = {
+    const changeDetection = {
         hasChanges: false,
         value: undefined,
         getIsConnected: () => element.isConnected,
@@ -39,22 +36,24 @@ export function bindModel(classComponent: any, model: [() => any, (value: any) =
             if (changeDetection.value !== newValue) {
                 changeDetection.value = newValue;
                 changeDetection.hasChanges = true;
-            } else {
+            }
+            else {
                 changeDetection.hasChanges = false;
             }
         },
-        handlerChange: (value: any) => {
+        handlerChange: (value) => {
             if (type === 'radio') {
-                (element as any).checked = value === (element as any).value;
-            } else if (type === 'checkbox') {
-                (element as any).checked = value;
-            } else {
+                element.checked = value === element.value;
+            }
+            else if (type === 'checkbox') {
+                element.checked = value;
+            }
+            else {
                 setAttribute(element, 'value', value);
             }
         }
     };
-
     instance.addWatcher(changeDetection);
-
     return element;
 }
+//# sourceMappingURL=bind-model.js.map

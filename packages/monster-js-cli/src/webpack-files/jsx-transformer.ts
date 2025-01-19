@@ -10,6 +10,7 @@ const FN_NAMES = {
   APPEND_CHILDREN: "appendChildren",
   CREATE_TEXT_NODE: "createTextNode",
   BIND_TEXT_NODE: "bindTextNode",
+  BIND_MODEL: "bindModel",
   BIND_ATTRIBUTES: "bindAttributes",
   IF_CONDITION: "ifCondition",
   FOR_LOOP: "forLoop",
@@ -150,6 +151,12 @@ module.exports = function (babel: { types: any; }) {
           (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "on"
         );
+        const viewModel = node.openingElement.attributes.find(
+          (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
+            attribute.name.type === "JSXNamespacedName" &&
+            attribute.name.namespace.name === "v" &&
+            attribute.name.name.name === "model"
+        );
         const ifCondition = node.openingElement.attributes.find(
           (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
@@ -223,6 +230,7 @@ module.exports = function (babel: { types: any; }) {
         applyChildren(children, node);
         applyBindAttributes(bindAttributes, node);
         applyDirectives(node, directives);
+        applyViewModel(node, viewModel);
         applyIfCondition(ifCondition, node);
         applyForCondition(forLoop, forLoopItem, forLoopIndex, forLoopTrackBy, path);
       }
@@ -583,6 +591,25 @@ function applyChildren(children: any[], node: { type: string; callee: { type: st
           return child;
         })
       }
+    ];
+  }
+}
+
+function applyViewModel(node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }, viewModel: { value: { expression: any; }; }) {
+  if (viewModel) {
+    addImport(FN_NAMES.BIND_MODEL);
+    const originalNode = { ...node };
+    node.type = "CallExpression";
+    node.callee = {
+      type: "Identifier",
+      name: FN_NAMES.BIND_MODEL
+    };
+    node.arguments = [
+      {
+        type: "ThisExpression"
+      },
+      viewModel.value.expression,
+      originalNode
     ];
   }
 }

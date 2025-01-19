@@ -9,6 +9,7 @@ declare const FN_NAMES: {
     APPEND_CHILDREN: string;
     CREATE_TEXT_NODE: string;
     BIND_TEXT_NODE: string;
+    BIND_MODEL: string;
     BIND_ATTRIBUTES: string;
     IF_CONDITION: string;
     FOR_LOOP: string;
@@ -135,6 +136,18 @@ declare function applyChildren(children: any[], node: {
         name: string;
     };
     arguments: any[];
+}): void;
+declare function applyViewModel(node: {
+    type: string;
+    callee: {
+        type: string;
+        name: string;
+    };
+    arguments: any[];
+}, viewModel: {
+    value: {
+        expression: any;
+    };
 }): void;
 declare function applyBindAttributes(bindAttributes: any[], node: {
     type: string;

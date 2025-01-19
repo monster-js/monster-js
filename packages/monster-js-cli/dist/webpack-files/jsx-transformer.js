@@ -10,6 +10,7 @@ const FN_NAMES = {
     APPEND_CHILDREN: "appendChildren",
     CREATE_TEXT_NODE: "createTextNode",
     BIND_TEXT_NODE: "bindTextNode",
+    BIND_MODEL: "bindModel",
     BIND_ATTRIBUTES: "bindAttributes",
     IF_CONDITION: "ifCondition",
     FOR_LOOP: "forLoop",
@@ -119,6 +120,9 @@ module.exports = function (babel) {
                     attribute.name.type === "JSXIdentifier");
                 const props = node.openingElement.attributes.filter((attribute) => attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "prop");
                 const events = node.openingElement.attributes.filter((attribute) => attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "on");
+                const viewModel = node.openingElement.attributes.find((attribute) => attribute.name.type === "JSXNamespacedName" &&
+                    attribute.name.namespace.name === "v" &&
+                    attribute.name.name.name === "model");
                 const ifCondition = node.openingElement.attributes.find((attribute) => attribute.name.type === "JSXNamespacedName" &&
                     attribute.name.namespace.name === "v" &&
                     attribute.name.name.name === "if");
@@ -173,6 +177,7 @@ module.exports = function (babel) {
                 applyChildren(children, node);
                 applyBindAttributes(bindAttributes, node);
                 applyDirectives(node, directives);
+                applyViewModel(node, viewModel);
                 applyIfCondition(ifCondition, node);
                 applyForCondition(forLoop, forLoopItem, forLoopIndex, forLoopTrackBy, path);
             }
@@ -523,6 +528,24 @@ function applyChildren(children, node) {
                     return child;
                 })
             }
+        ];
+    }
+}
+function applyViewModel(node, viewModel) {
+    if (viewModel) {
+        addImport(FN_NAMES.BIND_MODEL);
+        const originalNode = { ...node };
+        node.type = "CallExpression";
+        node.callee = {
+            type: "Identifier",
+            name: FN_NAMES.BIND_MODEL
+        };
+        node.arguments = [
+            {
+                type: "ThisExpression"
+            },
+            viewModel.value.expression,
+            originalNode
         ];
     }
 }
