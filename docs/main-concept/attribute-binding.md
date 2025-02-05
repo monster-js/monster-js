@@ -9,7 +9,7 @@ In Monster JS, attribute binding is achieved by embedding expressions within att
 ### Example: Dynamic `id` Attribute Binding
 
 ```tsx
-function ButtonAttrBinding() {
+export function ButtonAttrBindingComponent() {
     const [count, setCount] = createState(this, 0); // Initialize state with 0
 
     return <button id={'count-' + count()} on:click={setCount(count() + 1)}>Increment</button>
@@ -27,7 +27,7 @@ function ButtonAttrBinding() {
 You can bind multiple attributes to the same or different state variables within a component. Here’s an example that dynamically updates both `id` and `disabled` attributes:
 
 ```tsx
-function ToggleButton() {
+export function ToggleButtonComponent() {
     const [isEnabled, setEnabled] = createState(this, true);
 
     return <div>

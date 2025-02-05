@@ -48,7 +48,7 @@ To remove a specific listener, use the `off` method. This ensures proper cleanup
 ### Example
 
 ```tsx
-function App() {
+export function AppComponent() {
 
     const onUserLoggedIn = (data) => {
         console.log(`User logged in: ${data.username}`);
@@ -81,7 +81,7 @@ export const onExpandSidebar = createFeatureEventEmitter('onExpandSidebar');
 ### Example 1: Emitting Events
 
 ```tsx
-function Component() {
+export function ToggleSidebarComponent() {
     const handleClick = () => {
         onExpandSidebar.emit(true);
     };
@@ -96,7 +96,7 @@ In this example:
 ### Example 2: Listening for Events
 
 ```tsx
-function SidebarComponent() {
+export function SidebarComponent() {
     const [expand, setExpand] = createState(this, false);
 
     onExpandSidebar.on((value) => {
@@ -108,7 +108,7 @@ function SidebarComponent() {
 ```
 
 Here:
-* The `SidebarComponent` listens for events from onExpandSidebar.
+* The `SidebarComponent` listens for events from `onExpandSidebar`.
 * The `expand` state is updated dynamically based on the event value.
 
 ## Example Usage in Components
@@ -118,7 +118,7 @@ Combining standard and feature-specific emitters makes communication between com
 ### Standard Event Emitter
 
 ```tsx
-function ChildComponent() {
+export function ChildComponent() {
     const myEmitter = createEventEmitter();
 
     const handleClick = () => {
@@ -128,7 +128,7 @@ function ChildComponent() {
     return <button on:click={handleClick()}>Click Me</button>;
 }
 
-function ParentComponent() {
+export function ParentComponent() {
     const myEmitter = createEventEmitter();
 
     myEmitter.on('childClicked', (data) => {
@@ -144,7 +144,7 @@ function ParentComponent() {
 ```tsx
 export const onToggleTheme = createFeatureEventEmitter('onToggleTheme');
 
-function ThemeToggleButton() {
+export function ThemeToggleButtonComponent() {
     const handleToggle = () => {
         onToggleTheme.emit('dark');
     };
@@ -152,7 +152,7 @@ function ThemeToggleButton() {
     return <button on:click={handleToggle()}>Toggle Theme</button>;
 }
 
-function ThemeDisplay() {
+export function ThemeDisplayComponent() {
     const [theme, setTheme] = createState(this, 'light');
 
     onToggleTheme.on((newTheme) => {

@@ -1,15 +1,15 @@
 # Event Handling
 
-In Monster JS, event handling is simple and intuitive, allowing you to define event listeners directly within your component's JSX. You can attach events, capture event data, reference the clicked element, and perform actions—all directly in the event handler.
+In **Monster JS**, event handling is simple and intuitive, allowing you to define event listeners directly within your component's JSX. You can attach events, capture event data, reference the clicked element, and perform actions—all directly in the event handler.
 
 ## Basic Event Handling
 
-To handle events, define an event listener function in your component and assign it to the appropriate event using the `on:event` syntax.
+To handle events, define an event listener function in your component and assign it to the appropriate event using the `on:<event>` syntax.
 
 ### Example
 
 ```tsx
-function Button() {
+export function ButtonComponent() {
     const onClick = () => {
         console.log('hello world');
     };
@@ -32,7 +32,7 @@ You can also access both the event object and the clicked element within the eve
 declare const $event: any;
 declare const $element: any;
 
-function Button() {
+export function ButtonComponent() {
     const onClick = (event, element) => {
         console.log('I am the event', event);
         console.log('I am the clicked element', element);
@@ -53,7 +53,7 @@ Monster JS also allows you to perform direct operations or state updates directl
 ### Example
 
 ```tsx
-function Button() {
+export function ButtonComponent() {
     const [count, setCount] = createState(this, 0);
 
     return <button on:click={setCount(count() + 1)}>Increment</button>;
