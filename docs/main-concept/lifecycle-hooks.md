@@ -156,7 +156,7 @@ In this example:
 
 ## Full Example
 
-Here’s an example demonstrating how to use all three hooks in a single component:
+Here’s an example demonstrating how to use all hooks in a single component:
 
 ```tsx
 function Component() {
@@ -191,7 +191,7 @@ function Component() {
 In this example:
 
 * The `connected` hook runs when the component is added to the DOM.
-* The `afterViewInit`: hook runs after connected hook and initial change detection.
+* The `afterViewInit` hook runs after connected hook and initial change detection.
 * The `disconnected` hook runs when the component is removed from the DOM.
 * The `adopted` hook runs when the component is moved to a new document.
 * The `attributeChanged` hook runs whenever a specified attribute changes.

@@ -1,12 +1,12 @@
-export function toNumber(value: string): number {
-    if (typeof value === "number") {
-        return value; // Already a number
+export function toNumber(value: string): number | never {
+  if (typeof value === 'number') {
+    return value;
+  }
+  if (typeof value === 'string') {
+    const converted = Number(value.trim());
+    if (!Number.isNaN(converted)) {
+      return converted;
     }
-    if (typeof value === "string") {
-        const converted = Number(value.trim());
-        if (!isNaN(converted)) {
-            return converted;
-        }
-    }
-    throw new Error("Invalid value: cannot be transformed into a number");
+  }
+  throw new Error(`Invalid value: "${value}" cannot be transformed into a number.`);
 }

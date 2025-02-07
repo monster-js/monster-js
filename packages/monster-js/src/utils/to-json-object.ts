@@ -1,7 +1,7 @@
-export function toJsonObject<T = any>(value: string): T {
-    if (typeof value !== "string") {
-        throw new Error("Json transformer input value must be a string.");
-    }
-
+export function toJsonObject<T = unknown>(value: string): T | never {
+  try {
     return JSON.parse(value);
+  } catch (error) {
+    throw new Error(`Invalid value: "${value}" cannot be transformed into a json object.`);
+  }
 }

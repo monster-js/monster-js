@@ -1,6 +1,6 @@
 # Change Detection
 
-Change detection is a core mechanism in our JavaScript framework, responsible for ensuring that the user interface (UI) stays synchronized with the underlying application state. Whether the state is local to a component or shared across multiple components, change detection monitors any updates to that state and triggers the necessary UI updates to reflect those changes.
+Change detection is a core mechanism in Monster JS framework, responsible for ensuring that the user interface (UI) stays synchronized with the underlying application state. Whether the state is local to a component or shared across multiple components, change detection monitors any updates to that state and triggers the necessary UI updates to reflect those changes.
 
 ## Overview
 

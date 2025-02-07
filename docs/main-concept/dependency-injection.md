@@ -11,7 +11,7 @@ The default DI container is ready for use as soon as you import it. This contain
 ```tsx
 import { inject } from 'monster-js';
 
-function App() {
+export function AppComponent() {
     const messageService = inject(MessageService); // Retrieve MessageService from the default container
 
     return <h1>{messageService.getMessage()}</h1>;
@@ -20,7 +20,7 @@ function App() {
 
 In this example:
 * The `inject(MessageService)` call retrieves an instance of `MessageService` from the default DI container.
-* `MessageService` can now be used directly within the `App` component.
+* `MessageService` can now be used directly within the `AppComponent` component.
 
 ## Creating a Custom DI Container
 
@@ -35,7 +35,7 @@ import { createDIContainer } from 'monster-js';
 // Create a new DI container
 export const [customInject] = createDIContainer();
 
-function App() {
+export function AppComponent() {
     const messageService = customInject(MessageService); // Retrieve MessageService from the custom container
 
     return <h1>{messageService.getMessage()}</h1>;
@@ -64,7 +64,7 @@ export const [customInject] = createDIContainer([
     },
 ]);
 
-function App() {
+export function AppComponent() {
     const messageService = customInject(MessageService); // Retrieve a non-singleton instance
 
     return <h1>{messageService.getMessage()}</h1>;
@@ -91,7 +91,7 @@ overrideProvider([
     },
 ]);
 
-function App() {
+export function AppComponent() {
     const messageService = inject(MessageService); // Retrieve the overridden service
 
     return <h1>{messageService.getMessage()}</h1>; // Displays: Overridden Message
@@ -115,7 +115,7 @@ customSetConfig([
     },
 ]);
 
-function App() {
+export function AppComponent() {
     const messageService = customInject(MessageService); // Retrieve the overridden service
 
     return <h1>{messageService.getMessage()}</h1>; // Displays: Custom Overridden Message

@@ -1,1 +1,4 @@
-export type ActionPayloadType<A> = A extends (state: any, payload: infer P) => any ? P : never;
+export type ActionPayloadType<A> = A extends (
+  state: unknown,
+  payload: infer P,
+) => unknown ? P : never;

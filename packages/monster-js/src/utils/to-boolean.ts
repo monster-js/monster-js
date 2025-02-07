@@ -1,3 +1,7 @@
-export function toBoolean(value: any): boolean {
-    return !(value === undefined || value === null || value === false || value === "false");
+export function toBoolean(value: unknown): boolean {
+  return value !== undefined
+    && value !== null
+    && value !== ''
+    && value !== false
+    && value !== 'false';
 }

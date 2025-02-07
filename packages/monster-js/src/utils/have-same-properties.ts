@@ -1,15 +1,12 @@
-export function haveSameProperties(obj1: Record<string, string>, obj2: Record<string, string>) {
+type ObjectType = Record<string, string>;
+
+export function haveSameProperties(obj1: ObjectType, obj2: ObjectType): boolean {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
 
-  // Compare lengths first
   if (keys1.length !== keys2.length) {
     return false;
   }
 
-  let same = true;
-  keys1.forEach((key) => {
-    if (obj1[key] !== obj2[key]) same = false;
-  });
-  return same;
+  return !keys1.some((key) => obj1[key] !== obj2[key]);
 }

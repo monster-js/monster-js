@@ -2,13 +2,6 @@
 
 Directives in **Monster JS** enable you to encapsulate reusable logic that can dynamically modify or enhance the behavior of elements in your components. They provide a clean and modular way to apply specific functionality or styling to elements by defining, registering, and applying directive functions.
 
-## Overview
-
-This documentation covers:
-* How to define and register directives.
-* Using static and dynamic values in directives.
-* Practical examples of applying directives in components.
-
 ## Defining a Directive
 
 To create a directive, use the `directive` function from `monster-js`. The function requires two parameters:
@@ -34,10 +27,10 @@ export default directive(highlight, 'highlight');
 
 #### Parameters Explained
 
-* `element`: The current state of the element after applying other directives (if applicable).
+* `element`: The current element being modified by the directive. This could be the original element or an element modified by previous directives if multiple directives are applied in sequence.
 * `data`: Contains the directive-specific data, such as values passed with the namespace.
-* `originalElement`: The unmodified element as it was before any directive was applied.
-* `<element-outlet>`: Re-inserts the original element into the directive's structure, preserving its content and behavior.
+* `originalElement`: The element to which the directive was initially applied.
+* `<element-outlet>`: Re-inserts an element into the directive's ui.
 
 ## Using Directives in Components
 

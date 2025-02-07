@@ -1,22 +1,25 @@
-import { styleSymbol } from "./define-styles";
+import { LocalWindowInterface } from '../interfaces/local-window.interface';
+import { styleSymbol } from '../symbols/style-symbol';
 
-export function removeDefinedStyles(styles: any[]) {
-    const _window: any = window;
+export function removeDefinedStyles(styles: string[][]) {
+  const localWindow = window as LocalWindowInterface;
 
-    const decrementStyleCount = (id: string) => {
-        if (_window[styleSymbol][id].count) {
-            _window[styleSymbol][id].count--;
-        }
-    };
+  const decrementStyleCount = (id: string) => {
+    const style = localWindow[styleSymbol]?.[id];
+    if (style && style.count) {
+      style.count -= 1;
+    }
+  };
 
-    styles.forEach((style) => {
-        const id = style[0][0];
+  styles.forEach((style) => {
+    const id = style[0][0];
 
-        decrementStyleCount(id);
+    decrementStyleCount(id);
 
-        if (_window[styleSymbol][id].count === 0) {
-            _window[styleSymbol][id].element.remove();
-            _window[styleSymbol][id] = null;
-        }
-    });
+    const savedStyle = localWindow[styleSymbol]?.[id];
+    if (savedStyle && savedStyle.count === 0) {
+      savedStyle.element?.remove();
+      delete localWindow[styleSymbol][id];
+    }
+  });
 }

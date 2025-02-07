@@ -12,22 +12,14 @@ Class-based services are structured as ES6 classes and often include methods and
 
 ```ts
 // Example of a class-based service
-
-import { inject } from 'monster-js';
-
 class MessageService {
-    private readonly httpService = inject(HttpService); // Injecting HttpService
 
-    public async getMessage() {
-        return await this.httpService.get('api/message'); // Using HttpService for an HTTP call
+    public getMessage() {
+        return 'Hello World!';
     }
+
 }
 ```
-
-In this example:
-
-* The `MessageService` class injects `HttpService` to make HTTP requests.
-* It provides a `getMessage` method that calls `httpService.get` and returns a promise with the fetched data.
 
 ### 2. Function-based Services
 
@@ -35,43 +27,35 @@ Alternatively, you can create a service as a function. This is helpful for light
 
 ```ts
 // Example of a function-based service
-
-import { inject } from 'monster-js';
-
-async function messageService() {
-    const httpService = inject(HttpService); // Injecting HttpService
-    return await httpService.get('api/message'); // Using HttpService for an HTTP call
+function messageService() {
+    return 'Hello World!';
 }
 ```
-
-In this function-based service:
-
-* The `messageService` function injects `HttpService` and uses it directly.
-* This approach provides similar functionality to the class-based service but is simpler for cases where internal state is unnecessary.
 
 ## Injecting Services into Components
 
 Monster JS makes it easy to inject services into components, whether they’re class-based or function-based. Here’s an example of how to inject and use `MessageService` in a component.
 
 ```tsx
-import { inject, createState } from 'monster-js';
+import { inject, createState, afterViewInit } from 'monster-js';
 
 function Component() {
     const [message, setMessage] = createState(this, ''); // State to hold the message
     const messageService = inject(MessageService); // Injecting MessageService
 
-    messageService.getMessage().then((response) => {
-        setMessage(response); // Updating state with the response from MessageService
+    afterViewInit(this, () => {
+        const message = messageService.getMessage();
+        setMessage(message); // Updating state with the message from MessageService
     });
 
-    return <div>{message}</div>; // Rendering the message
+    return <div>{message()}</div>; // Rendering the message
 }
 ```
 
 In this example:
 
 * `createState` initializes a state variable to hold the message data.
-* `MessageService` is injected and used to retrieve the message asynchronously.
+* `MessageService` is injected and used to retrieve the message.
 * Once the message is fetched, it is stored in the component’s state and rendered in the UI.
 
 ## Injecting Services into Other Services

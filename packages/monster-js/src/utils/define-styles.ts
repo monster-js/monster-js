@@ -1,31 +1,32 @@
-export const styleSymbol = Symbol('MonsterJsStylesSymbol');
+import { LocalWindowInterface } from '../interfaces/local-window.interface';
+import { styleSymbol } from '../symbols/style-symbol';
 
-export function defineStyles(styles: any[]) {
-    const _window: any = window;
+export function defineStyles(styles: string[][]) {
+  const localWindow = window as LocalWindowInterface;
 
-    const incrementStyleCount = (id: string) => {
-        if (!_window[styleSymbol]) {
-            _window[styleSymbol] = {};
-        }
-        if (!_window[styleSymbol][id]) {
-            _window[styleSymbol][id] = {
-                count: 0,
-                element: null
-            };
-        }
-        _window[styleSymbol][id].count++;
-    };
+  const incrementStyleCount = (id: string) => {
+    if (!localWindow[styleSymbol]) {
+      localWindow[styleSymbol] = {};
+    }
+    if (!localWindow[styleSymbol]?.[id]) {
+      localWindow[styleSymbol][id] = {
+        count: 0,
+        element: undefined,
+      };
+    }
+    localWindow[styleSymbol][id].count += 1;
+  };
 
-    styles.forEach((style) => {
-        const id = style[0][0];
+  styles.forEach((style) => {
+    const id = style[0][0];
 
-        incrementStyleCount(id);
+    incrementStyleCount(id);
 
-        if (_window[styleSymbol][id].count === 1) {
-            const styleEl = document.createElement('style');
-            styleEl.textContent = style.toString();
-            document.head.appendChild(styleEl);
-            _window[styleSymbol][id].element = styleEl;
-        }
-    });
+    if (localWindow[styleSymbol][id].count === 1) {
+      const styleElement = document.createElement('style');
+      styleElement.textContent = style.toString();
+      document.head.appendChild(styleElement);
+      localWindow[styleSymbol][id].element = styleElement;
+    }
+  });
 }

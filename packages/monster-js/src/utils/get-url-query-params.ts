@@ -3,9 +3,11 @@ export function getURLQueryParams() {
   const urlParams = new URLSearchParams(queryString); // Parse the query string
   const params: Record<string, string> = {};
 
-  for (const [key, value] of urlParams) {
-    params[key] = value; // Add each key-value pair to the object
-  }
-
-  return params;
+  return Array.from(urlParams.entries()).reduce(
+    (accumulator, [key, value]) => {
+      accumulator[key] = value;
+      return accumulator;
+    },
+    params,
+  );
 }

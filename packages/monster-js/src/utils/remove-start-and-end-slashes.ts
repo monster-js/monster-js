@@ -1,3 +1,3 @@
-export function removeStartAndEndSlashes(str: string) {
-    return str.replace(/^\/+|\/+$/g, '');
+export function removeStartAndEndSlashes(str: string): string {
+  return str ? str.replace(/^\/+|\/+$/g, '') : '';
 }

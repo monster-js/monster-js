@@ -4,12 +4,12 @@ In Monster JS, observed attributes allow you to track specific attribute changes
 
 ## Defining Observed Attributes
 
-To observe attributes on a component, specify them in the `component` function under the `observedAttributes` option. Below is an example of a `Counter` component that observes the `count` attribute.
+To observe attributes on a component, specify them in the `component` function under the `observedAttributes` option. Below is an example of a `CounterComponent` component that observes the `count` attribute.
 
 ### Example: Counter Component with Observed Attribute
 
 ```tsx
-function Counter() {
+export function CounterComponent() {
     const [count, setCount] = createState(this, 0);
 
     // Using the `attributeChanged` hook to handle attribute changes
@@ -23,7 +23,7 @@ function Counter() {
 }
 
 // Register the component with the observed attribute
-component(Counter, {
+component(CounterComponent, {
     selector: 'app-counter',
     observedAttributes: ['count']
 });
@@ -40,7 +40,7 @@ For simpler use cases, the `namedAttrChanged` hook is a streamlined alternative 
 ### Example: Observing a Single Attribute
 
 ```tsx
-function Counter() {
+export function CounterComponent() {
     const [count, setCount] = createState(this, 0);
 
     // Observing the `count` attribute with `namedAttrChanged`
@@ -52,7 +52,7 @@ function Counter() {
 }
 
 // Register the component
-component(Counter, {
+component(CounterComponent, {
     selector: 'app-counter',
     observedAttributes: ['count']
 });
@@ -69,19 +69,19 @@ The `namedAttrChanged` hook supports transformers to process attribute values be
 ### Example: Using a Transformer
 
 ```tsx
-function Counter() {
-    const [isEnabled, setIsEnabled] = createState(this, false);
+export function CounterComponent() {
+    const [isActive, setIsActive] = createState(this, false);
 
     // Observing the `is-active` attribute as a boolean
     namedAttrChanged(this, 'is-active', (newVal, oldVal) => {
-        setIsEnabled(newVal);
+        setIsActive(newVal);
     }, [toBoolean]);
 
-    return <div>Status: {isEnabled() ? 'Active' : 'Inactive'}</div>;
+    return <div>Status: {isActive() ? 'Active' : 'Inactive'}</div>;
 }
 
 // Register the component
-component(Counter, {
+component(CounterComponent, {
     selector: 'app-counter',
     observedAttributes: ['is-active']
 });
@@ -109,7 +109,7 @@ function toUpperCase(value) {
 You can pass an array of transformers to `namedAttrChanged`. Each transformer in the array processes the value sequentially before it is passed to the handler.
 
 ```tsx
-function Component() {
+export function Component() {
     namedAttrChanged(this, 'username', (newVal, oldVal) => {
         console.log(`Transformed value: ${newVal}`);
     }, [
@@ -131,7 +131,7 @@ In this example:
 
 Here are some frequently used transformers:
 1. `toNumber`: Converts the input value into a number..
-2. `toBoolean`: Converts the input value into a boolean. Returns `false` for `undefined`, `null`, `false`, or `"false"`, and `true` otherwise.
+2. `toBoolean`: Converts the input value into a boolean. Returns `false` for `undefined`, `null`, `false`, `"false"`, or `""`, and `true` otherwise.
 3. `toJsonObject`: Parses the input string as a JSON object.
 
 ### Combining Transformers
@@ -155,7 +155,7 @@ By defining and using transformers, you can easily customize how attribute value
 
 ## Using a Component with Observed Attributes
 
-Let’s demonstrate the usage of a component with observed attributes in a parent component. Here, the `Counter` component is integrated with a dynamic `count` value.
+Let’s demonstrate the usage of a component with observed attributes in a parent component. Here, the `CounterComponent` component is integrated with a dynamic `count` value.
 
 ### Example: Parent Component
 
@@ -170,15 +170,36 @@ function App() {
     return (
         <div>
             <button on:click={incrementCount}>Increase Count</button>
-            <Counter count={clickCount()} />
+            <CounterComponent count={clickCount()} />
         </div>
     );
 }
 ```
 
+### Example: Count Component
+
+```tsx
+function CounterComponent() {
+    const [count, setCount] = createState(this, 0);
+
+    attributeChanged(this, (attrName, oldVal, newVal) => {
+        if (attrName === 'count') {
+            setCount(Number(newVal));
+        }
+    });
+
+    return <h1>Count: {count()}</h1>
+}
+
+component(CounterComponent, {
+    selector: 'app-counter',
+    observedAttributes: ['count']
+});
+```
+
 In this example:
 * The `App` component contains a button that increments a `clickCount` state.
-* The `Counter` component observes the `count` attribute, updating its display dynamically as the `clickCount` state changes in the parent.
+* The `CounterComponent` component observes the `count` attribute, updating its display dynamically as the `clickCount` state changes in the parent.
 
 ## Key Points
 * **Specifying Observed Attributes**: Define observed attributes in the `observedAttributes` array when registering a component.
