@@ -1,1 +1,1 @@
-export declare function removeDefinedStyles(styles: any[]): void;
+export declare function removeDefinedStyles(styles: string[][]): void;

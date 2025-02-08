@@ -1,1 +1,1 @@
-export type FunctionType = (...args: any[]) => void;
+export type FunctionType = (...args: unknown[]) => void;

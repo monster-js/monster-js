@@ -1,1 +1,1 @@
-export type DirectiveDataType = Record<string, () => any>;
+export type DirectiveDataType = Record<string, () => string>;

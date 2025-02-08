@@ -1,10 +1,12 @@
-export function hyphenToCapital(str) {
-    return str
-        .split('-') // Split the string into an array of words
-        .map((word, index) => index === 0
-        ? word
-        : word.charAt(0).toUpperCase() + word.slice(1) // Capitalize the rest
-    )
-        .join(''); // Join the array back into a string
+export function hyphenToCapital(inputString) {
+    const capitalizeExceptFirst = (word, index) => {
+        if (index === 0)
+            return word;
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    };
+    return inputString
+        .split('-')
+        .map(capitalizeExceptFirst)
+        .join('');
 }
 //# sourceMappingURL=hyphen-to-capital.js.map

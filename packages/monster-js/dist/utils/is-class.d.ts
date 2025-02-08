@@ -1,1 +1,1 @@
-export declare function isClass(obj: Record<any, any>): boolean;
+export declare function isClass<T = object>(obj: T): boolean;

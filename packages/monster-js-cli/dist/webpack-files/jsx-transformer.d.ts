@@ -16,6 +16,7 @@ declare const FN_NAMES: {
     APPLY_PROPS: string;
     APPLY_DIRECTIVES: string;
     ROUTER_OUTLET: string;
+    CREATE_FRAGMENT: string;
 };
 declare function kebabToCamelCase(str: string): string;
 declare function generateShortUniqueId(): string;
@@ -79,6 +80,7 @@ declare function applyCreateComponent(node: {
         value: any;
     }[];
 }): void;
+declare function applyFragment(node: any): void;
 declare function applyCreateElement(node: {
     type: string;
     callee: {

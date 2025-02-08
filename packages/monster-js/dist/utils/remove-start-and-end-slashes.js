@@ -1,4 +1,4 @@
 export function removeStartAndEndSlashes(str) {
-    return str.replace(/^\/+|\/+$/g, '');
+    return str ? str.replace(/^\/+|\/+$/g, '') : '';
 }
 //# sourceMappingURL=remove-start-and-end-slashes.js.map

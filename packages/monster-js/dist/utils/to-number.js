@@ -1,13 +1,13 @@
 export function toNumber(value) {
-    if (typeof value === "number") {
-        return value; // Already a number
+    if (typeof value === 'number') {
+        return value;
     }
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
         const converted = Number(value.trim());
-        if (!isNaN(converted)) {
+        if (!Number.isNaN(converted)) {
             return converted;
         }
     }
-    throw new Error("Invalid value: cannot be transformed into a number");
+    throw new Error(`Invalid value: "${value}" cannot be transformed into a number.`);
 }
 //# sourceMappingURL=to-number.js.map

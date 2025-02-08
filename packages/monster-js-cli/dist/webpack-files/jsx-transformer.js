@@ -16,7 +16,8 @@ const FN_NAMES = {
     FOR_LOOP: "forLoop",
     APPLY_PROPS: "applyProps",
     APPLY_DIRECTIVES: "applyDirectives",
-    ROUTER_OUTLET: "routerOutlet"
+    ROUTER_OUTLET: "routerOutlet",
+    CREATE_FRAGMENT: 'createFragment'
 };
 function kebabToCamelCase(str) {
     return str
@@ -111,6 +112,7 @@ module.exports = function (babel) {
                 const { node } = path;
                 const tagName = node.openingElement.name.name;
                 let isComponent = tagName[0] === tagName[0].toUpperCase();
+                const isFragment = tagName === 'fragment';
                 const staticAttributes = node.openingElement.attributes.filter((attribute) => (attribute.value &&
                     attribute.value.type === "StringLiteral" &&
                     attribute.name.type === "JSXIdentifier") || (attribute.value === null &&
@@ -162,6 +164,17 @@ module.exports = function (babel) {
                 }
                 else if (node.openingElement.name.name === "element-outlet") {
                     applyElementOutlet(path);
+                    return;
+                }
+                else if (isFragment) {
+                    applyFragment(node);
+                    applyChildren(children, node);
+                    return;
+                }
+                else if (isComponent) {
+                    applyCreateComponent(node);
+                    applyStaticAttributes(staticAttributes, node);
+                    applyProps(node, props);
                     return;
                 }
                 else if (isComponent) {
@@ -326,6 +339,15 @@ function applyCreateComponent(node) {
             { type: "StringLiteral", value: tagName }
         ];
     }
+}
+function applyFragment(node) {
+    addImport(FN_NAMES.CREATE_FRAGMENT);
+    node.type = 'CallExpression';
+    node.callee = {
+        type: 'Identifier',
+        name: FN_NAMES.CREATE_FRAGMENT
+    };
+    node.arguments = [];
 }
 function applyCreateElement(node) {
     addImport(FN_NAMES.CREATE_ELEMENT);

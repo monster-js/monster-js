@@ -1,1 +1,1 @@
-export declare function toNumber(value: string): number;
+export declare function toNumber(value: string): number | never;

@@ -1,1 +1,1 @@
-export declare function toJsonObject<T = any>(value: string): T;
+export declare function toJsonObject<T = unknown>(value: string): T | never;

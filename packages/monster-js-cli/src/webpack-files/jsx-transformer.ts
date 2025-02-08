@@ -16,7 +16,8 @@ const FN_NAMES = {
   FOR_LOOP: "forLoop",
   APPLY_PROPS: "applyProps",
   APPLY_DIRECTIVES: "applyDirectives",
-  ROUTER_OUTLET: "routerOutlet"
+  ROUTER_OUTLET: "routerOutlet",
+  CREATE_FRAGMENT: 'createFragment'
 };
 
 function kebabToCamelCase(str: string) {
@@ -130,6 +131,7 @@ module.exports = function (babel: { types: any; }) {
         const { node } = path;
         const tagName = node.openingElement.name.name;
         let isComponent = tagName[0] === tagName[0].toUpperCase();
+        const isFragment = tagName === 'fragment';
         const staticAttributes = node.openingElement.attributes.filter(
           (attribute: { value: { type: string; } | null; name: { type: string; }; }) =>
             (attribute.value &&
@@ -216,6 +218,15 @@ module.exports = function (babel: { types: any; }) {
           return;
         } else if (node.openingElement.name.name === "element-outlet") {
           applyElementOutlet(path as any);
+          return;
+        } else if (isFragment) {
+          applyFragment(node);
+          applyChildren(children, node);
+          return;
+        } else if (isComponent) {
+          applyCreateComponent(node);
+          applyStaticAttributes(staticAttributes, node);
+          applyProps(node, props);
           return;
         } else if (isComponent) {
           applyCreateComponent(node);
@@ -381,6 +392,16 @@ function applyCreateComponent(node: { openingElement: { name: { name: any; }; };
       { type:"StringLiteral", value: tagName }
     ];
   }
+}
+
+function applyFragment(node: any) {
+  addImport(FN_NAMES.CREATE_FRAGMENT);
+  node.type = 'CallExpression';
+  node.callee = {
+    type: 'Identifier',
+    name: FN_NAMES.CREATE_FRAGMENT
+  };
+  node.arguments = [];
 }
 
 function applyCreateElement(node: { type: string; callee: { type: string; name: string; }; arguments: { type: string; value: any; }[]; openingElement: { name: { name: any; }; }; }) {

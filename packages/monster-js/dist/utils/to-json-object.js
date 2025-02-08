@@ -1,7 +1,9 @@
 export function toJsonObject(value) {
-    if (typeof value !== "string") {
-        throw new Error("Json transformer input value must be a string.");
+    try {
+        return JSON.parse(value);
     }
-    return JSON.parse(value);
+    catch (error) {
+        throw new Error(`Invalid value: "${value}" cannot be transformed into a json object.`);
+    }
 }
 //# sourceMappingURL=to-json-object.js.map

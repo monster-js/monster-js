@@ -1,26 +1,26 @@
-export const styleSymbol = Symbol('MonsterJsStylesSymbol');
+import { styleSymbol } from '../symbols/style-symbol';
 export function defineStyles(styles) {
-    const _window = window;
+    const localWindow = window;
     const incrementStyleCount = (id) => {
-        if (!_window[styleSymbol]) {
-            _window[styleSymbol] = {};
+        if (!localWindow[styleSymbol]) {
+            localWindow[styleSymbol] = {};
         }
-        if (!_window[styleSymbol][id]) {
-            _window[styleSymbol][id] = {
+        if (!localWindow[styleSymbol]?.[id]) {
+            localWindow[styleSymbol][id] = {
                 count: 0,
-                element: null
+                element: undefined,
             };
         }
-        _window[styleSymbol][id].count++;
+        localWindow[styleSymbol][id].count += 1;
     };
     styles.forEach((style) => {
         const id = style[0][0];
         incrementStyleCount(id);
-        if (_window[styleSymbol][id].count === 1) {
-            const styleEl = document.createElement('style');
-            styleEl.textContent = style.toString();
-            document.head.appendChild(styleEl);
-            _window[styleSymbol][id].element = styleEl;
+        if (localWindow[styleSymbol][id].count === 1) {
+            const styleElement = document.createElement('style');
+            styleElement.textContent = style.toString();
+            document.head.appendChild(styleElement);
+            localWindow[styleSymbol][id].element = styleElement;
         }
     });
 }

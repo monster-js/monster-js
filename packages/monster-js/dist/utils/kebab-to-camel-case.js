@@ -1,12 +1,12 @@
 export function kebabToCamelCase(str) {
     return str
-        .split('-') // Split the string into an array of words
+        .split('-')
         .map((word, index) => {
         if (index === 0) {
-            return word.toLowerCase(); // Keep the first word lowercase
+            return word.toLowerCase();
         }
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize the rest
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     })
-        .join(''); // Join the array back into a string
+        .join('');
 }
 //# sourceMappingURL=kebab-to-camel-case.js.map

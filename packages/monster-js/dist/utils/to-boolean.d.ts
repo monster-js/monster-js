@@ -1,1 +1,1 @@
-export declare function toBoolean(value: any): boolean;
+export declare function toBoolean(value: unknown): boolean;

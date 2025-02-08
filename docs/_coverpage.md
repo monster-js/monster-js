@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-![logo](_media/icon.svg)
+![logo](_media/monster-js.png)
 
 # Monster JS <small>1.0</small>
 

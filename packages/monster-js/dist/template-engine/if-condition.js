@@ -7,7 +7,7 @@ export function ifCondition(classComponent, elementCreator, valueGetter) {
         hasChanges: false,
         value: undefined,
         getIsConnected: () => comment.isConnected,
-        evaluate: () => {
+        evaluate() {
             const newValue = valueGetter();
             if (changeDetection.value !== newValue) {
                 changeDetection.value = newValue;
@@ -17,7 +17,7 @@ export function ifCondition(classComponent, elementCreator, valueGetter) {
                 changeDetection.hasChanges = false;
             }
         },
-        handlerChange: (value) => {
+        handlerChange(value) {
             if (value) {
                 element = elementCreator();
                 comment.after(element);
@@ -29,7 +29,6 @@ export function ifCondition(classComponent, elementCreator, valueGetter) {
         }
     };
     fragment.appendChild(comment);
-    // changeDetection.handlerChange(initialValue);
     instance.addConditionWatcher(changeDetection);
     return fragment;
 }

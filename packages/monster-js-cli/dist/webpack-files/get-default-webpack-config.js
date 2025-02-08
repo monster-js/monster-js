@@ -27,7 +27,6 @@ const getDefaultWebpackConfig = (additionalConfig = []) => {
                 {
                     test: /\.s[ac]ss$/i, // Match SCSS files
                     use: [
-                        // require.resolve('style-loader'), // Injects styles into the DOM
                         require.resolve('css-loader'), // Resolves CSS imports
                         require.resolve('./css-transformer.js'),
                         require.resolve('sass-loader'), // Compiles SCSS to CSS
@@ -45,7 +44,6 @@ const getDefaultWebpackConfig = (additionalConfig = []) => {
                             ],
                             plugins: [
                                 path_1.default.join(__dirname, './jsx-transformer.js'),
-                                // require.resolve('monster-js-transformers')
                             ],
                             compact: false,
                         },

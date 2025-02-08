@@ -1,17 +1,19 @@
-import { styleSymbol } from "./define-styles";
+import { styleSymbol } from '../symbols/style-symbol';
 export function removeDefinedStyles(styles) {
-    const _window = window;
+    const localWindow = window;
     const decrementStyleCount = (id) => {
-        if (_window[styleSymbol][id].count) {
-            _window[styleSymbol][id].count--;
+        const style = localWindow[styleSymbol]?.[id];
+        if (style && style.count) {
+            style.count -= 1;
         }
     };
     styles.forEach((style) => {
         const id = style[0][0];
         decrementStyleCount(id);
-        if (_window[styleSymbol][id].count === 0) {
-            _window[styleSymbol][id].element.remove();
-            _window[styleSymbol][id] = null;
+        const savedStyle = localWindow[styleSymbol]?.[id];
+        if (savedStyle && savedStyle.count === 0) {
+            savedStyle.element?.remove();
+            delete localWindow[styleSymbol][id];
         }
     });
 }

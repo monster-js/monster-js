@@ -1,1 +1,1 @@
-export declare function hyphenToCapital(str: string): string;
+export declare function hyphenToCapital(inputString: string): string;

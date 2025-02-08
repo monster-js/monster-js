@@ -35,6 +35,7 @@ export { applyProps } from './template-engine/apply-props';
 export { component } from './template-engine/component';
 export { applyDirectives } from './template-engine/apply-directives';
 export { bindModel } from './template-engine/bind-model';
+export { createFragment } from './template-engine/create-fragment';
 
 // props
 export { createProp } from './props/create-prop';

@@ -1,2 +1,1 @@
-export declare const styleSymbol: unique symbol;
-export declare function defineStyles(styles: any[]): void;
+export declare function defineStyles(styles: string[][]): void;

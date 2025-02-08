@@ -3,17 +3,17 @@ export function createWatcher(instance, initialValue, getIsConnected, valueGette
         hasChanges: false,
         value: initialValue,
         getIsConnected,
-        evaluate: () => {
+        evaluate() {
             const newValue = valueGetter();
-            if (watcher.value !== newValue) {
+            if (watcher.value === newValue) {
+                watcher.hasChanges = false;
+            }
+            else {
                 watcher.value = newValue;
                 watcher.hasChanges = true;
             }
-            else {
-                watcher.hasChanges = false;
-            }
         },
-        handlerChange
+        handlerChange,
     };
     instance.addWatcher(watcher);
     return watcher;
