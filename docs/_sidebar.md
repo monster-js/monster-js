@@ -34,8 +34,8 @@
     - [Defining a State](store/defining-a-state.md)
     - [Action Reducer](store/action-reducer.md)
     - [Selector](store/selectors.md)
-    - [Retrieving State](store/retrieving-state.md)
     - [Subscriptions](store/subscriptions.md)
+    - [Retrieving State](store/retrieving-state.md)
 - Router
     - [Monster JS Router](router/monster-js-router.md)
     - [Defining Routes](router/defining-routes.md)

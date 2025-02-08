@@ -4,7 +4,7 @@ In this section, we will explore how to create and use selectors in the Monster 
 
 ## 1. What is a Selector?
 
-A selector is a function that extracts a specific part of the state from the store. It can be used to access nested data or perform computations on the state before returning it. Selectors help optimize performance by avoiding unnecessary recalculations and re-renders.
+A selector is a function that extracts a specific part of the state from the store. It can be used to access nested data or perform computations on the state before returning it. Selectors help optimize performance by avoiding unnecessary recalculations.
 
 ## 2. Creating a Selector
 
@@ -39,7 +39,7 @@ export function CountComponent() {
 ## 4. Benefits of Using Selectors
 
 * **Encapsulation**: Selectors help encapsulate the logic for accessing specific parts of the state. This means you don’t have to repeat the same logic across components.
-* **Performance Optimization**: By using selectors, the application can avoid unnecessary re-renders or recalculations since the selector will only recompute when the relevant state changes.
+* **Performance Optimization**: By using selectors, the application can avoid unnecessary recalculations since the selector will only recompute when the relevant state changes.
 * **Reusability**: Once defined, selectors can be reused in multiple components, making your codebase cleaner and more maintainable.
 
 ## Conclusion

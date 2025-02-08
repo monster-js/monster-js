@@ -53,7 +53,6 @@ routerChange(this, (routeParams, queryParams) => {
 1. **Simplicity**: Define, manage, and navigate routes with minimal code.
 2. **Performance**: Leverage lazy loading and optimized navigation techniques.
 3. **Flexibility**: Handle complex routing scenarios with guards, parameters, and redirects.
-4. **Extensibility**: Easily integrate with other Monster JS features and third-party libraries.
-5. **Ease of Debugging**: Subscriptions and guards provide clear insights into route changes and access control.
+4. **Ease of Debugging**: Subscriptions and guards provide clear insights into route changes and access control.
 
 The Monster JS Router is designed to work seamlessly in modern JavaScript frameworks, making it an ideal choice for building robust, scalable, and user-friendly applications.

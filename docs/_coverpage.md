@@ -10,7 +10,7 @@
 - Easy-to-understand and familiar for developers.
 - Leverage the power of reusable, encapsulated components.
 
-- [❤️ Support Us](/?id=support-us)
+- [❤️ Support Us](/?id=❤%ef%b8%8f-support-us)
 
 [GitHub](https://github.com/monster-js/monster-js)
 [Get Started](/?id=what-is-monster-js)

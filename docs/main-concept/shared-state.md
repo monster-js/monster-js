@@ -68,5 +68,5 @@ function ButtonComponent() {
     * The shared state variable (`count`) is accessed by calling it as a function (`count()`). This ensures that components always retrieve the most recent value during change detection.
 
 ### Best Practices
-* <strong>Use Shared State for Global Data</strong>: Utilize shared state for application-wide data or states that need to be accessed by multiple components to maintain synchronization and avoid redundant state management.
-* <strong>Avoid Direct Mutations</strong>: Always use the provided `setState()` function to update the shared state instead of directly mutating the state variable. This practice ensures that all dependent components receive the updated value and re-render accordingly.
+* **Use Shared State for Global Data**: Utilize shared state for application-wide data or states that need to be accessed by multiple components to maintain synchronization and avoid redundant state management.
+* **Avoid Direct Mutations**: Always use the provided `setState()` function to update the shared state instead of directly mutating the state variable. This practice ensures that all dependent components receive the updated value and update accordingly.

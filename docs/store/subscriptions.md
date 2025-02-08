@@ -23,7 +23,7 @@ export function CountComponent() {
 ```
 * **store.get(this, 'counter')**: This retrieves the `counter` state from the store. The `this` context refers to the component or instance.
 * **.subscribe(callback)**: The `subscribe` method listens for changes to the `counter` state. The callback function is called whenever the state changes, and in this example, it logs `'counter state changed'` to the console.
-* **Automatic Unsubscription**: When the component is no longer connected to the store (e.g., unmounted), the subscription is automatically unsubscribed, preventing memory leaks.
+* **Automatic Unsubscription**: When the component is no longer connected to the DOM (e.g., unmounted), the subscription is automatically unsubscribed, preventing memory leaks.
 
 ## 3. Subscribing to Selector Changes
 
@@ -47,7 +47,7 @@ export function CountComponent() {
 ## 4. Benefits of Subscriptions
 
 * **Reactivity**: Subscriptions allow you to automatically update your application whenever the state changes, ensuring your UI is always in sync with the store.
-* **Efficiency**: The subscription mechanism ensures that your components are only re-rendered when the relevant state or selector changes, improving performance.
+* **Efficiency**: The subscription mechanism ensures that your components are only recalculated when the relevant state or selector changes, improving performance.
 * **Centralized Logic**: Subscriptions provide a centralized way to handle state changes, keeping your components clean and focused on their UI logic.
 
 ## Conclusion
@@ -56,6 +56,6 @@ Subscriptions in the Monster JS Framework Store are a powerful feature that enab
 
 1. **React to state changes**: Automatically trigger updates when the store’s state or selectors change.
 2. **Keep your UI in sync**: Ensure that your UI always reflects the latest state without manual intervention.
-3. **Improve performance**: Limit re-renders to only when the relevant data has changed.
+3. **Improve performance**: Limit recalculation to only when the relevant data has changed.
 
 Subscriptions are an essential part of building dynamic, responsive applications with the Monster JS Framework Store.

@@ -31,7 +31,7 @@ component(HomeComponent, {
 
 ## 2. Navigating Programmatically
 
-Sometimes you may want to trigger navigation programmatically based on user actions or other dynamic conditions. Monster JS offers a `navigate()` function to perform programmatic navigation.
+Sometimes you may want to trigger navigation programmatically based on user actions or other dynamic conditions. Monster JS offers a `routerNavigate()` function to perform programmatic navigation.
 
 ### Example: Button Click Navigation
 
@@ -39,15 +39,17 @@ Here’s an example of how to navigate to another route when a button is clicked
 
 ```tsx
 export function HomeComponent() {
+    const navigate = inject(routerNavigate);
+
     const onClick = () => {
-        routerNavigate('/login');
+        navigate('/login');
     };
 
     return <button on:click={onClick()}>Go to login page</button>;
 }
 ```
 
-* `routerNavigate('/login')`: This function navigates to the `/login` route when the button is clicked.
+* `navigate('/login')`: This function navigates to the `/login` route when the button is clicked.
 
 ### Key Notes:
 

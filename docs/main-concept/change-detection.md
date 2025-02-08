@@ -11,7 +11,7 @@ In our framework, change detection operates behind the scenes, automatically mon
 1. **State Change Monitoring**:
     * When a state is created using `createState` or `createSharedState`, the framework monitors changes to that state.
     * Anytime the state is updated via `setState()` or `setSharedState()`, the change detection system is triggered.
-2. **UI Re-rendering**:
+2. **UI Updates**:
     * When a state change is detected, the framework efficiently updates the DOM to reflect the new values.
     * Only the affected parts of the UI are updated, ensuring minimal performance impact.
 3. **Context Binding**:

@@ -36,7 +36,7 @@ You can define routes with multiple parameters by adding more curly-braced segme
 <router-outlet component={OrderComponent} path="order/{orderId}/user/{userId}" />
 ```
 
-Navigating to /order/456/user/123 will pass both orderId and userId as route parameters.
+Navigating to `/order/456/user/123` will pass both `orderId` and `userId` as route parameters.
 
 To access these parameters:
 
@@ -50,16 +50,6 @@ export function OrderComponent() {
     return <h1>Order Component</h1>;
 }
 ```
-
-## Optional Parameters
-
-To define optional parameters, you can omit them from the URL. Ensure your component handles the absence of these parameters gracefully:
-
-```tsx
-<router-outlet component={SearchComponent} path="search/{query?}" />
-```
-
-Here, `{query}` is optional. Navigating to `/search` or `/search/keyword` will both render the `SearchComponent`. In the first case, `query` will be undefined.
 
 ## Query Parameters
 
