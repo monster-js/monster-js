@@ -45,6 +45,7 @@
     - [Route Guards](router/route-guard.md)
 - Command line interface
     - [What is Monster JS CLI?](cli/what-is-monster-js-cli.md)
+    - [Installation](cli/installation.md)
     - [Create a project](cli/create-a-project.md)
     - [Local development server](cli/local-development-server.md)
     - [Build a project](cli/build-a-project.md)

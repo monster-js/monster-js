@@ -54,20 +54,6 @@ cd my-awesome-project
 
 Your new Monster JS project is now ready! You can start the development server, build the project, or customize it further as needed.
 
-## Example
-
-To create a new project named `my-monster-app` and install all packages automatically, run:
-
-```bash
-mn new my-monster-app
-```
-
-To create the same project without installing packages automatically:
-
-```bash
-mn new my-monster-app --no-install-packages
-```
-
 ## What Happens Behind the Scenes
 
 When you create a new project using the `new` command, the Monster JS CLI:
@@ -78,7 +64,7 @@ When you create a new project using the `new` command, the Monster JS CLI:
 
 ## Need Help?
 
-If you need assistance with the new command, you can access the help menu by running:
+If you need assistance with the `new` command, you can access the help menu by running:
 
 ```bash
 mn new --help

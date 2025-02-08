@@ -29,23 +29,3 @@ Generate optimized builds for production or export components as web components 
 * **Consistency**: Ensures consistent project configurations and builds.
 * **Customizability**: Offers flexible options to adapt to different project requirements.
 
-## Getting Started
-
-### Installation
-
-To install the Monster JS CLI globally on your system, run:
-
-```bash
-npm install -g monster-js-cli
-```
-
-### Verify Installation
-
-Once installed, you can verify the CLI by checking its version:
-
-```bash
-mn --version
-```
-
-This will display the installed version of the Monster JS CLI.
-
