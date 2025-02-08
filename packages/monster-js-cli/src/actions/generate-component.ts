@@ -53,7 +53,7 @@ export function generateComponent(name: string, option: { shadowMode: 'open' | '
 import { component } from 'monster-js';
 
 export function ${filenamePascalCase}() {
-    return <h1>${filenamePascalCase}</h1>;
+    return <h1>${filenamePascalCase}</h1>
 }
 
 component(${filenamePascalCase}, {
