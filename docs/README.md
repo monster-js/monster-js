@@ -60,7 +60,7 @@ We’re committed to making Monster JS a powerful, open-source solution for web 
 
 * **Star on GitHub**: Star the [Monster JS GitHub repository](https://github.com/monster-js/monster-js) to show your support.
 * **Contribute**: Check out our contribution guidelines if you’d like to help us improve Monster JS.
-* **Donate**: [Make a donation](/) to support ongoing development and community initiatives.
+* **Donate**: [Make a donation](https://paypal.me/dariusbualan) to support ongoing development and community initiatives.
 
 ## License
 
