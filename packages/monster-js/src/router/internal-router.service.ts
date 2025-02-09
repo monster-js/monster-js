@@ -38,15 +38,48 @@ export class InternalRouterService {
 
     private _subscribers: RouteChangeSubscriberInterface[] = [];
 
+    private _savedCurrentUrl: string;
+    private _savedCurrentPathname: string;
+
     constructor() {
         if (InternalRouterService._instance) return InternalRouterService._instance;
+
+        const originalPushState = history.pushState;
+        const originalReplaceState = history.replaceState;
+        const saveUrl = () => {
+            this._savedCurrentUrl = removeStartAndEndSlashes(window.location.pathname + window.location.search);
+            this._savedCurrentPathname = window.location.pathname;
+        };
+
+        saveUrl();
+
+        // Override pushState
+        history.pushState = function () {
+            const result = originalPushState.apply(history, arguments as any);
+            saveUrl();
+            return result;
+        };
+
+        // Override replaceState
+        history.replaceState = function () {
+            const result = originalReplaceState.apply(history, arguments as any);
+            saveUrl();
+            return result;
+        };
+
+        // Listen for back/forward navigation
+        window.addEventListener("popstate", () => {
+            const currentUrl = removeStartAndEndSlashes(window.location.pathname + window.location.search);
+            this.navigate(currentUrl, false, true);
+            saveUrl();
+        });
 
         InternalRouterService._instance = this;
     }
 
     private _isSameRoute(url: string) {
         const cleanNewUrl = removeStartAndEndSlashes(url);
-        const cleanOldUrl = removeStartAndEndSlashes(window.location.pathname + window.location.search);
+        const cleanOldUrl = this._savedCurrentUrl;
         return cleanNewUrl === cleanOldUrl;
     }
 
@@ -178,26 +211,25 @@ export class InternalRouterService {
 
     public async addViewRoute(route: ViewRouteInterface) {
         this._viewRoutes.push(route);
-        const canActivate = await this._processSingleCanActivate(window.location.pathname, route);
+        const canActivate = await this._processSingleCanActivate(this._savedCurrentPathname, route);
         if (!canActivate) return;
 
         // process redirects
-        const redirectTo = await this._processSingleRedirects(window.location.pathname, route);
+        const redirectTo = await this._processSingleRedirects(this._savedCurrentPathname, route);
         if (redirectTo) {
             this.navigate(redirectTo);
             return;
         }
 
         // process activation
-        const handler = await this._processSingleActivations(window.location.pathname, route);
+        const handler = await this._processSingleActivations(this._savedCurrentPathname, route);
         if (handler) handler();
     }
 
-    public redirect(url: string, replaceState: boolean) {
-        if (replaceState) {
+    public redirect(url: string, replaceState: boolean, preventHistoryUpdate: boolean) {
+        if (replaceState && !preventHistoryUpdate) {
             window.history.replaceState({}, '', url);
-        }
-        else {
+        } else if (!preventHistoryUpdate) {
             window.history.pushState({}, '', url);
         }
 
@@ -221,11 +253,11 @@ export class InternalRouterService {
             switch(subscriber.type) {
                 case 'all':
                     queryParams = getURLQueryParams();
-                    routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
+                    routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], this._savedCurrentPathname, 'prefix');
                     subscriber.callback(routeParams, queryParams);
                     break;
                 case 'param':
-                    routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], window.location.pathname, 'prefix');
+                    routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], this._savedCurrentPathname, 'prefix');
                     if (!haveSameProperties(subscriber.params, routeParams)) {
                         subscriber.params = routeParams;
                         subscriber.callback(routeParams);
@@ -249,7 +281,7 @@ export class InternalRouterService {
         this._subscribers = this._subscribers.filter((subscriber) => subscriber.isConnected());
     }
 
-    public async navigate(url: string, replaceState: boolean = false) {
+    public async navigate(url: string, replaceState: boolean = false, preventHistoryUpdate: boolean = false) {
         if (this._isSameRoute(url) || this._navigating) return;
 
         this._navigating = true;
@@ -271,7 +303,7 @@ export class InternalRouterService {
         const redirectTo = await this._processRedirects(url);
         if (redirectTo) {
             this._navigating = false;
-            this.redirect(url, replaceState);
+            this.redirect(url, replaceState, preventHistoryUpdate);
             this.navigate(redirectTo, true);
             return;
         }
@@ -285,7 +317,7 @@ export class InternalRouterService {
         deactivateHandlers.forEach((handler) => handler());
         activateHandlers.forEach((handler) => handler());
 
-        this.redirect(url, replaceState);
+        this.redirect(url, replaceState, preventHistoryUpdate);
         this._navigating = false;
     }
 
