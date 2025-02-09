@@ -1,1 +1,0 @@
-{"version":3,"file":"remove-start-and-end-slashes.js","sourceRoot":"","sources":["../../src/utils/remove-start-and-end-slashes.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,wBAAwB,CAAC,GAAW;IAClD,OAAO,GAAG,CAAC,CAAC,CAAC,GAAG,CAAC,OAAO,CAAC,YAAY,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC;AAClD,CAAC"}

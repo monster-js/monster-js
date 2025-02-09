@@ -1,1 +1,0 @@
-{"version":3,"file":"navigate.js","sourceRoot":"","sources":["../../src/router/navigate.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,2BAA2B,CAAC;AAE1D,MAAM,UAAU,QAAQ,CAAC,GAAW;IAChC,MAAM,aAAa,GAAG,IAAI,aAAa,EAAE,CAAC;IAC1C,aAAa,CAAC,QAAQ,CAAC,GAAG,CAAC,CAAC;AAChC,CAAC"}

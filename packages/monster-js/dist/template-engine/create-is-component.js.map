@@ -1,1 +1,0 @@
-{"version":3,"file":"create-is-component.js","sourceRoot":"","sources":["../../src/template-engine/create-is-component.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,kBAAkB,CAAC;AAEjD,MAAM,UAAU,iBAAiB,CAAC,OAAY,EAAE,aAA+B,IAAI;IAC/E,OAAO,CAAC,GAAG,CAAC,OAAO,EAAE,UAAU,CAAC,CAAC;IACjC,OAAO,aAAa,CAAC,OAAO,EAAE,UAAU,CAAC,CAAC;AAC9C,CAAC"}

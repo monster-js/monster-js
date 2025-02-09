@@ -1,1 +1,0 @@
-export declare const inject: <T>(key: import("../types/constructable.type").ConstructableType<T> | T) => T, overrideProvider: (newConfig: import("../interfaces/dependency-config.interface").DependencyConfigInterface[]) => void;
