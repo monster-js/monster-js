@@ -7,6 +7,7 @@ const FN_NAMES = {
   CREATE_COMPONENT: "createComponent",
   CREATE_IS_COMPONENT: "createIsComponent",
   ADD_EVENT_LISTENER: "addEventListener",
+  ADD_PREVENT_EVENT_LISTENER: "addPreventEventListener",
   APPEND_CHILDREN: "appendChildren",
   CREATE_TEXT_NODE: "createTextNode",
   BIND_TEXT_NODE: "bindTextNode",
@@ -179,6 +180,10 @@ module.exports = function (babel: { types: any; }) {
           (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "on"
         );
+        const preventEvents = node.openingElement.attributes.filter(
+          (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
+            attribute.name.type === "JSXNamespacedName" && attribute.name.namespace.name === "on-prevent"
+        );
         const viewModel = node.openingElement.attributes.find(
           (attribute: { name: { type: string; namespace: { name: string; }; name: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
@@ -219,6 +224,7 @@ module.exports = function (babel: { types: any; }) {
           (attribute: { name: { type: string; namespace: { name: string; }; }; }) =>
             attribute.name.type === "JSXNamespacedName" &&
             attribute.name.namespace.name !== "on" &&
+            attribute.name.namespace.name !== "on-prevent" &&
             attribute.name.namespace.name !== "v" &&
           	attribute.name.namespace.name !== "prop"
         );
@@ -249,11 +255,6 @@ module.exports = function (babel: { types: any; }) {
           applyFragment(node);
           applyChildren(children, node);
           return;
-        // } else if (isComponent) {
-        //   applyCreateComponent(node);
-        //   applyStaticAttributes(staticAttributes, node);
-        //   applyProps(node, props);
-        //   return;
         } else if (isComponent) {
           applyCreateComponent(node);
           applyStaticAttributes(staticAttributes, node);
@@ -263,7 +264,8 @@ module.exports = function (babel: { types: any; }) {
           applyStaticAttributes(staticAttributes, node);
         }
 
-        applyEvents(events, node);
+        applyEvents(events, node, FN_NAMES.ADD_EVENT_LISTENER);
+        applyEvents(preventEvents, node, FN_NAMES.ADD_PREVENT_EVENT_LISTENER);
         applyChildren(children, node);
         applyBindAttributes(bindAttributes, node);
         applyDirectives(node, directives);
@@ -549,14 +551,14 @@ function applyStaticAttributes(staticAttributes: any[], node: { arguments: { typ
   }
 }
 
-function applyEvents(events: any[], node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }) {
+function applyEvents(events: any[], node: { type: string; callee: { type: string; name: string; }; arguments: any[]; }, fnName: string) {
   if (events.length > 0) {
-    addImport(FN_NAMES.ADD_EVENT_LISTENER);
+    addImport(fnName);
     const originalNode = { ...node };
     node.type = "CallExpression";
     node.callee = {
       type: "Identifier",
-      name: FN_NAMES.ADD_EVENT_LISTENER
+      name: fnName
     };
     node.arguments = [
       originalNode,
