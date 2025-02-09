@@ -1,6 +1,6 @@
 {
   "name": "monster-js-cli",
-  "version": "0.0.32",
+  "version": "0.0.38",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -r ./dist && tsc && cp -r ./project-scaffold ./dist",

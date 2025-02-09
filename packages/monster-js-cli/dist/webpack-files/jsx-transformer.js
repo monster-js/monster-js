@@ -19,6 +19,7 @@ const FN_NAMES = {
     ROUTER_OUTLET: "routerOutlet",
     CREATE_FRAGMENT: 'createFragment'
 };
+const THIS_EXPRESSION = 'θt';
 function kebabToCamelCase(str) {
     return str
         .split('-') // Split the string into an array of words
@@ -85,6 +86,29 @@ module.exports = function (babel) {
                         }
                     }
                 });
+            },
+            FunctionDeclaration(path) {
+                let hasJsx = false;
+                path.traverse({
+                    JSXElement(path2) {
+                        hasJsx = true;
+                        path2.stop();
+                    }
+                });
+                if (hasJsx) {
+                    // Insert the new statement at the beginning
+                    path.node.body.body.unshift({
+                        type: 'VariableDeclaration',
+                        kind: 'const',
+                        declarations: [
+                            {
+                                type: 'VariableDeclarator',
+                                id: { type: 'Identifier', name: THIS_EXPRESSION },
+                                init: { type: 'ThisExpression' }
+                            }
+                        ]
+                    });
+                }
             },
             JSXText(path) {
                 const { node } = path;
@@ -170,12 +194,11 @@ module.exports = function (babel) {
                     applyFragment(node);
                     applyChildren(children, node);
                     return;
-                }
-                else if (isComponent) {
-                    applyCreateComponent(node);
-                    applyStaticAttributes(staticAttributes, node);
-                    applyProps(node, props);
-                    return;
+                    // } else if (isComponent) {
+                    //   applyCreateComponent(node);
+                    //   applyStaticAttributes(staticAttributes, node);
+                    //   applyProps(node, props);
+                    //   return;
                 }
                 else if (isComponent) {
                     applyCreateComponent(node);
@@ -241,7 +264,8 @@ function applyDirectives(node, directives) {
         };
         node.arguments = [
             {
-                type: "ThisExpression"
+                type: "Identifier",
+                name: THIS_EXPRESSION
             },
             originalNode,
             {
@@ -293,7 +317,8 @@ function applyProps(node, props) {
     };
     node.arguments = [
         {
-            type: "ThisExpression"
+            type: "Identifier",
+            name: THIS_EXPRESSION
         },
         originalNode,
         {
@@ -383,7 +408,8 @@ function applyForCondition(forLoop, forLoopItem, forLoopIndex, forLoopTrackBy, p
         };
         node.arguments = [
             {
-                type: "ThisExpression"
+                type: "Identifier",
+                name: THIS_EXPRESSION
             },
             {
                 type: "ArrowFunctionExpression",
@@ -524,7 +550,8 @@ function applyChildren(children, node) {
                             },
                             arguments: [
                                 {
-                                    type: "ThisExpression"
+                                    type: "Identifier",
+                                    name: THIS_EXPRESSION
                                 },
                                 {
                                     type: "CallExpression",
@@ -564,7 +591,8 @@ function applyViewModel(node, viewModel) {
         };
         node.arguments = [
             {
-                type: "ThisExpression"
+                type: "Identifier",
+                name: THIS_EXPRESSION
             },
             viewModel.value.expression,
             originalNode
@@ -582,7 +610,8 @@ function applyBindAttributes(bindAttributes, node) {
         };
         node.arguments = [
             {
-                type: "ThisExpression"
+                type: "Identifier",
+                name: THIS_EXPRESSION
             },
             originalNode,
             {
@@ -616,7 +645,8 @@ function applyIfCondition(ifCondition, node) {
         };
         node.arguments = [
             {
-                type: "ThisExpression"
+                type: "Identifier",
+                name: THIS_EXPRESSION
             },
             {
                 type: "ArrowFunctionExpression",

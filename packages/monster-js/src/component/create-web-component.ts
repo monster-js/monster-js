@@ -3,6 +3,7 @@ import { FnComponentInterface } from "../interfaces/fn-component.interface";
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
 import { defineStyles } from "../utils/define-styles";
+import { evaluateWatcher } from "../utils/evaluate-watcher";
 import { removeDefinedStyles } from "../utils/remove-defined-styles";
 
 export function createWebComponent(renderFunction: () => Element): any {
@@ -15,7 +16,8 @@ export function createWebComponent(renderFunction: () => Element): any {
     return class extends parentClass implements WebComponentInterface {
 
         private _watchers: WatcherInterface[] = [];
-        private _conditionWatchers: WatcherInterface[] = [];
+        private _forConditionWatchers: WatcherInterface[] = [];
+        private _ifConditionWatchers: WatcherInterface[] = [];
         private _element: Element;
 
         private _hooks: Record<LifecycleHooksEnum, ((...args: any[]) => void)[]> = {} as any;
@@ -122,34 +124,32 @@ export function createWebComponent(renderFunction: () => Element): any {
             this._triggerHooks(LifecycleHooksEnum.adopted);
         }
 
-        private _evaluateWatcher(watcher: WatcherInterface): boolean {
-            if (!watcher.getIsConnected()) return false;
-            watcher.evaluate();
-            if (watcher.hasChanges) {
-                watcher.handlerChange(watcher.value);
-                return true;
-            }
-            return false;
-        }
-
         public detectChanges() {
             let hasViewChange = false;
-            this._conditionWatchers.forEach(watcher => {
-                if (this._evaluateWatcher(watcher)) hasViewChange = true;
+            this._forConditionWatchers.forEach(watcher => {
+                if (evaluateWatcher(watcher)) hasViewChange = true;
+            });
+            this._ifConditionWatchers.forEach(watcher => {
+                if (evaluateWatcher(watcher)) hasViewChange = true;
             });
             this._watchers.forEach(watcher => {
-                if (this._evaluateWatcher(watcher)) hasViewChange = true;
+                if (evaluateWatcher(watcher)) hasViewChange = true;
             });
 
             if (!this.isConnected) return;
 
-            this._conditionWatchers = this._conditionWatchers.filter(watcher => watcher.getIsConnected());
+            this._forConditionWatchers = this._forConditionWatchers.filter(watcher => watcher.getIsConnected());
+            this._ifConditionWatchers = this._ifConditionWatchers.filter(watcher => watcher.getIsConnected());
             this._watchers = this._watchers.filter(watcher => watcher.getIsConnected());
             if (hasViewChange) this._triggerHooks(LifecycleHooksEnum.afterViewChanged);
         }
 
-        public addConditionWatcher(watcher: WatcherInterface) {
-            this._conditionWatchers.push(watcher);
+        public addIfConditionWatcher(watcher: WatcherInterface) {
+            this._ifConditionWatchers.push(watcher);
+        }
+
+        public addForConditionWatcher(watcher: WatcherInterface) {
+            this._forConditionWatchers.push(watcher);
         }
 
         public addWatcher(watcher: WatcherInterface) {

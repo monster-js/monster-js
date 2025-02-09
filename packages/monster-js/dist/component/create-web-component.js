@@ -1,5 +1,6 @@
 import { LifecycleHooksEnum } from "../enums/lifecycle-hooks.enum";
 import { defineStyles } from "../utils/define-styles";
+import { evaluateWatcher } from "../utils/evaluate-watcher";
 import { removeDefinedStyles } from "../utils/remove-defined-styles";
 export function createWebComponent(renderFunction) {
     const fnComponent = renderFunction;
@@ -11,7 +12,8 @@ export function createWebComponent(renderFunction) {
         constructor() {
             super();
             this._watchers = [];
-            this._conditionWatchers = [];
+            this._forConditionWatchers = [];
+            this._ifConditionWatchers = [];
             this._hooks = {};
             this._directives = {};
             this._triggerAfterConnectedInternalCallbacks = [];
@@ -90,35 +92,33 @@ export function createWebComponent(renderFunction) {
         adoptedCallback() {
             this._triggerHooks(LifecycleHooksEnum.adopted);
         }
-        _evaluateWatcher(watcher) {
-            if (!watcher.getIsConnected())
-                return false;
-            watcher.evaluate();
-            if (watcher.hasChanges) {
-                watcher.handlerChange(watcher.value);
-                return true;
-            }
-            return false;
-        }
         detectChanges() {
             let hasViewChange = false;
-            this._conditionWatchers.forEach(watcher => {
-                if (this._evaluateWatcher(watcher))
+            this._forConditionWatchers.forEach(watcher => {
+                if (evaluateWatcher(watcher))
+                    hasViewChange = true;
+            });
+            this._ifConditionWatchers.forEach(watcher => {
+                if (evaluateWatcher(watcher))
                     hasViewChange = true;
             });
             this._watchers.forEach(watcher => {
-                if (this._evaluateWatcher(watcher))
+                if (evaluateWatcher(watcher))
                     hasViewChange = true;
             });
             if (!this.isConnected)
                 return;
-            this._conditionWatchers = this._conditionWatchers.filter(watcher => watcher.getIsConnected());
+            this._forConditionWatchers = this._forConditionWatchers.filter(watcher => watcher.getIsConnected());
+            this._ifConditionWatchers = this._ifConditionWatchers.filter(watcher => watcher.getIsConnected());
             this._watchers = this._watchers.filter(watcher => watcher.getIsConnected());
             if (hasViewChange)
                 this._triggerHooks(LifecycleHooksEnum.afterViewChanged);
         }
-        addConditionWatcher(watcher) {
-            this._conditionWatchers.push(watcher);
+        addIfConditionWatcher(watcher) {
+            this._ifConditionWatchers.push(watcher);
+        }
+        addForConditionWatcher(watcher) {
+            this._forConditionWatchers.push(watcher);
         }
         addWatcher(watcher) {
             this._watchers.push(watcher);

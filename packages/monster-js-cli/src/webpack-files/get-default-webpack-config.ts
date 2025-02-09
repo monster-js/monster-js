@@ -57,6 +57,7 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                 new TerserPlugin(
                     {
                         terserOptions: {
+                            ecma: 2015,
                             compress: {
                                 unused: true, // Remove unused code
                                 dead_code: true, // Remove dead code

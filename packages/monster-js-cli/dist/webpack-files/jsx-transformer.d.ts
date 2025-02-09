@@ -18,6 +18,7 @@ declare const FN_NAMES: {
     ROUTER_OUTLET: string;
     CREATE_FRAGMENT: string;
 };
+declare const THIS_EXPRESSION = "\u03B8t";
 declare function kebabToCamelCase(str: string): string;
 declare function generateShortUniqueId(): string;
 declare let fileId: string | number;
@@ -171,6 +172,7 @@ declare function applyIfCondition(ifCondition: {
     };
     arguments: ({
         type: string;
+        name?: string;
         params?: undefined;
         body?: undefined;
     } | {

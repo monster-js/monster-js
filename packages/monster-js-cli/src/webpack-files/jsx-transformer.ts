@@ -20,6 +20,8 @@ const FN_NAMES = {
   CREATE_FRAGMENT: 'createFragment'
 };
 
+const THIS_EXPRESSION = 'θt';
+
 function kebabToCamelCase(str: string) {
     return str
         .split('-') // Split the string into an array of words
@@ -104,6 +106,30 @@ module.exports = function (babel: { types: any; }) {
           }
         });
 
+      },
+      FunctionDeclaration(path: any) {
+        let hasJsx = false;
+        path.traverse({
+          JSXElement(path2: any) {
+            hasJsx = true;
+            path2.stop();
+          }
+        });
+
+        if (hasJsx) {
+          // Insert the new statement at the beginning
+          path.node.body.body.unshift({
+            type: 'VariableDeclaration',
+            kind: 'const',
+            declarations: [
+              {
+                type: 'VariableDeclarator',
+                id: { type: 'Identifier', name: THIS_EXPRESSION },
+                init: { type: 'ThisExpression' }
+              }
+            ]
+          });
+        }
       },
       JSXText(path: { node: any; }) {
         const { node } = path;
@@ -223,11 +249,11 @@ module.exports = function (babel: { types: any; }) {
           applyFragment(node);
           applyChildren(children, node);
           return;
-        } else if (isComponent) {
-          applyCreateComponent(node);
-          applyStaticAttributes(staticAttributes, node);
-          applyProps(node, props);
-          return;
+        // } else if (isComponent) {
+        //   applyCreateComponent(node);
+        //   applyStaticAttributes(staticAttributes, node);
+        //   applyProps(node, props);
+        //   return;
         } else if (isComponent) {
           applyCreateComponent(node);
           applyStaticAttributes(staticAttributes, node);
@@ -295,7 +321,8 @@ function applyDirectives(node: { type: string; callee: { type: string; name: str
     };
     node.arguments = [
       {
-        type: "ThisExpression"
+        type: "Identifier",
+        name: THIS_EXPRESSION
       },
       originalNode,
       {
@@ -346,7 +373,8 @@ function applyProps(node: { type: string; callee: { type: string; name: string; 
   };
   node.arguments = [
     {
-      type: "ThisExpression"
+      type: "Identifier",
+      name: THIS_EXPRESSION
     },
     originalNode,
     {
@@ -441,7 +469,8 @@ function applyForCondition(forLoop: { value: { expression: any; }; }, forLoopIte
     };
     node.arguments = [
       {
-        type: "ThisExpression"
+        type: "Identifier",
+        name: THIS_EXPRESSION
       },
       {
         type: "ArrowFunctionExpression",
@@ -586,7 +615,8 @@ function applyChildren(children: any[], node: { type: string; callee: { type: st
               },
               arguments: [
                 {
-                  type: "ThisExpression"
+                  type: "Identifier",
+                  name: THIS_EXPRESSION
                 },
                 {
                   type: "CallExpression",
@@ -627,7 +657,8 @@ function applyViewModel(node: { type: string; callee: { type: string; name: stri
     };
     node.arguments = [
       {
-        type: "ThisExpression"
+        type: "Identifier",
+        name: THIS_EXPRESSION
       },
       viewModel.value.expression,
       originalNode
@@ -646,7 +677,8 @@ function applyBindAttributes(bindAttributes: any[], node: { type: string; callee
     };
     node.arguments = [
       {
-        type: "ThisExpression"
+        type: "Identifier",
+        name: THIS_EXPRESSION
       },
       originalNode,
       {
@@ -670,7 +702,7 @@ function applyBindAttributes(bindAttributes: any[], node: { type: string; callee
   }
 }
 
-function applyIfCondition(ifCondition: { value: { expression: any; }; }, node: { type: string; callee: { type: string; name: string; }; arguments: ({ type: string; params?: undefined; body?: undefined; } | { type: string; params: never[]; body: any; })[]; }) {
+function applyIfCondition(ifCondition: { value: { expression: any; }; }, node: { type: string; callee: { type: string; name: string; }; arguments: ({ type: string; name?: string; params?: undefined; body?: undefined; } | { type: string; params: never[]; body: any; })[]; }) {
   if (ifCondition) {
     addImport(FN_NAMES.IF_CONDITION);
     const originalNode = { ...node };
@@ -681,7 +713,8 @@ function applyIfCondition(ifCondition: { value: { expression: any; }; }, node: {
     };
     node.arguments = [
       {
-        type: "ThisExpression"
+        type: "Identifier",
+        name: THIS_EXPRESSION
       },
       {
         type: "ArrowFunctionExpression",

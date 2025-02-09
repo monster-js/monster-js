@@ -1,6 +1,5 @@
 import { setAttribute } from "./set-attribute";
 
-
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 
 // ✅ Predefined Set of SVG Elements for Fast Lookup
@@ -17,14 +16,10 @@ const SVG_ELEMENTS = new Set([
     "animateMotion", "set", "image", "marker", "view", "script", "foreignObject"
 ]);
 
-
-
-
 export function createElement(elementName: string, attributes: Record<any, any> = null) {
 
     const isSVG = SVG_ELEMENTS.has(elementName);
     let element: HTMLElement | SVGElement;
-
 
     if (isSVG) {
         element = document.createElementNS(SVG_NAMESPACE, elementName);
@@ -34,7 +29,6 @@ export function createElement(elementName: string, attributes: Record<any, any> 
         element = document.createElement(elementName);
     }
 
-    // Apply attributes
     if (attributes) {
         Object.keys(attributes).forEach(key => {
             setAttribute(element, key, attributes[key]);
@@ -42,16 +36,4 @@ export function createElement(elementName: string, attributes: Record<any, any> 
     }
 
     return element;
-
-
-
-    // let option: ElementCreationOptions;
-    // if (attributes?.is) {
-    //     option = { is: attributes.is };
-    // }
-    // const element = document.createElement(elementName, option);
-    // if (attributes) {
-    //     Object.keys(attributes).forEach(key => setAttribute(element, key, attributes[key]));
-    // }
-    // return element;
 }

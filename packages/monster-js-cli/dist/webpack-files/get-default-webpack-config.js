@@ -56,6 +56,7 @@ const getDefaultWebpackConfig = (additionalConfig = []) => {
             minimizer: [
                 new terser_webpack_plugin_1.default({
                     terserOptions: {
+                        ecma: 2015,
                         compress: {
                             unused: true, // Remove unused code
                             dead_code: true, // Remove dead code

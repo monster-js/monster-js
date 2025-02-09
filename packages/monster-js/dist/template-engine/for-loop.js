@@ -1,3 +1,4 @@
+import { evaluateWatcher } from "../utils/evaluate-watcher";
 export function forLoop(classComponent, elementCreator, valueGetter, trackBy = null) {
     const instance = classComponent;
     const comment = document.createComment(' for ');
@@ -58,7 +59,12 @@ export function forLoop(classComponent, elementCreator, valueGetter, trackBy = n
         }
     };
     fragment.appendChild(comment);
-    instance.addConditionWatcher(watcher);
+    if (instance.isConnected) {
+        // if component instance is already connected,
+        // we should evaluate the new watcher because the change detection after component is connected will not run again
+        evaluateWatcher(watcher, true);
+    }
+    instance.addForConditionWatcher(watcher);
     return fragment;
 }
 //# sourceMappingURL=for-loop.js.map

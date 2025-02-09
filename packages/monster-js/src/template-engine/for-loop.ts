@@ -1,5 +1,6 @@
 import { WatcherInterface } from "../interfaces/watcher.interface";
 import { WebComponentInterface } from "../interfaces/web-component.interface";
+import { evaluateWatcher } from "../utils/evaluate-watcher";
 
 export function forLoop(
     classComponent: any,
@@ -73,7 +74,14 @@ export function forLoop(
     };
 
     fragment.appendChild(comment);
-    instance.addConditionWatcher(watcher);
+
+    if (instance.isConnected) {
+        // if component instance is already connected,
+        // we should evaluate the new watcher because the change detection after component is connected will not run again
+        evaluateWatcher(watcher, true);
+    }
+
+    instance.addForConditionWatcher(watcher);
 
     return fragment;
 }

@@ -1,2 +1,2 @@
 import { WebComponentInterface } from "../interfaces/web-component.interface";
-export declare function createProp(instance: WebComponentInterface, name: string): () => () => unknown;
+export declare function createProp<T = unknown>(instance: WebComponentInterface, name: string): () => T;
