@@ -1,7 +1,7 @@
 
 // dependency injection
-export { createDIContainer } from './di/create-di-container';
-export { inject, overrideProvider } from './di/default-di-container';
+// export { createDIContainer } from './di/create-di-container';
+// export { inject, overrideProvider } from './di/default-di-container';
 
 // state
 export { createState } from './state/create-state';
@@ -56,6 +56,7 @@ export { createFeatureEventEmitter } from './event-emitter/create-feature-event-
 export { toJsonObject } from './utils/to-json-object';
 export { toBoolean } from './utils/to-boolean';
 export { toNumber } from './utils/to-number';
+export { detectChanges } from './utils/detect-changes';
 
 // router
 export { routerOutlet } from './router/router-outlet';

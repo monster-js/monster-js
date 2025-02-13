@@ -337,7 +337,7 @@ function applyDirectives(node: { type: string; callee: { type: string; name: str
           });
           elements.push({
             type: "StringLiteral",
-            value: directive.name.name.name
+            value: kebabToCamelCase(directive.name.name.name)
           });
           if (directive.value) {
             if (directive.value.type === "StringLiteral") {

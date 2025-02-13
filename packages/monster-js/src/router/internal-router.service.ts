@@ -254,20 +254,20 @@ export class InternalRouterService {
                 case 'all':
                     queryParams = getURLQueryParams();
                     routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], this._savedCurrentPathname, 'prefix');
-                    subscriber.callback(routeParams, queryParams);
+                    subscriber.callback(routeParams || {}, queryParams || {});
                     break;
                 case 'param':
                     routeParams = evaluateRoute(subscriber.component[COMPONENT_URL_PATH_SYMBOL], this._savedCurrentPathname, 'prefix');
                     if (!haveSameProperties(subscriber.params, routeParams)) {
                         subscriber.params = routeParams;
-                        subscriber.callback(routeParams);
+                        subscriber.callback(routeParams || {});
                     }
                     break;
                 case 'query':
                     queryParams = getURLQueryParams();
                     if (!haveSameProperties(subscriber.queryParams, queryParams)) {
                         subscriber.queryParams = queryParams;
-                        subscriber.callback(queryParams);
+                        subscriber.callback(queryParams || {});
                     }
                     break;
             }

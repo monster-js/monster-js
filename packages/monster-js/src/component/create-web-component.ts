@@ -35,10 +35,6 @@ export function createWebComponent(renderFunction: () => Element): any {
                 this._directives[directiveFn.namespace] = directiveFn;
             });
 
-            if (typeof renderFunction === 'function') {
-                this._element = renderFunction.bind(this)();
-            }
-
             this._setElementHolder();
         }
 
@@ -100,6 +96,10 @@ export function createWebComponent(renderFunction: () => Element): any {
         }
 
         public connectedCallback() {
+
+            if (typeof renderFunction === 'function') {
+                this._element = renderFunction.bind(this)();
+            }
 
             this._applyStyling();
 

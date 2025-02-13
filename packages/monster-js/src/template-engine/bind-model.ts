@@ -15,6 +15,8 @@ export function bindModel(classComponent: any, model: [() => any, (value: any) =
             element.addEventListener('input', (event) => {
                 if (type === 'checkbox') {
                     valueSetter((event.target as any).checked);
+                } else if (type === 'file') {
+                    valueSetter([...(event.target as any).files]);
                 } else {
                     valueSetter((event.target as any).value);
                 }
@@ -48,6 +50,7 @@ export function bindModel(classComponent: any, model: [() => any, (value: any) =
                 (element as any).checked = value === (element as any).value;
             } else if (type === 'checkbox') {
                 (element as any).checked = value;
+            } else if (type === 'file') {
             } else {
                 setAttribute(element, 'value', value);
             }

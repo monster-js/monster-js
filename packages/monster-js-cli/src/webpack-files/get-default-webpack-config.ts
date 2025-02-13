@@ -63,12 +63,13 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
                                 dead_code: true, // Remove dead code
                                 passes: 20, // Optimize further with multiple passes
                             },
-                            mangle: {
-                                toplevel: true,
-                                properties: {
-                                    regex: /^_/,
-                                }
-                            },
+                            mangle: true,
+                            // mangle: {
+                            //     toplevel: true,
+                            //     properties: {
+                            //         regex: /^_/,
+                            //     }
+                            // },
                             format: {
                                 beautify: false, // Beautify the output
                                 comments: false, // Remove comments

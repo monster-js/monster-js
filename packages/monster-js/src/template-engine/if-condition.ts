@@ -12,7 +12,7 @@ export function ifCondition(classComponent: any, elementCreator: () => Element, 
         value: undefined,
         getIsConnected: () => comment.isConnected,
         evaluate() {
-            const newValue = valueGetter();
+            const newValue = !!valueGetter();
             if (watcher.value !== newValue) {
                 watcher.value = newValue;
                 watcher.hasChanges = true;

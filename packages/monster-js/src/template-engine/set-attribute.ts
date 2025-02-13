@@ -1,9 +1,10 @@
 export function setAttribute(
   element: Element,
   name: string,
-  value: unknown,
+  inputValue: unknown,
 ): Element {
   const localElement = element as unknown as Record<string, unknown>;
+  const value = inputValue === undefined ? '' : inputValue;
 
   // Attributes that should be set as properties instead of attributes
   const propertyAttributes: string[] = [

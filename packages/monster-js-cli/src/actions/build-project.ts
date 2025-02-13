@@ -48,6 +48,7 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
                 }
                 config.output!.path = outputPath;
 
+                runRemoveFiles(config.output?.path);
                 runBuild(config);
             });
         });
@@ -55,7 +56,8 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
         const config = generateWebpackConfig(mode, output, [
             new CopyWebpackPlugin({
                 patterns: [
-                    { from: path.resolve(process.cwd(), 'index.html'), to: '' }, // Copy index.html to the root of dist
+                    { from: path.resolve(process.cwd(), 'index.html'), to: '' }, // Copy index.html to the root of dist,
+                    { from: monsterConfig.assets, to: monsterConfig.assets }
                 ],
             }),
         ]);
@@ -68,7 +70,18 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
             entrypoints: false,  // Hide entry point details (optional)
         }
 
+        runRemoveFiles(config.output?.path);
         runBuild(config);
+    }
+}
+
+function runRemoveFiles(path?: string) {
+    if (path && fs.existsSync(path)) {
+        try {
+            fs.rmSync(path, { recursive: true, force: true });
+        } catch (err) {
+            console.error('Error removing directory:', err);
+        }
     }
 }
 

@@ -7,7 +7,7 @@ export function createSharedState<T>(initValue: T) {
     let components: WebComponentInterface[] = [];
     let value: T = Object.freeze(initValue);
 
-    return function (componentInstance: any): CreateStateReturnType<T> {
+    return function (componentInstance?: any): CreateStateReturnType<T> {
         const getter = () => value;
         const setter = (newValue: T) => {
             if (value !== newValue) {
@@ -25,7 +25,7 @@ export function createSharedState<T>(initValue: T) {
             }
         }
 
-        if (!components.includes(componentInstance)) {
+        if (componentInstance && !components.includes(componentInstance)) {
             components.push(componentInstance);
         }
 

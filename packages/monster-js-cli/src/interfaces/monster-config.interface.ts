@@ -6,4 +6,5 @@ export interface MonsterConfigInterface {
     };
     environmentsPath: string;
     standaloneDir: string;
+    assets: string;
 }
