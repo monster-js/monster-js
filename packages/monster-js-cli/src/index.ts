@@ -9,10 +9,9 @@ import { generateComponent } from './actions/generate-component';
 import { generateInterface } from './actions/generate-interface';
 import { generateEnum } from './actions/generate-enum';
 import { generateType } from './actions/generate-type';
-import { generateService } from './actions/generate-service';
+import { generateClass } from './actions/generate-class';
 import { generateDirective } from './actions/generate-directive';
 import { generateEventEmitter } from './actions/generate-event-emitter';
-import { generateDiContainer } from './actions/generate-di-container';
 import { generateSharedState } from './actions/generate-shared-state';
 import { generateEnvironments } from './actions/generate-environments';
 import { generateEnvironment } from './actions/generate-environment';
@@ -66,9 +65,9 @@ const generate = program
     .description('Generate a new type file with the specified name and path.')
     .action(generateType);
 
-    generate.command('service <name>')
-    .description('Generate a new service file with the specified name and path.')
-    .action(generateService);
+    generate.command('class <name>')
+    .description('Generate a new javascript class file with the specified name and path.')
+    .action(generateClass);
 
     generate.command('directive <name>')
     .description('Generate a new directive file with the specified name and path.')
@@ -81,10 +80,6 @@ const generate = program
     generate.command('shared-state <name>')
     .description('Generate a new shared state file with the specified name and path.')
     .action(generateSharedState);
-
-    generate.command('di-container <name>')
-    .description('Generate a new dependency injection container file with the specified name and path.')
-    .action(generateDiContainer);
 
     generate.command('environments')
     .description('Generate default environment files for development and production.')

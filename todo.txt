@@ -3,6 +3,8 @@
 3. in documentation, make component instance of shared state optional to allow being injected in services
 4. in cli, add a way to generate guard. In documentation add the documentation to generate guard
 5. add documentation for detectChanges function
-6. remove dependency injection for now in documentation
-7. rename service in cli to class
-8. remove service documentation
+6. [done] remove dependency injection for now in documentation
+7. [done] rename service in cli to class
+8. [done] remove service documentation
+9. add file replacement for environments
+10. remove babel

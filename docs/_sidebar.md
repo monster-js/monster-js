@@ -26,8 +26,6 @@
     - [Observed attributes](main-concept/observed-attributes.md)
     - [Change detection](main-concept/change-detection.md)
 - Utilities and Patterns
-    - [Dependency injection](main-concept/dependency-injection.md)
-    - [Services](main-concept/services.md)
     - [Directives](main-concept/directives.md)
 - Store
     - [Monster JS Store](store/monster-js-store.md)
@@ -58,7 +56,6 @@
         - [Directive](/cli/generate-files?id=generate-a-directive)
         - [Event Emitter](/cli/generate-files?id=generate-an-event-emitter)
         - [Shared State](/cli/generate-files?id=generate-shared-state)
-        - [Dependency Injection (DI) Container](/cli/generate-files?id=generate-a-di-container)
         - [Environment](/cli/generate-files?id=generate-environment-files)
             - [Custom environment](/cli/generate-files?id=custom-environment)
 - [License](license.md)

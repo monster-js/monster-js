@@ -22,7 +22,6 @@ mn g <short-type> <path>
 * [Directive](/cli/generate-files?id=generate-a-directive)
 * [Event Emitter](/cli/generate-files?id=generate-an-event-emitter)
 * [Shared State](/cli/generate-files?id=generate-shared-state)
-* [Dependency Injection (DI) Container](/cli/generate-files?id=generate-a-di-container)
 * [Environment](/cli/generate-files?id=generate-environment-files)
 
 ## Generate a Component
@@ -212,30 +211,6 @@ Creates `path/to/user-list.state.ts` with:
 
 ```ts
 export const userListState = createSharedState(null);
-```
-
-## Generate a DI Container
-
-### Command:
-
-```bash
-mn generate di-container path/to/user-module
-```
-
-or
-
-```bash
-mn g dc path/to/user-module
-```
-
-### Output:
-
-Creates `path/to/user-module.container.ts` with:
-
-```ts
-import { createDIContainer } from 'monster-js';
-
-export const [userModuleDI, userModuleDIOverride] = createDIContainer();
 ```
 
 ## Generate Environment Files

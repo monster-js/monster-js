@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { filenameToPascalCase } from "../utils/filename-to-pascal-case";
 import { getMonsterConfig } from '../utils/get-monster-config';
-import { filenameToCamelCase } from '../utils/filename-to-camel-case';
 import { failed, success } from '../utils/logger';
 
-export function generateDiContainer(name: string) {
+export function generateClass(name: string) {
 
     const monsterConfig = getMonsterConfig();
     if (!monsterConfig) return;
@@ -14,10 +14,10 @@ export function generateDiContainer(name: string) {
     const filename = nameArr[nameArr.length - 1];
 
     // Convert the filename to PascalCase and append "Component"
-    const filenameCamelCase = filenameToCamelCase(filename) + 'Container';
+    const filenamePascalCase = filenameToPascalCase(filename) + 'Service';
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.container.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.service.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
@@ -27,9 +27,8 @@ export function generateDiContainer(name: string) {
     }
 
     // Generate the file content
-    const fileContent = `import { createDIContainer } from 'monster-js';
-
-export const [${filenameCamelCase}, ${filenameCamelCase}Override] = createDIContainer();
+    const fileContent = `export class ${filenamePascalCase} {
+};
 `;
 
     // Ensure the directory structure exists before writing the file
@@ -40,10 +39,8 @@ export const [${filenameCamelCase}, ${filenameCamelCase}Override] = createDICont
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
 
     console.log('');
-    success(`DI container ${filenameCamelCase} created at ${targetFilePath}`);
+    success(`Service ${filenamePascalCase} created at ${targetFilePath}`);
 }
-
-
 
 
 

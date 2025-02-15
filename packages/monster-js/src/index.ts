@@ -1,8 +1,4 @@
 
-// dependency injection
-// export { createDIContainer } from './di/create-di-container';
-// export { inject, overrideProvider } from './di/default-di-container';
-
 // state
 export { createState } from './state/create-state';
 export { createSharedState } from './state/create-shared-state';

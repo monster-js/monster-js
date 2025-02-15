@@ -29,10 +29,8 @@ export function HomeComponent() {
 * **Programmatic Navigation**: Dynamically navigate to routes in response to events.
 ```tsx
 export function HomeComponent() {
-    const navigate = inject(routerNavigate);
-
     const onClick = () => {
-        navigate('/login');
+        routerNavigate('/login');
     };
 
     return <button on:click={onClick()}>Go to login page</button>

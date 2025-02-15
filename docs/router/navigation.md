@@ -39,17 +39,15 @@ Here’s an example of how to navigate to another route when a button is clicked
 
 ```tsx
 export function HomeComponent() {
-    const navigate = inject(routerNavigate);
-
     const onClick = () => {
-        navigate('/login');
+        routerNavigate('/login');
     };
 
     return <button on:click={onClick()}>Go to login page</button>;
 }
 ```
 
-* `navigate('/login')`: This function navigates to the `/login` route when the button is clicked.
+* `routerNavigate('/login')`: This function navigates to the `/login` route when the button is clicked.
 
 ### Key Notes:
 
