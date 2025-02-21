@@ -4,7 +4,7 @@ import { filenameToPascalCase } from "../utils/filename-to-pascal-case";
 import { getMonsterConfig } from '../utils/get-monster-config';
 import { failed, success } from '../utils/logger';
 
-export function generateDirective(name: string) {
+export function generateGuard(name: string) {
 
     const monsterConfig = getMonsterConfig();
     if (!monsterConfig) return;
@@ -15,12 +15,11 @@ export function generateDirective(name: string) {
 
     // Convert the filename to PascalCase and append "Component"
     const realPascalCaseFilename = filenameToPascalCase(filename);
-    const filenamePascalCase = realPascalCaseFilename + 'Directive';
-    const directiveName = realPascalCaseFilename.charAt(0).toLowerCase() + realPascalCaseFilename.slice(1);
+    const filenamePascalCase = realPascalCaseFilename + 'Guard';
     let filenameCamelCase = filenamePascalCase.charAt(0).toLowerCase() + filenamePascalCase.slice(1);
 
     // Generate the target file path by appending the .component.tsx extension
-    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.directive.ts`);
+    const targetFilePath = path.join(process.cwd(), monsterConfig.appRoot, `${name}.guard.ts`);
 
     // Check if the target file already exists
     if (fs.existsSync(targetFilePath)) {
@@ -30,13 +29,9 @@ export function generateDirective(name: string) {
     }
 
     // Generate the file content
-    const fileContent = `import { directive, DirectiveDataType } from 'monster-js';
-    
-function ${filenameCamelCase}(element: Element, data: DirectiveDataType) {
-    return element;
-};
-
-export default directive(${filenameCamelCase}, '${directiveName}');
+    const fileContent = `export function ${filenameCamelCase}() {
+    return true;
+}
 `;
 
     // Ensure the directory structure exists before writing the file
@@ -47,5 +42,5 @@ export default directive(${filenameCamelCase}, '${directiveName}');
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
 
     console.log('');
-    success(`Directive ${filenameCamelCase} created at ${targetFilePath}`);
+    success(`Guard ${filenameCamelCase} created at ${targetFilePath}`);
 }

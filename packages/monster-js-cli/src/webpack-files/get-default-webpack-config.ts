@@ -18,6 +18,7 @@ export const getDefaultWebpackConfig = (additionalConfig: any[] = []): Webpack.C
         mode: 'production',
         resolve: {
             extensions: ['.ts', '.tsx', '.js'], // Resolve .ts and .js extensions
+            alias: {},
         },
         plugins: [
             ...additionalConfig,

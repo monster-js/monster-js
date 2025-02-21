@@ -28,7 +28,7 @@ Change detection is automatically triggered whenever state changes, whether the 
     * Defined using `createSharedState` and used across multiple components.
     * When shared state changes, all components that use that state will undergo change detection and update their UI accordingly.
 
-## Example 1: Change Detection with Component State
+### Example 1: Change Detection with Component State
 
 ```tsx
 function Button() {
@@ -44,7 +44,7 @@ In this example:
 * The component state `count` is updated via `setCount()`.
 * Change detection triggers the UI to update and show the new `count` value.
 
-## Example 2: Change Detection with Shared State
+### Example 2: Change Detection with Shared State
 
 ```tsx
 // shared.state.ts
@@ -63,6 +63,45 @@ function Button() {
 In this example:
 * The shared state `count` is updated via `setCount()`.
 * Any component that relies on `countSharedState` will have its UI updated when the shared state changes.
+
+## Manually trigger change detection
+
+To manually trigger change detection, we can use the `detectChanges` function.
+This function is a utility in the Monster JS framework that allows developers to manually trigger change detection inside a component. This can be useful in scenarios where the state is updated outside the usual state management flow or when you need more control over when the UI is refreshed.
+
+### When to Use `detectChanges`
+
+While the Monster JS framework automatically handles change detection when using `setState()` or `setSharedState()`, there are cases where you might need to manually trigger a UI update:
+
+* **Updating a Variable that is Not a State**: If you update a regular variable that isn't managed by the framework's state system but still affects the UI, you can use `detectChanges` to manually trigger the necessary updates.
+* **Manual Control**: In situations where you want to optimize performance by controlling exactly when change detection occurs.
+
+### How to Use `detectChanges`
+
+To use `detectChanges`, simply call the function within the component's context. It will manually trigger change detection, ensuring that the UI reflects the latest state.
+
+#### Example 1: Using `detectChanges` with External Event Listener
+
+```tsx
+function ExternalEventComponent() {
+    let count = 0;
+
+    connected(this, () => {
+        window.addEventListener('externalEvent', () => {
+            count += 1;
+            detectChanges(this); // Manually trigger change detection
+        });
+    });
+
+    return <div>External Event Count: {count}</div>;
+}
+```
+
+In this example:
+
+* An external event listener is added to the window object.
+* The state is updated in the event handler.
+* `detectChanges(this)` is called to manually trigger change detection, ensuring that the UI updates.
 
 ## Key Features of Change Detection
 * **Automatic UI Updates**: No need to manually refresh or re-render components. Change detection handles it automatically whenever the state is updated.

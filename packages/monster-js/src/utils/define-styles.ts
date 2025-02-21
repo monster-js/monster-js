@@ -1,7 +1,7 @@
 import { LocalWindowInterface } from '../interfaces/local-window.interface';
 import { styleSymbol } from '../symbols/style-symbol';
 
-export function defineStyles(styles: string[][]) {
+export function defineStyles(styles: any[]) {
   const localWindow = window as LocalWindowInterface;
 
   const incrementStyleCount = (id: string) => {

@@ -12,6 +12,7 @@ export interface BuildProjectOptionsInterface {
     mode: Webpack.Configuration['mode'];
     output: string;
     standalone: boolean;
+    environment: string;
 }
 
 export async function buildProject(options: BuildProjectOptionsInterface) {
@@ -20,6 +21,16 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
     if (!monsterConfig) return;
 
     const { mode, output, standalone } = options;
+
+    const applyEnvironmentConfig = (config: Webpack.Configuration) => {
+        if (!config.resolve) {
+            config.resolve = {};
+        }
+        config.resolve.alias = {
+            ...(config.resolve?.alias || {}),
+            [`${monsterConfig.environmentsPath}/environment.development`]: path.resolve(process.cwd(), monsterConfig.environmentsPath, `environment.${options.environment}.ts`),
+        };
+    }
 
     info('Building project...');
     if (standalone) {
@@ -48,6 +59,7 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
                 }
                 config.output!.path = outputPath;
 
+                applyEnvironmentConfig(config);
                 runRemoveFiles(config.output?.path);
                 runBuild(config);
             });
@@ -70,6 +82,7 @@ export async function buildProject(options: BuildProjectOptionsInterface) {
             entrypoints: false,  // Hide entry point details (optional)
         }
 
+        applyEnvironmentConfig(config);
         runRemoveFiles(config.output?.path);
         runBuild(config);
     }

@@ -82,7 +82,7 @@ mn generate enum path/to/user-role
 ```
 or
 ```bash
-mn g i path/to/user
+mn g e path/to/user
 ```
 
 ### Output:
@@ -116,26 +116,50 @@ Creates `path/to/response-status.type.ts` with:
 export type ResponseStatusType = null;
 ```
 
-## Generate a Service
+## Generate a class
 
 ### Command:
 
 ```bash
-mn generate service path/to/message
+mn generate class path/to/message
 ```
 
 or
 
 ```bash
-mn g s path/to/message
+mn g cl path/to/message
 ```
 
 ### Output:
 
-Creates `path/to/message.service.ts` with:
+Creates `path/to/message.ts` with:
 
 ```ts
-export class MessageService {
+export class Message {
+}
+```
+
+## Generate a guard
+
+### Command:
+
+```bash
+mn generate guard path/to/auth
+```
+
+or
+
+```bash
+mn g g path/to/auth
+```
+
+### Output:
+
+Creates `path/to/auth.guard.ts` with:
+
+```ts
+export function authGuard() {
+    return true;
 }
 ```
 
@@ -219,6 +243,12 @@ export const userListState = createSharedState(null);
 
 ```bash
 mn generate environments
+```
+
+or
+
+```bash
+mn g envs
 ```
 
 ### Output:

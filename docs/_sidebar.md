@@ -52,7 +52,7 @@
         - [Interface](/cli/generate-files?id=generate-an-interface)
         - [Enum](/cli/generate-files?id=generate-an-enum)
         - [Type](/cli/generate-files?id=generate-a-type)
-        - [Service](/cli/generate-files?id=generate-a-service)
+        - [Class](/cli/generate-files?id=generate-a-class)
         - [Directive](/cli/generate-files?id=generate-a-directive)
         - [Event Emitter](/cli/generate-files?id=generate-an-event-emitter)
         - [Shared State](/cli/generate-files?id=generate-shared-state)

@@ -15,6 +15,7 @@ mn build [options]
     * `production`
     * `none`
 * `--standalone` (default: `false`): Build a component as a standalone web component.
+* `--environment <env>` (default: `development`): Specify the environment configuration to use. Ex. `development` or `production`.
 * `--output <path>` (default: `dist`): Specify the output directory for the build or the file path for a standalone component.
 
 ## Steps to Build a Project
@@ -60,14 +61,50 @@ mn build --output build-output
 ```
 
 This places the build files in the `build-output` directory.
-
+<!-- 
 ## Example
 
 To build a project in production mode and output it to a custom directory:
 
 ```bash
 mn build --mode production --output production-build
+``` -->
+
+### 5. Using the Environment Option
+
+The `--environment` option allows you to specify the environment configuration to be used during the build process. This is particularly useful when you have multiple environment files (e.g., `environment.development.ts`, `environment.production.ts`, `environment.staging.ts`) and you want to switch between them easily.
+
+#### How It Works
+
+When you use the `--environment` option, the Monster JS CLI automatically replaces the environment import in your code with the corresponding environment file. For example, if you specify `--environment staging`, the import statement:
+
+```ts
+import environment from './environments/environment.development';
 ```
+
+Will be replaced with:
+
+```ts
+import environment from './environments/environment.staging';
+```
+
+This allows you to easily use different environment configurations without manually changing import statements.
+
+#### File Replacement
+
+Ensure your project environment is structured as follows:
+
+```bash
+src/
+│   main.ts
+│
+└── environments/
+    │   environment.development.ts
+    │   environment.production.ts
+    │   environment.staging.ts
+```
+
+You can customize the location of the environment files by modifying the `environmentsPath` property in the `monster.json` configuration file.
 
 ## What Happens Behind the Scenes
 
